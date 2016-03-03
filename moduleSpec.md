@@ -4,6 +4,5 @@ To expose core Ethereum primitives to the a WASM evorment we specify an Ethereum
 
 ### exports
 addGas(i64)
-getGas(i32)
+getGas()
 
-getGas

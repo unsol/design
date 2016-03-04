@@ -12,3 +12,7 @@ Tests are divided into to several parts
 * The interface are written in JS
 * The wasm modules that test the interface
 * The test runner; witten in JS
+
+Open Issues
+- gasCounter? if gas > 64bits then store in memory?
+- balances are capped to 128bits

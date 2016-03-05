@@ -20,10 +20,10 @@ Open Issues
 
 
 NOTE:
-codesize is capped to 2^64 bytes
-calldata size is capped to 2^64 bytes
-balances are capped to 2^128
-gasPrice is capped to 2^64 (2^53 in prototype)
-gas is capped to 2^64
-callDataCode is depercated
-extCodeCopy is redundant
+codesize is capped to 2^64 bytes  
+calldata size is capped to 2^64 bytes   
+balances are capped to 2^128   
+gasPrice is capped to 2^64 (2^53 in prototype)   
+gas is capped to 2^64  
+callDataCode is depercated  
+extCodeCopy is redundant  

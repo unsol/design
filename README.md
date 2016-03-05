@@ -20,7 +20,6 @@ Open Issues
 
 
 NOTE:  
-
 codesize is capped to 2^64 bytes  
 calldata size is capped to 2^64 bytes   
 balances are capped to 2^128   

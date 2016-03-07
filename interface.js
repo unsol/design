@@ -3,8 +3,9 @@ const ADD_SIZE_BYTES = 20 // Address size in bytes
 
 const enviroment = {
   gasCounter: 0, // TODO: gasCounter is only 53 bits
+  gas: 0, // The amount of gas this contract has
   gasPrice: 0,
-  gasLimit: 0,
+  gasLimit: 0, // The gas limit for the block
   address: new Uint8Array(20),
   origin: new Uint8Array(20),
   coinbase: new Uint8Array(20),
@@ -57,8 +58,16 @@ class WasmInterface {
    * Returns the current gasCounter
    * @return {integer}
    */
-  getGas () {
+  gasUsed () {
     return this.enviroment.gasCounter
+  }
+
+  /**
+   * Returns the current gasCounter
+   * @return {integer}
+   */
+  gasLeft () {
+    return this.eviroment.gas - this.enviroment.gasCounter
   }
 
   /**
@@ -251,6 +260,7 @@ class WasmInterface {
    * Creates a new log in the current enviroment
    * @param {integer} dataOffset the offset in memory to load the memory
    * @param {integer} length the data length
+   * TODO: replace with variadic
    */
   log (dataOffset, length, topic1, topic2, topic3, topic4, topic5) {
     const data = new Uint8Array(this.module.memory, dataOffset, length)
@@ -275,16 +285,20 @@ class WasmInterface {
 
   /**
    * Sends a message with arbiatary date to a given address path
-   * @param {integer} gas
    * @param {integer} addressOffset the offset to load the address path from
    * @param {integer} valueOffset the offset to load the value from
    * @param {integer} dataOffset the offset to load data from
    * @param {integer} dataLength the length of data
    * @param {integer} resultOffset the offset to store the result data at
    * @param {integer} resultLength
+   * @param {integer} gas
    * @return {integer} Returns 1 or 0 depending on if the VM trapped on the message or not
+   * TODO: add proper gas counting 
    */
-  call (gas, addressOffset, valueOffset, dataOffset, dataLength, resultOffset, resultLength) {
+  call (addressOffset, valueOffset, dataOffset, dataLength, resultOffset, resultLength, gas) {
+    if (gas === undefined) {
+      gas = this.gasLeft()
+    }
     // Load the params from mem
     const address = new Uint8Array(this.module.memory, addressOffset, ADD_SIZE_BYTES)
     const value = new Uint8Array(this.module.memory, valueOffset, MAX_BAL_BYTES)

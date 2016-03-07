@@ -50,7 +50,9 @@ class Interface {
    * @param {integer} amount the amount to subtract to the gas counter
    */
   addGas (amount) {
-    this.enviroment.gasCounter += amount
+    if (amount > 0) {
+      this.enviroment.gasCounter += amount
+    }
   }
 
   /**
@@ -66,7 +68,7 @@ class Interface {
    * @return {integer}
    */
   gasLeft () {
-    return this.eviroment.gas - this.enviroment.gasCounter
+    return this.enviroment.gas - this.enviroment.gasCounter
   }
 
   /**

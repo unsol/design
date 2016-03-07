@@ -3,7 +3,6 @@
 // print(module.exports.test())
 print('start')
 
-
 let module
 const ffi = {
   print: function(a){

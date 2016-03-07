@@ -39,8 +39,7 @@ const enviroment = {
   }
 }
 
-class WasmInterface {
-
+class Interface {
   constructor (module, environment) {
     this.module = module
     this.enviroment = enviroment

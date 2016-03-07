@@ -293,7 +293,7 @@ class WasmInterface {
    * @param {integer} resultLength
    * @param {integer} gas
    * @return {integer} Returns 1 or 0 depending on if the VM trapped on the message or not
-   * TODO: add proper gas counting 
+   * TODO: add proper gas counting
    */
   call (addressOffset, valueOffset, dataOffset, dataLength, resultOffset, resultLength, gas) {
     if (gas === undefined) {

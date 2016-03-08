@@ -1,6 +1,6 @@
 # EVM 2.0 (eWASM) DESIGN 
 
-EVM 2.0 is am experimental VM for Ethereum that uses Webassembly as the ISA. This design follow Wasm's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
+EVM 2.0 is am experimental VM for Ethereum that uses Webassembly as the ISA. This design follows Wasm's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
 
 > WebAssembly or wasm is a new, portable, size- and load-time-efficient format. WebAssembly is currently being designed as an open standard by a W3C Community Group.
 

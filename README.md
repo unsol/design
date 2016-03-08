@@ -7,7 +7,7 @@ WebAssembly or wasm is a new, portable, size- and load-time-efficient format. We
 Ethereum WASM builds on the foundation laid by the Webassembly by adding the following.
 
 * Specifies an Ethereum system module to facilitate interaction with the Ethereum Environment
-* Add Metering
+* Adds Metering
 * Restricts [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
 
 ### Resources

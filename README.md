@@ -4,7 +4,7 @@ EVM 2.0 is am experimental VM for Ethereum that uses Webassembly as the ISA. Thi
 
 WebAssembly or wasm is a new, portable, size- and load-time-efficient format. WebAssembly is currently being designed as an open standard by a W3C Community Group.
 
-Ethereum WASM builds on the foundation being laid by the Webassembly by adding three components.
+Ethereum WASM builds on the foundation laid by the Webassembly by adding the following.
 
 * Specifies an Ethereum system module to facilitate interaction with the Ethereum Environment
 * Add Metering

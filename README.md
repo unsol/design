@@ -1,44 +1,24 @@
 # EVM 2.0 (eWASM) DESIGN 
 
-### Difference from WASM
+EVM 2.0 is am experimental VM for Ethereum that uses Webassembly as the ISA. This design follow Wasm's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
 
-* A local variable limit
-* Metering
-* Shared memory for `call` returns
-* Limit types and functions to i64
-* No Datatype conversion
-* No select op
-* No comma op
-* No conditional op
-* No need for a explicit module definition
+WebAssembly or wasm is a new, portable, size- and load-time-efficient format. WebAssembly is currently being designed as an open standard by a W3C Community Group.
 
-### Metering
-Metering can initial be accomplished by injecting the counting code into the AST then passing the modified AST to a wasm VM. Modifying the AST is done by traversing the AST and adding a gas check immediately after each branch condition and at the start of functions and loops. For a more performant  version gas counting could possibly be done at the VM directly. But from [initial trials](https://github.com/wanderer/eth2wasm) injecting gas at the AST level does not greatly affect performance. Since the gas counting code must be protected it would have to be implemented in a separate module. 
+Ethereum WASM builds on the foundation being laid by the Webassembly by adding three components.
 
-### [Module start function](https://github.com/WebAssembly/design/blob/master/Modules.md#module-start-function)
+* Specifies an Ethereum system module to facilitate interaction with the Ethereum Environment
+* Add Metering
+* Restricts [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
 
-If the module has a start node defined, the function it refers should be called
-by the loader after the instance is initialized and before the exported functions
-are called.
+### Resources
 
-* The start function must not take any arguments or return anything
-* The function can also be exported
-* There can only be at most one start node per module
+* [Ethereum system module](./eth_interface.md)
+* [Metering](./metering.md)
+* [Original Proposal](https://github.com/ethereum/EIPs/issues/48)
+* [JS prototype](./js-prototype)
 
-For example, a start node in a module will be:
+### Design Process & Contributing
+For now, high-level design discussions should continue to be held in the design repository, via issues and pull requests. Feel free to file issues.
 
-```(start $start_function)```
-
-or
-
-```(start 0)```
-
-In the first example, the environment is expected to call the function $start_function
-before calling any other module function. In the second case, the environment is
-expected to call the module function indexed 0.
-
-A module can:
-* Only have at most a start node
-* If a module contains a start node, the function must be defined in the module
-* The start function will be called after module loading and before any call to the module
-    function is done
+## Chat
+[Gitter](https://gitter.im/ethereum/ewasm-design)

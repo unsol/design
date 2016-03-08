@@ -13,7 +13,6 @@ Ethereum WASM builds on the foundation laid by the Webassembly by adding the fol
 ### Resources
 
 * [Ethereum system module](./eth_interface.md)
-* [Metering](./metering.md)
 * [Original Proposal](https://github.com/ethereum/EIPs/issues/48)
 * [WASM's design docs](https://github.com/WebAssembly/design)
 * [JS prototype](./js-prototype)

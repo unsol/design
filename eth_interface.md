@@ -1,4 +1,4 @@
-# addGas
+## addGas
 
 Subtracts an amount to the gas counter
 
@@ -6,7 +6,7 @@ Subtracts an amount to the gas counter
 
 -   `amount` **integer** the amount to subtract to the gas counter
 
-# address
+## address
 
 Gets address of currently executing account and loads it into memory at
 the given offset.
@@ -15,7 +15,7 @@ the given offset.
 
 -   `offset` **integer** 
 
-# balance
+## balance
 
 Gets balance of the given account and loads it into memory at the given
 offset.
@@ -26,7 +26,7 @@ offset.
 -   `resultOffset` **integer** 
 -   `offset`  
 
-# blockHash
+## blockHash
 
 Gets the hash of one of the 256 most recent complete blocks.
 
@@ -35,7 +35,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 -   `number` **integer** which block to load
 -   `offset` **integer** the offset to load the hash into
 
-# call
+## call
 
 Sends a message with arbiatary date to a given address path
 
@@ -52,7 +52,7 @@ Sends a message with arbiatary date to a given address path
 Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 TODO: add proper gas counting
 
-# callDataCopy
+## callDataCopy
 
 Copys the input data in current environment to memory. This pertains to
 the input data passed with the message call instruction or transaction.
@@ -63,31 +63,31 @@ the input data passed with the message call instruction or transaction.
 -   `dataOffset` **integer** the offset in the input data
 -   `length` **integer** the length of data to copy
 
-# callDataSize
+## callDataSize
 
 Get size of input data in current environment. This pertains to the input
 data passed with the message call instruction or transaction.
 
 Returns **integer** 
 
-# callDelegate
+## callDelegate
 
 Message-call into this account with an alternative account’s code, but
 persisting the current values for sender and value.
 
 **Parameters**
 
--   `gas` **integer** 
 -   `addressOffset` **integer** the offset to load the address path from
 -   `valueOffset` **integer** the offset to load the value from
 -   `dataOffset` **integer** the offset to load data from
 -   `dataLength` **integer** the length of data
 -   `resultOffset` **integer** the offset to store the result data at
 -   `resultLength` **integer** 
+-   `gas` **integer** 
 
 Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
-# caller
+## caller
 
 Gets caller address and loads it into memory at the given offset. This is
 the address of the account that is directly responsible for this execution.
@@ -96,7 +96,7 @@ the address of the account that is directly responsible for this execution.
 
 -   `offset` **integer** 
 
-# callValue
+## callValue
 
 Gets the deposited value by the instruction/transaction responsible for
 this execution and loads it into memory at the given location.
@@ -105,7 +105,7 @@ this execution and loads it into memory at the given location.
 
 -   `offset` **integer** 
 
-# codeCopy
+## codeCopy
 
 Copys the code running in current environment to memory.
 
@@ -115,13 +115,13 @@ Copys the code running in current environment to memory.
 -   `codeOffset` **integer** the code offset
 -   `length` **integer** the length of code to copy
 
-# codeSize
+## codeSize
 
 Gets the size of code running in current environment.
 
 Returns **interger** 
 
-# coinbase
+## coinbase
 
 Gets the block’s beneficiary address and loads into memory.
 
@@ -129,7 +129,7 @@ Gets the block’s beneficiary address and loads into memory.
 
 -   `offset`  
 
-# create
+## create
 
 Creates a new contract with a given value.
 
@@ -139,13 +139,13 @@ Creates a new contract with a given value.
 -   `dataOffset` **integer** the offset to load the code for the new contract from
 -   `length` **integer** the data length
 
-# difficulty
+## difficulty
 
 Get the block’s difficulty.
 
 Returns **integer** 
 
-# extCodeCopy
+## extCodeCopy
 
 Copys the code of an account to memory.
 
@@ -156,7 +156,7 @@ Copys the code of an account to memory.
 -   `codeOffset` **integer** the code offset
 -   `length` **integer** the length of code to copy
 
-# extCodeSize
+## extCodeSize
 
 Get size of an account’s code.
 
@@ -166,31 +166,31 @@ Get size of an account’s code.
 
 Returns **integer** 
 
-# gasLeft
+## gasLeft
 
 Returns the current gasCounter
 
 Returns **integer** 
 
-# gasLimit
+## gasLimit
 
 Get the block’s gas limit.
 
 Returns **integer** 
 
-# gasPrice
+## gasPrice
 
 Gets price of gas in current environment.
 
 Returns **integer** 
 
-# gasUsed
+## gasUsed
 
 Returns the current gasCounter
 
 Returns **integer** 
 
-# log
+## log
 
 Creates a new log in the current enviroment
 
@@ -205,13 +205,13 @@ Creates a new log in the current enviroment
 -   `topic4`  
 -   `topic5`  
 
-# number
+## number
 
 Get the block’s number.
 
 Returns **integer** 
 
-# origin
+## origin
 
 Gets the execution's origination address and loads it into memory at the
 given offset. This is the sender of original transaction; it is never an
@@ -221,7 +221,7 @@ account with non-empty associated code.
 
 -   `offset` **integer** 
 
-# return
+## return
 
 Halt execution returning output data.
 
@@ -230,7 +230,7 @@ Halt execution returning output data.
 -   `offset` **integer** the offset of the output data.
 -   `length` **integer** the length of the output data.
 
-# suicide
+## suicide
 
 Halt execution and register account for later deletion giving the remaining
 balance to an address path
@@ -240,7 +240,7 @@ balance to an address path
 -   `offset` **integer** the offset to load the address from
 -   `addressOffset`  
 
-# timestamp
+## timestamp
 
 Get the block’s timestamp.
 

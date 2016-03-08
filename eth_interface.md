@@ -1,3 +1,36 @@
+# Ethereum System Module Specification
+
+The Ethereum system module expose the core Ethereum API to the WASM environment. The Ethereum [module](https://github.com/WebAssembly/design/blob/master/Modules.md) general will be implemented in the Ethereum client's native language. All parameters and returns are restricted to 32 or 64 bit integers. Floats are disallowed.
+
+## Environment
+
+The Ethereum System Module expose the following information.
+
+* gasCount - the current amount of gas used
+* gas -  The totally amount of gas that the contract instance has to use
+* gasPrice - The price in wei paid for gas
+* gasLimit - The max amount of gas that maybe expended
+* address - The contract's address
+* origin - The origin address of the message that caused this contract to run
+* coinbase - The current block's coinbase
+* difficulty - The current block's difficulty
+* caller - The address that directly messaged this contract 
+* callValue - The value in wei of that the message has 
+* callData - The message's data
+* code - The code of the current running contract
+* logs - All the logs that the contract emitted
+* state - Ethereum's state as stored in the state trie
+
+Further more we define the following caps on the environmental variables
+
+* codesize is capped to 2^64 bytes
+* calldata size is capped to 2^64 bytes
+* balances are capped to 2^128
+* gasPrice is capped to 2^64 (2^53 in prototype)
+* gas is capped to 2^64
+
+# API
+
 ## addGas
 
 Subtracts an amount to the gas counter
@@ -22,9 +55,9 @@ offset.
 
 **Parameters**
 
--   `addressOffset` **integer** the memory offset to laod the address
+-   `addressOffset` **integer** the memory offset to load the address
 -   `resultOffset` **integer** 
--   `offset`  
+-   `offset` **integer**
 
 ## blockHash
 
@@ -37,7 +70,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 
 ## call
 
-Sends a message with arbiatary date to a given address path
+Sends a message with arbitrary date to a given address path
 
 **Parameters**
 
@@ -50,7 +83,6 @@ Sends a message with arbiatary date to a given address path
 -   `gas` **integer** 
 
 Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
-TODO: add proper gas counting
 
 ## callDataCopy
 
@@ -127,7 +159,7 @@ Gets the block’s beneficiary address and loads into memory.
 
 **Parameters**
 
--   `offset`  
+-   `offset` the memory offset 
 
 ## create
 
@@ -198,12 +230,11 @@ Creates a new log in the current enviroment
 
 -   `dataOffset` **integer** the offset in memory to load the memory
 -   `length` **integer** the data length
-    TODO: replace with variadic
--   `topic1`  
--   `topic2`  
--   `topic3`  
--   `topic4`  
--   `topic5`  
+-   `topic1` **integer** 
+-   `topic2` **integer** 
+-   `topic3` **integer** 
+-   `topic4` **integer** 
+-   `topic5` **integer** 
 
 ## number
 
@@ -238,7 +269,7 @@ balance to an address path
 **Parameters**
 
 -   `offset` **integer** the offset to load the address from
--   `addressOffset`  
+-   `addressOffset` **integer** 
 
 ## timestamp
 

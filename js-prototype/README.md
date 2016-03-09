@@ -8,6 +8,8 @@ To run the test you need
   `cd sexpr-wasm-prototype && make`
 * ./run.sh
 
+`alias d8 '/home/null/clones/v8/out/native/d8'`
+
 Tests are divided into to several parts
 * The interface are written in JS
 * The wasm modules that test the interface

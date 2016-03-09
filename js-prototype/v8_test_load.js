@@ -1,15 +1,20 @@
-// how to run arbitary files? 
+// how to run arbitary files?
 // globals: Interface, enviroment, testName
-print('start')
-const en = parseEnvirmentData(read('./tests/' + testName + '.json'))
+load('constants.js')
+load('testEnviroment.js')
+load('interface.js')
+
+const testLoc = `../tests/${testName}`
+const en = parseEnv(read(testLoc + '.json'))
 Object.assign(enviroment, en)
 
-const ffi = new Interface(null, enviroment)
-const buffer = readbuffer(testName + '.wasm')
+const ffi    = new Interface(null, enviroment)
+const buffer = readbuffer(testLoc + '.wasm')
 
 try {
-  const module = ffi.module = _WASMEXP_.instantiateModule(buffer, ffi)
-  module.exports.test()
+  const mod =  _WASMEXP_.instantiateModule(buffer, ffi)
+  ffi.setModule(mod)
+  mod.exports.test()
 } catch (e) {
   print('FAIL')
   print(e)
@@ -17,9 +22,9 @@ try {
   print('done')
 }
 
-function parseEnvimentData(data) {
-  data = JSON.parse(date)
-  if(data.address){
+function parseEnv(data) {
+  data = JSON.parse(data)
+  if (data.address) {
     data.address = new Uint8Array(data.address)
   }
   return data

@@ -5,21 +5,20 @@ const exec = require('child_process').exec
 
 // get the test names
 const tests = fs.readdirSync('../tests').filter((file) => file.split('.')[1] === 'wast')
+const v8_path = (process.env.V8_PATH ? process.evn.V8_PATH : './v8/out/native/') + 'd8'
 
 // run the tests
 for (let testName of tests) {
   testName = testName.split('.')[0]
   tape(testName, (t) => {
     // Compile Command
-    const cmpCmd = `../sexpr-wasm-prototype/out/sexpr-wasm ./tests/${testName}.wast -o ./tests/${testName}.wasm`
+    const cmpCmd = `./sexpr-wasm-prototype/out/sexpr-wasm ../tests/${testName}.wast -o ../tests/${testName}.wasm`
 
-    console.log(cmpCmd)
     // Run Command
-    const runCmd = `d8 -e "const testName = '${testName}' --expose-wasm interface.js tester.js`
+    const runCmd = `${v8_path} -e "const testName = '${testName}'" --expose-wasm v8_test_load.js`
 
-    exec(cmpCmd + ' & ' + runCmd, (error, stdout, stderr) => {
-      console.log(`stdout: ${stdout}`)
-      console.log(`stderr: ${stderr}`)
+    exec(cmpCmd + ' && ' + runCmd, (error, stdout, stderr) => {
+      t.equals(stdout, 'done\n')
       if (error !== null) {
         console.log(`exec error: ${error}`)
       }

@@ -6,8 +6,8 @@ load('interface.js')
 
 const testLoc = `../tests/${testName}`
 const en = parseEnv(read(testLoc + '.json'))
-Object.assign(enviroment, en)
 
+const enviroment = new Enviroment(en)
 const ffi    = new Interface(null, enviroment)
 const buffer = readbuffer(testLoc + '.wasm')
 
@@ -22,10 +22,3 @@ try {
   print('done')
 }
 
-function parseEnv(data) {
-  data = JSON.parse(data)
-  if (data.address) {
-    data.address = new Uint8Array(data.address)
-  }
-  return data
-}

@@ -2,7 +2,7 @@
 
 > This repository contains documents describing the design and high-level overview of EVM 2.0. Expect the contents of this repository to be in flux: everything is still under discussion.
 
-EVM 2.0 is am experimental VM design for Ethereum that uses [Webassembly](https://github.com/WebAssembly/design) as the [instruction set](https://en.wikipedia.org/wiki/Instruction_set). This design follows Wasm's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
+EVM 2.0 is an experimental VM design for Ethereum that uses [Webassembly](https://github.com/WebAssembly/design) as the [instruction set](https://en.wikipedia.org/wiki/Instruction_set). This design follows Wasm's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
 
 ## Overview
 

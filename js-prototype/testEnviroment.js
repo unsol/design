@@ -33,6 +33,10 @@ class Enviroment {
     if (data.address) {
       this.address = new Uint8Array(data.address)
     }
+
+    if (data.origin) {
+      this.address = new Uint8Array(data.origin)
+    }
   }
 
   getBalance (address) {

@@ -35,7 +35,11 @@ class Enviroment {
     }
 
     if (data.origin) {
-      this.address = new Uint8Array(data.origin)
+      this.origin = new Uint8Array(data.origin)
+    }
+
+    if (data.caller) {
+      this.caller = new Uint8Array(data.caller)
     }
   }
 

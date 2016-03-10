@@ -23,11 +23,11 @@ The Ethereum System Module expose the following information.
 
 Further more we define the following caps on the environmental variables
 
-* codesize is capped to 2^64 bytes
-* calldata size is capped to 2^64 bytes
-* balances are stored an 128 little endian unsigned integer
-* gasPrice is capped to 2^64 (2^53 in prototype)
-* gas is capped to 2^64
+* `codesize` is capped to a 64 bit integer
+* `calldata` size is capped to 64 bits
+* `balances` are repesented as a 128 bit little endian unsigned integer
+* `gasPrice` is repesented as a 64 bit little endian unsigned integer
+* `gas`      is repesented as a 64 bit little endian unsigned integer
 
 # API
 

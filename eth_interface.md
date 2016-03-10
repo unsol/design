@@ -25,7 +25,7 @@ Further more we define the following caps on the environmental variables
 
 * codesize is capped to 2^64 bytes
 * calldata size is capped to 2^64 bytes
-* balances are capped to 2^128
+* balances are stored an 128 little endian unsigned integer
 * gasPrice is capped to 2^64 (2^53 in prototype)
 * gas is capped to 2^64
 

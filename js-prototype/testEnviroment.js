@@ -41,6 +41,10 @@ class Enviroment {
     if (data.caller) {
       this.caller = new Uint8Array(data.caller)
     }
+
+    if (data.callValue) {
+      this.callValue = new Uint8Array(data.callValue)
+    }
   }
 
   getBalance (address) {

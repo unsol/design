@@ -1,5 +1,5 @@
 class Enviroment {
-  constuctor (data) {
+  constructor (data) {
     const defaults = {
       gasCounter: 0, // TODO: gasCounter is only 53 bits
       gas: 0, // The amount of gas this contract has
@@ -20,18 +20,23 @@ class Enviroment {
     }
 
     data = JSON.parse(data)
-    if (data) {
-      data.accounts.forEach(function (account, data) {
-        this.accounts.set(new Uint8Array(this.address), data)
+    Object.assign(this, defaults, data)
+
+    const self = this
+    if (data.accounts) {
+      this.accounts = new Map()
+      data.accounts.forEach((account) => {
+        self.accounts.set(new Uint8Array(account[0]).toString(), account[1])
       })
     }
 
-    Object.assign(this, defaults)
-    this.address = new Uint8Array(this.address)
+    if (data.address) {
+      this.address = new Uint8Array(data.address)
+    }
   }
 
   getBalance (address) {
-    return this.accounts.get(address).balance
+    return this.accounts.get(address.toString()).balance
   }
 
   getCode (address) {

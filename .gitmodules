@@ -4,3 +4,6 @@
 [submodule "v8"]
 	path = v8
 	url = git@github.com:v8/v8.git
+[submodule "js-prototype/sexpr-wasm-prototype"]
+	path = js-prototype/sexpr-wasm-prototype
+	url = git@github.com:WebAssembly/sexpr-wasm-prototype.git

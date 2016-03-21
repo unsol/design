@@ -1,6 +1,6 @@
 const MAX_BAL_BYTES = require('./constants.js').MAX_BAL_BYTES
 
-module.exports = class Enviroment {
+module.exports = class Environment {
   constructor (data, opts) {
     const defaults = {
       gasCounter: 0, // TODO: gasCounter is only 53 bits

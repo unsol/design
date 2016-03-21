@@ -2,7 +2,7 @@ const ADD_SIZE_BYTES = require('./constants.js').ADD_SIZE_BYTES
 
 module.exports = class Interface {
   constructor (environment) {
-    this.enviroment = environment
+    this.environment = environment
   }
 
   setModule (mod) {
@@ -23,7 +23,7 @@ module.exports = class Interface {
    */
   addGas (amount) {
     if (amount > 0) {
-      this.enviroment.gasCounter += amount
+      this.environment.gasCounter += amount
     }
   }
 
@@ -32,7 +32,7 @@ module.exports = class Interface {
    * @return {integer}
    */
   gasUsed () {
-    return this.enviroment.gasCounter
+    return this.environment.gasCounter
   }
 
   /**
@@ -40,7 +40,7 @@ module.exports = class Interface {
    * @return {integer}
    */
   gasLeft () {
-    return this.enviroment.gas - this.enviroment.gasCounter
+    return this.environment.gas - this.environment.gasCounter
   }
 
   /**
@@ -49,7 +49,7 @@ module.exports = class Interface {
    * @param {integer} offset
    */
   address (offset) {
-    const address = this.enviroment.address
+    const address = this.environment.address
     const memory = new Uint8Array(this.module.memory, offset, ADD_SIZE_BYTES)
     memory.set(address)
   }
@@ -63,7 +63,7 @@ module.exports = class Interface {
   balance (addressOffset, offset) {
     const address = new Uint8Array(this.module.memory, addressOffset, ADD_SIZE_BYTES)
     const memory = new Uint8Array(this.module.memory, offset, MAX_BAL_BYTES)
-    const balance = this.enviroment.getBalance(address)
+    const balance = this.environment.getBalance(address)
     memory.set(balance)
   }
 
@@ -74,7 +74,7 @@ module.exports = class Interface {
    * @param {integer} offset
    */
   origin (offset) {
-    const origin = this.enviroment.origin
+    const origin = this.environment.origin
     const memory = new Uint8Array(this.module.memory, offset, ADD_SIZE_BYTES)
     memory.set(origin)
   }
@@ -85,7 +85,7 @@ module.exports = class Interface {
    * @param {integer} offset
    */
   caller (offset) {
-    const caller = this.enviroment.caller
+    const caller = this.environment.caller
     const memory = new Uint8Array(this.module.memory, offset, ADD_SIZE_BYTES)
     memory.set(caller)
   }
@@ -96,7 +96,7 @@ module.exports = class Interface {
    * @param {integer} offset
    */
   callValue (offset) {
-    const callValue = this.enviroment.callValue
+    const callValue = this.environment.callValue
     const memory = new Uint8Array(this.module.memory, offset, MAX_BAL_BYTES)
     memory.set(callValue)
   }
@@ -107,7 +107,7 @@ module.exports = class Interface {
    * @return {integer}
    */
   callDataSize () {
-    return this.enviroment.callData.byteLength
+    return this.environment.callData.byteLength
   }
 
   /**
@@ -118,7 +118,7 @@ module.exports = class Interface {
    * @param {integer} length the length of data to copy
    */
   callDataCopy (offset, dataOffset, length) {
-    const callData = new Uint8Array(this.enviroment.callData, offset, length)
+    const callData = new Uint8Array(this.environment.callData, offset, length)
     const memory = new Uint8Array(this.module.memory, offset, length)
     memory.set(callData)
   }
@@ -128,7 +128,7 @@ module.exports = class Interface {
    * @return {interger}
    */
   codeSize () {
-    return this.enviroment.code.byteLength
+    return this.environment.code.byteLength
   }
 
   /**
@@ -138,7 +138,7 @@ module.exports = class Interface {
    * @param {integer} length the length of code to copy
    */
   codeCopy (offset, codeOffset, length) {
-    const code = new Uint8Array(this.enviroment.code, codeOffset, length)
+    const code = new Uint8Array(this.environment.code, codeOffset, length)
     const memory = new Uint8Array(this.module.memory, offset, length)
     memory.set(code)
   }
@@ -150,7 +150,7 @@ module.exports = class Interface {
    */
   extCodeSize (addressOffset) {
     const address = new Uint8Array(this.module.memory, addressOffset, ADD_SIZE_BYTES)
-    const code = this.enviroment.getCode(address)
+    const code = this.environment.getCode(address)
     return code.byteLength
   }
 
@@ -163,7 +163,7 @@ module.exports = class Interface {
    */
   extCodeCopy (addressOffset, offset, codeOffset, length) {
     const address = new Uint8Array(this.module.memory, addressOffset, ADD_SIZE_BYTES)
-    let code = this.enviroment.getCode(address)
+    let code = this.environment.getCode(address)
     code = new Uint8Array(code, codeOffset, length)
     const memory = new Uint8Array(this.module.memory, offset, length)
     memory.set(code)
@@ -174,7 +174,7 @@ module.exports = class Interface {
    * @return {integer}
    */
   gasPrice () {
-    return this.enviroment.gasPrice
+    return this.environment.gasPrice
   }
 
   /**
@@ -183,7 +183,7 @@ module.exports = class Interface {
    * @param {integer} offset the offset to load the hash into
    */
   blockHash (number, offset) {
-    const hash = this.enviroment.getBlockHash(number)
+    const hash = this.environment.getBlockHash(number)
     const memory = new Uint8Array(this.module.memory, offset, ADD_SIZE_BYTES)
     memory.set(hash)
   }
@@ -218,7 +218,7 @@ module.exports = class Interface {
    * @return {integer}
    */
   difficulty () {
-    return this.enviroment.difficulty
+    return this.environment.difficulty
   }
 
   /**
@@ -226,18 +226,18 @@ module.exports = class Interface {
    * @return {integer}
    */
   gasLimit () {
-    return this.enviroment.gasLimit
+    return this.environment.gasLimit
   }
 
   /**
-   * Creates a new log in the current enviroment
+   * Creates a new log in the current environment
    * @param {integer} dataOffset the offset in memory to load the memory
    * @param {integer} length the data length
    * TODO: replace with variadic
    */
   log (dataOffset, length, topic1, topic2, topic3, topic4, topic5) {
     const data = new Uint8Array(this.module.memory, dataOffset, length)
-    this.enviroment.logs.push({
+    this.environment.logs.push({
       data: data,
       topics: [topic1, topic2, topic3, topic4, topic5]
     })
@@ -252,7 +252,7 @@ module.exports = class Interface {
   create (valueOffset, dataOffset, length) {
     const value = new Uint8Array(this.module.memory, valueOffset, MAX_BAL_BYTES)
     const data = new Uint8Array(this.module.memory, dataOffset, length)
-    const result = this.enviroment.create(value, data)
+    const result = this.environment.create(value, data)
     return result
   }
 
@@ -277,7 +277,7 @@ module.exports = class Interface {
     const value = new Uint8Array(this.module.memory, valueOffset, MAX_BAL_BYTES)
     const data = new Uint8Array(this.module.memory, dataOffset, dataLength)
     // Run the call
-    const [result, errorCode] = this.enviroment.call(gas, address, value, data)
+    const [result, errorCode] = this.environment.call(gas, address, value, data)
     const memory = new Uint8Array(this.module.memory, resultOffset, resultLength)
     memory.set(result)
 
@@ -299,7 +299,7 @@ module.exports = class Interface {
   callDelegate (gas, addressOffset, dataOffset, dataLength, resultOffset, resultLength) {
     const data = new Uint8Array(this.module.memory, dataOffset, dataLength)
     const address = new Uint8Array(this.module.memory, addressOffset, ADD_SIZE_BYTES)
-    const [result, errorCode] = this.enviroment.callDelegate(gas, address, data)
+    const [result, errorCode] = this.environment.callDelegate(gas, address, data)
     const memory = new Uint8Array(this.module.memory, resultOffset, resultLength)
     memory.set(result)
 
@@ -312,7 +312,7 @@ module.exports = class Interface {
    * @param {integer} length the length of the output data.
    */
   return (offset, length) {
-    this.enviroment.returnValue = new Uint8Array(this.module.memory, offset, length)
+    this.environment.returnValue = new Uint8Array(this.module.memory, offset, length)
   }
 
   /**
@@ -322,6 +322,6 @@ module.exports = class Interface {
    */
   suicide (addressOffset) {
     const address = new Uint8Array(this.module.memory, addressOffset, ADD_SIZE_BYTES)
-    this.enviroment.suicideAddress = address
+    this.environment.suicideAddress = address
   }
 }

@@ -1,12 +1,12 @@
-let module
+const ADD_SIZE_BYTES = require('./constants.js').ADD_SIZE_BYTES
 
-class Interface {
+module.exports = class Interface {
   constructor (environment) {
-    this.enviroment = enviroment
+    this.enviroment = environment
   }
 
   setModule (mod) {
-    this.module = module = mod
+    this.module = mod
   }
 
   debugPrint (a, b) {

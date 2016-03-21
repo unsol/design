@@ -1,5 +1,7 @@
-class Enviroment {
-  constructor (data) {
+const MAX_BAL_BYTES = require('./constants.js').MAX_BAL_BYTES
+
+module.exports = class Enviroment {
+  constructor (data, opts) {
     const defaults = {
       gasCounter: 0, // TODO: gasCounter is only 53 bits
       gas: 0, // The amount of gas this contract has

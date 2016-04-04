@@ -1,3 +1,14 @@
+# WASM
+###Good
+* limited well defined non-determinism
+* performant (near native speed)
+* portable
+* will be widely deployed
+* AST bytecode makes it easy to decouple metering from the VM
+
+###Bad
+* not stable yet
+
 # RISCV
 # CLI
 # PNACL

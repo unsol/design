@@ -32,4 +32,3 @@ None of these problems are insurmountable. For example PNaCl defines a small por
 
 # RISCV
 # CLI
-# PNACL

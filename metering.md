@@ -39,7 +39,7 @@ This code can be transformed to
 ```
 This then ran on a canonical WASM VM with the [Ethereum Interface](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) 
 
-### If ELSE
+### If Else
 This is an example of rule `1.` There is an if else statement which creates 3 subtree. 
 ![if else](./assests/if.png)
 

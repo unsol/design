@@ -1,7 +1,7 @@
 # EVM2 DESIGN
 > This repository contains documents describing the design and high-level overview of EVM 2.0. Expect the contents of this repository to be in flux: everything is still under discussion.
 
-The goal for this repository is to track research and development of alternative VM's for use in Ethereum.
+The goal for this repository is to track research and development of alternative VM's for use in Ethereum. Currently eWASM has had the most research.
 
 ## eWASM DESIGN 
 

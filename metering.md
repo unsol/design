@@ -16,7 +16,7 @@ Metering is done by counting the cost of running a continuous subtree of the AST
 1. For If Else statements the `then` and `else` statements become new subtrees.
 2. For branches (`br`, `br_table`) existing in a enclosing construct; all immediately following statements in that enclosing construct becomes a new subtree.
 
-Currently each opcode is measused as 1 unit of gas. Functions,Parameters to functions and result values are also counted as  1 unit of gas.
+Currently each opcode is measused as 1 unit of gas. Functions, Parameters to functions and Result values are also counted as  1 unit of gas.
 
 ## Examples
 The examples are in S-expressions which have 1 to 1 representation to binary WASM. They also show one possible tranformation to inject metering into canonical WASM code. 

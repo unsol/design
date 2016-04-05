@@ -31,4 +31,16 @@ None of these problems are insurmountable. For example PNaCl defines a small por
 
 
 # RISCV
-# CLI
+# CLI / ECMA-335 
+### Good
+* Defines a Kernel runtime and CIL subset that should be all we need. (We could use just the CIL intermediate language subset, but that could cut us off from the larger ecosystem.)
+* Looks like the kernel can be implemented to be safe and deterministic. I didn't try to analyze much, but safety and security were design goals.
+* Stable international standards since 2000.
+* Stable .NET and open-source Mono implementations.
+* Mature tools and language support, large user base, open source (even from Microsoft).
+### Bad
+* Missing standard SIMD support. (Both Mono and .NET are putting it in, so it should be standard eventually. )
+* Missing some of the nicer features of Wasm -- stack machine, not so compact, not AST-based, etc.
+* Likely a bigger runtime footprint than Wasm.
+* Microsoft.
+* Did I mention Microsoft?

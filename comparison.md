@@ -38,6 +38,8 @@ None of these problems are insurmountable. For example PNaCl defines a small por
 * Stable international standards since 2000.
 * Stable .NET and open-source Mono implementations.
 * Mature tools and language support, large user base, open source (even from Microsoft).   
+ 
+
 ### Bad   
 * Missing standard SIMD support. (Both Mono and .NET are putting it in, so it should be standard eventually. )
 * Missing some of the nicer features of Wasm -- stack machine, not so compact, not AST-based, etc.

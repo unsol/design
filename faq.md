@@ -1,5 +1,7 @@
 # FAQ
 
+WASM's FAQ can be found [here](https://github.com/WebAssembly/design/blob/master/FAQ.md) 
+
 ## Is eWASM primarily the replacement for EVM?  
 Currently it is being researched as a replacement instuction set for EVM1. Other instuction sets have been considered but so far WASM seems the most suitable. 
 

@@ -5,10 +5,9 @@ Currently it is being researched as a replacement instuction set for EVM1. Other
 
 ## What are the benefits?
 * Performance 
-* Shared tooling
 * A well Standized ISA, that will be widely deployed
 * AST byte; which can decouple metering and make it more preforment.
-* Broader Tooling Compatibility
+* Shared tooling / Broader Tooling Compatibility
 
 
 ## Will Solidity/Serpent be compatible with eWASM, or will another HLL have to be created?  

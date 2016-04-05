@@ -3,6 +3,9 @@
 ## Is eWASM primarily the replacement for EVM?  
 Currently it is being researched as a replacement instuction set for EVM1. Other instuction sets have been considered but so far WASM seems the most suitable. 
 
+## What are alternatives to WASM?  
+Some that have been considered are [here](https://github.com/ethereum/evm2.0-design/blob/master/comparison.md)
+
 ## What are the benefits?   
 * Performance 
 * A well Standized ISA, that will be widely deployed
@@ -18,12 +21,9 @@ Not off the bat, a transpiler will have to be created to compile exsiting EVM co
 ## How does eWASM handle nom-determinism when a variety of programming languages are allowed to be used?
 Part of the project goal is to eliminate nasal-demons. It's in the MVP. There are still a couple of edge case like sign values on NaNs but they can be canonicalized by AST transforms.  
 
-## will eWASM be compatible with WASM?  
+## Will eWASM be compatible with WASM?  
 Yes, the Ethereum System Interface can also be written in WASM.
 
-## what are alternatives to WASM?  
-Some that have been considered are [here](https://github.com/ethereum/evm2.0-design/blob/master/comparison.md)
-
-## can eWASM be built even if WASM is not currently complete or will we need to wait for its completion/MVP?   
+## Can eWASM be built even if WASM is not currently complete or will we need to wait for its completion/MVP?   
 Yes, but we would loss the "Shared tooling" benifit. So It might not make sense.
 

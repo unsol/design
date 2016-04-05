@@ -14,7 +14,7 @@ eWASM is an experimental VM design for Ethereum that uses [Webassembly](https://
 Ethereum WASM builds on the foundation laid by the Webassembly by adding the following.
 
 * Specifies an [Ethereum system module](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) to facilitate interaction with the Ethereum Environment
-* Adds Metering
+* [Adds Metering](https://github.com/ethereum/evm2.0-design/blob/master/metering.md)
 * Restricts [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
 
 ### Resources

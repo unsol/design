@@ -19,7 +19,7 @@ Metering is done by counting the cost of running a continuous subtree of the AST
 Currently each opcode is measused as 1 unit of gas. Functions, Parameters to functions and Result values are also counted as  1 unit of gas.
 
 ## TODO
-* Speficy a cost table for Ethereum System call
+* Speficy a cost table for Ethereum System calls
 * Speficy cost for memory
 
 ## Examples

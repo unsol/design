@@ -23,7 +23,7 @@ Currently each opcode is measused as 1 unit of gas. Functions, Parameters to fun
 * Speficy cost for memory
 
 ## Examples
-The examples are in S-expressions which have 1 to 1 representation to binary WASM. They also show one possible tranformation to inject metering into canonical WASM code. 
+The examples are in S-expressions which have 1 to 1 representation to binary WASM. They also show one possible tranformation to inject metering into canonical WASM code. These examples where generated with a [metering prototype](https://github.com/wanderer/wasm-metering)
 ### Basic
 This would cost two gas to run
 ```

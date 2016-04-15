@@ -261,7 +261,7 @@ Halt execution returning output data.
 -   `offset` **integer** the offset of the output data.
 -   `length` **integer** the length of the output data.
 
-## suicide
+## destruct
 
 Halt execution and register account for later deletion giving the remaining
 balance to an address path

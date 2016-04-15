@@ -38,7 +38,6 @@ None of these problems are insurmountable. For example PNaCl defines a small por
 * Stable international standards since 2000.
 * Stable .NET and open-source Mono implementations.
 * Mature tools and language support, large user base, open source (even from Microsoft).   
- 
 
 ### Bad   
 * Missing standard SIMD support. (Both Mono and .NET are putting it in, so it should be standard eventually. )
@@ -48,5 +47,25 @@ None of these problems are insurmountable. For example PNaCl defines a small por
 * Did I mention Microsoft?
 
 # RISCV
+### Isn't RISCV a purely hardware spec?
 
-?
+# JVM
+### Nonstarter.  Oracle ownership and intellectual property issues.
+
+# EVM1 -> EVM2
+### Good:
+* We own it.
+* It can evolve to where we need to go.
+* Coordination with other projects is optional.
+* We have the engineering talent we need.
+* We can incorporate wasm and other tech as appropriate.
+
+### Bad:
+* We own it.
+* We will need to maintain and build our own community of developers and users. (This might be a pro.)
+* EVM design has some clunkiness that gets in the way of performance and clean evolution.
+
+chriseth: Is "it is hard to break out of an EVM that was never designed to have external interfaces" a pro?
+
+vbuterin: yep definitely
+

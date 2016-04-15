@@ -52,7 +52,7 @@ None of these problems are insurmountable. For example PNaCl defines a small por
 # JVM
 ### Nonstarter.  Oracle ownership and intellectual property issues.
 
-# EVM1 -> EVM2
+# EVM1
 ### Good:
 * We own it.
 * It can evolve to where we need to go.

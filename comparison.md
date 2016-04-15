@@ -65,7 +65,3 @@ None of these problems are insurmountable. For example PNaCl defines a small por
 * We will need to maintain and build our own community of developers and users. (This might be a pro.)
 * EVM design has some clunkiness that gets in the way of performance and clean evolution.
 
-chriseth: Is "it is hard to break out of an EVM that was never designed to have external interfaces" a pro?
-
-vbuterin: yep definitely
-

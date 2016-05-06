@@ -4,7 +4,7 @@ To truly distinguish Ethereum as the World Computer we need to have a performant
 With an architecture that provides a closer mapping to hardware the VM will have a considerably enhanced performance which will effectively open the door to a much wider array of uses that require a much higher performance/throughput. Also, by choosing a common and more standardized architecture anyone will be able to compile C/C++, Solidity (, etc.) once, and the compiled code will run in multiple environments. Using the new Assembly standard will make running a program either directly on Ethereum, on a cloud hosting environment, or on one's local machine - a friction-less process.
 
 ## Rationale
-*  Efficient and faster: The wasm AST is designed to be encoded in a size- and load-time-efficient binary format. WebAssembly aims to execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms.
+*  Efficient: The wasm AST is designed to be encoded in a size- and load-time-efficient binary format. WebAssembly aims to execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms.
 * It is a Standized ISA. WebAssembly is currently being designed as an open standard by a W3C Community Group 
 * Toolchain Compatibility. LLVM front-end.
 * A large development base. It is being developed by Mozilla, Google, Microsoft, and Apple. Wasm is already in the Chromium's code base and is targeted to be deployed in all the major web browsers. Which would result in it being one of the most widely deployed VM architecture.

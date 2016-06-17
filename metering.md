@@ -1,4 +1,4 @@
-# Metering in eWASM
+# Metering in WASM
 Metering can be accomplished by injecting the counting code into the AST then passing the modified AST to a canonical WASM VM. Modifying the AST is done by traversing the AST and adding a gas check immediately after each branch condition and at the start of functions and loops.
 
 ```

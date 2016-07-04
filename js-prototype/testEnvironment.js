@@ -1,83 +1,87 @@
 const MAX_BAL_BYTES = require('./constants.js').MAX_BAL_BYTES
 
 module.exports = class Environment {
-  constructor (data, opts) {
-    const defaults = {
-      gasCounter: 0, // TODO: gasCounter is only 53 bits
-      gas: 0, // The amount of gas this contract has
-      gasPrice: 0,
-      gasLimit: 0, // The gas limit for the block
-      address: new Uint8Array(20),
-      origin: new Uint8Array(20),
-      coinbase: new Uint8Array(20),
-      difficulty: new Uint8Array(20),
-      caller: new Uint8Array(20),
-      callValue: new Uint8Array(MAX_BAL_BYTES),
-      callData: new ArrayBuffer(),
-      code: new ArrayBuffer(), // the current running code
-      logs: [],
-      returnValue: new ArrayBuffer(),
-      suicideAddress: new ArrayBuffer(),
-      accounts: new Map()
-    }
+constructor( data, opts) {
+  const defaults = {
+    gasCounter: 0, // TODO: gasCounter is only 53 bits
+    gas: 0, // The amount of gas this contract has
+    gasPrice: 0,
+    gasLimit: 0, // The gas limit for the block
+    address: new Uint8Array(20),
+    origin: new Uint8Array(20),
+    coinbase: new Uint8Array(20),
+    difficulty: new Uint8Array(20),
+    caller: new Uint8Array(20),
+    callValue: new Uint8Array(MAX_BAL_BYTES),
+    callData: new ArrayBuffer(),
+    code: new ArrayBuffer(), // the current running code
+    logs: [],
+    returnValue: new ArrayBuffer(),
+    suicideAddress: new ArrayBuffer(),
+    accounts: new Map()
+  }
 
+  if (data) {
     data = JSON.parse(data)
     Object.assign(this, defaults, data)
-
-    const self = this
-    if (data.accounts) {
-      this.accounts = new Map()
-      data.accounts.forEach((account) => {
-        self.accounts.set(new Uint8Array(account[0]).toString(), account[1])
-      })
-    }
-
-    if (data.address) {
-      this.address = new Uint8Array(data.address)
-    }
-
-    if (data.origin) {
-      this.origin = new Uint8Array(data.origin)
-    }
-
-    if (data.caller) {
-      this.caller = new Uint8Array(data.caller)
-    }
-
-    if (data.callValue) {
-      this.callValue = new Uint8Array(data.callValue)
-    }
-
-    if (data.callData) {
-      this.callData = hexStr2arrayBuf(data.callData)
-    }
+  } else {
+    data = {}
   }
 
-  getBalance (address) {
-    return this.accounts.get(address.toString()).balance
+  const self = this
+  if (data.accounts) {
+    this.accounts = new Map()
+    data.accounts.forEach((account) => {
+      self.accounts.set(new Uint8Array(account[0]).toString(), account[1])
+    })
   }
 
-  getCode (address) {
-    // STUB
+  if (data.address) {
+    this.address = new Uint8Array(data.address)
   }
 
-  getBlockHash (height) {
-    // STUB
+  if (data.origin) {
+    this.origin = new Uint8Array(data.origin)
   }
 
-  create (code, value) {
-    // STUB
+  if (data.caller) {
+    this.caller = new Uint8Array(data.caller)
   }
 
-  call (gas, address, value, data) {
-    // STUB
-    return // result
+  if (data.callValue) {
+    this.callValue = new Uint8Array(data.callValue)
   }
 
-  delegateCall (gas, address, data) {
-    // STUB
-    return // result
+  if (data.callData) {
+    this.callData = hexStr2arrayBuf(data.callData)
   }
+}
+
+getBalance( address) {
+  return this.accounts.get(address.toString()).balance
+}
+
+getCode( address) {
+  // STUB
+}
+
+getBlockHash( height) {
+  // STUB
+}
+
+create( code, value) {
+  // STUB
+}
+
+call( gas, address, value, data) {
+  // STUB
+  return // result
+}
+
+delegateCall( gas, address, data) {
+  // STUB
+  return // result
+}
 }
 
 function hexStr2arrayBuf (string) {

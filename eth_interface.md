@@ -1,4 +1,4 @@
-# Ethereum System Module Specification
+# Ethereum System Module Specification; Version 0
 
 The Ethereum system module expose the core Ethereum API to the WASM environment. The Ethereum [module](https://github.com/WebAssembly/design/blob/master/Modules.md) general will be implemented in the Ethereum client's native language. All parameters and returns are restricted to 32 or 64 bit integers. Floats are disallowed.
 

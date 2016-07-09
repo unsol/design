@@ -57,7 +57,6 @@ offset.
 
 -   `addressOffset` **integer** the memory offset to load the address
 -   `resultOffset` **integer** 
--   `offset` **integer**
 
 ## blockHash
 
@@ -66,7 +65,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 **Parameters**
 
 -   `number` **integer** which block to load
--   `offset` **integer** the offset to load the hash into
+-   `resultOffset` **integer** the offset to load the hash into
 
 ## call
 

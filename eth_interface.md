@@ -118,6 +118,23 @@ persisting the current values for sender and value.
 
 Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
+## sstore
+Store 256-bit a value in memory to persistant storage
+
+**Parameters**
+
+-   `pathOffest` **integer** the offset to load the address path from
+-   `valueOffset` **integer** the offset to load the value from
+
+## sload
+Loads a 256-bit a value to memory from persistant storage
+
+**Parameters**
+
+-   `pathOffest` **integer** the offset to load the address path from
+-   `resultOffset` **integer** the offset to store the result data at
+
+
 ## caller
 
 Gets caller address and loads it into memory at the given offset. This is

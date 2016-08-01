@@ -1,13 +1,11 @@
-## Motivation
-To truly distinguish Ethereum as the World Computer we need to have a performant VM. The current architecture of the VM is one of the greatest blockers to raw performance. Being stack-based and the 256-bit word size make translation from EVM opcodes to hardware instructions more difficult than needed.
+## Why do we want eWASM?
 
-With an architecture that provides a closer mapping to hardware the VM will have a considerably enhanced performance which will effectively open the door to a much wider array of uses that require a much higher performance/throughput. Also, by choosing a common and more standardized architecture anyone will be able to compile C/C++, Solidity (, etc.) once, and the compiled code will run in multiple environments. Using the new Assembly standard will make running a program either directly on Ethereum, on a cloud hosting environment, or on one's local machine - a friction-less process.
-
-## Rationale
-*  Efficient: The wasm AST is designed to be encoded in a size- and load-time-efficient binary format. WebAssembly aims to execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms.
-* It is a Standized ISA. WebAssembly is currently being designed as an open standard by a W3C Community Group 
-* Toolchain Compatibility. LLVM front-end.
-* A large development base. It is being developed by Mozilla, Google, Microsoft, and Apple. Wasm is already in the Chromium's code base and is targeted to be deployed in all the major web browsers. Which would result in it being one of the most widely deployed VM architecture.
+* Fast & Efficient: To truly distinguish Ethereum as the World Computer we need to have a very performant VM. The current architecture of the VM is one of the greatest blockers to raw performance. WebAssembly aims to execute at near native speed by taking advantage of common hardware capabilities available on a wide range of platforms. This will open the door to a wide array of uses that require performance/throughput. 
+* Security: With the add performance gains from eWASM we will be able to implement parts of Ethereum such as the precompiled contract in the VM itself which will minimize our trusted computing base.
+Standardized Instruction Set: WebAssembly is currently being designed as an open standard by a W3C Community Group and is actively being developed by engineers from Mozilla, Google, Microsoft, and Apple.
+* Toolchain Compatibility: A LLVM front-end for WASM is part of the MVP. This will Allow developers to write contracts and reuse applications written in common languages such as C/C++, go and rust.
+* Portability: WASM is targeted to be deployed in all the major web browsers which will result in it being one of the most widely deployed VM architecture. Contracts compiled to eWASM will share compatibility with any standard WASM environment. Which will make running a program either directly on Ethereum, on a cloud hosting environment, or on one's local machine - a frictionless process.
+* Optional And Flexible Metering: Metering the VM adds overhead but is essential for running untrusted code. If code is trusted then metering maybe optional. eWASM defines metering as an optional layer to accommodate for these use cases.
 * Furthermore some of Wasm's top [design goals](https://github.com/WebAssembly/design/blob/master/HighLevelGoals.md) are largely applicable to Ethereum  
 
 > Define a portable, size- and load-time-efficient binary format to serve as a compilation target which can be compiled to execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms, including mobile and IoT.

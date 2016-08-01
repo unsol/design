@@ -30,5 +30,4 @@ With an architecture that provides a closer mapping to hardware the VM will have
 * A Tree-Based Alternative to Java Byte-Code - ftp://ftp.cis.upenn.edu/pub/cis700/public_html/papers/Kistler96.pdf
 * [JavaTrees](http://central.kaserver5.org/Kasoft/Typeset/JavaTree/Pt06.html#Head363)
 * Adaptive Compression of Syntax Trees and Iterative Dynamic Code Optimization: Two Basic Technologies for Mobile-Object Systems -ftp://ftp.cis.upenn.edu/pub/cis700/public_html/papers/Franz97b.pdf
-* [Virtual Machine Showdown: Stack Versus Registe](http://static.usenix.org/events/vee05/full_papers/p153-yunhe.pdf)
 * [Computer Architecture A Quantitative Approach (5th edition)](http://www.cpp.edu/~kding/materials/Computer%20Architecture%20A%20Quantitative%20Approach%20(5th%20edition).pdf)

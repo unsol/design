@@ -19,6 +19,11 @@ eWASM:
 * specifies [metering](https://github.com/ethereum/evm2.0-design/blob/master/metering.md) for instructions
 * and aims to restrict [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
 
+### Glossary
+
+* *eWASM contract*: a contract compiled to the eWASM specification
+* *metering*: the act of measuring execution cost in a deterministic way
+
 ### Resources
 
 * [Ethereum system module](./eth_interface.md)

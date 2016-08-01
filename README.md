@@ -22,8 +22,8 @@ eWASM is a restricted subset of WASM to be used for contracts in Ethereum.
 
 eWASM:
 * specifies the semantics for an *eWASM contract*
-* specifies an [Ethereum environment interface](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) to facilitate interaction with the Ethereum environment from an *eWASM contract*
-* specifies [metering](https://github.com/ethereum/evm2.0-design/blob/master/metering.md) for instructions
+* specifies an [Ethereum environment interface](./eth_interface.md) to facilitate interaction with the Ethereum environment from an *eWASM contract*
+* specifies [metering](./metering.md) for instructions
 * and aims to restrict [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
 
 ### Goals of the eWASM project

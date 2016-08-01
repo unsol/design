@@ -7,11 +7,11 @@ The goal for this repository is to track research and development of alternative
 
 eWASM is an experimental VM design for Ethereum that uses [Webassembly](https://github.com/WebAssembly/design) as the [instruction set](https://en.wikipedia.org/wiki/Instruction_set). This design follows Wasm's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
 
-## eWASM Overview
+## What is Ethereum flavored WebAssembly (eWASM)?
 
 > WebAssembly or wasm is a new, portable, size- and load-time-efficient format. WebAssembly is currently being designed as an open standard by a W3C Community Group.
 
-Ethereum WASM builds on the foundation laid by the Webassembly by adding the following.
+Ethereum flavored WebAssembly or ewasm is a restricted subset of wasm that defines an interface for interacting with the Ethereum Blockchain. To accomplish this it,
 
 * Specifies an [Ethereum system module](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) to facilitate interaction with the Ethereum Environment
 * [Adds Metering](https://github.com/ethereum/evm2.0-design/blob/master/metering.md)

@@ -46,11 +46,11 @@ eWASM:
 
 ### Resources
 
+* [FAQ](./faq.md)
+* [Rationale](./rationale.md)
 * [Ethereum environment interface](./eth_interface.md)
-* [Original Proposal](https://github.com/ethereum/EIPs/issues/48)
-* [WASM's design docs](https://github.com/WebAssembly/design)
-* [JS prototype](https://github.com/ethereumjs/ewasm-kernel)
-* [JS metering prototype](https://github.com/wanderer/wasm-metering)
+* [Original Proposal](https://github.com/ethereum/EIPs/issues/48) (EIP#48)
+* [WebAssembly design documents](https://github.com/WebAssembly/design)
 
 ### Design Process & Contributing
 For now, high-level design discussions should continue to be held in the design repository, via issues and pull requests. Feel free to file [issues](https://github.com/ethereum/ewasm-design/issues).

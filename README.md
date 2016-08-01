@@ -52,6 +52,15 @@ eWASM:
 * [Original Proposal](https://github.com/ethereum/EIPs/issues/48) (EIP#48)
 * [WebAssembly design documents](https://github.com/WebAssembly/design)
 
+### Projects
+
+* [ewasm-tests](https://github.com/ewasm/ewasm-tests)
+* [wasm-metering](https://github.com/ewasm/wasm-metering)
+* [ewasm-kernel](https://github.com/ewasm/ewasm-kernel)
+* [evm2wasm](https://github.com/ewasm/evm2wasm)
+* [c-libeth](https://github.com/ewasm/c-libeth)
+* [rust-libeth](https://github.com/ewasm/rust-libeth)
+
 ### Design Process & Contributing
 For now, high-level design discussions should continue to be held in the design repository, via issues and pull requests. Feel free to file [issues](https://github.com/ethereum/ewasm-design/issues).
 

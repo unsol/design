@@ -22,7 +22,7 @@ eWASM is a restricted subset of WASM to be used for contracts in Ethereum.
 
 eWASM:
 * specifies the semantics for an *eWASM contract*
-* specifies an [Ethereum system module](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) to facilitate interaction with the Ethereum Environment from an *eWASM contract*
+* specifies an [Ethereum environment interface](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) to facilitate interaction with the Ethereum environment from an *eWASM contract*
 * specifies [metering](https://github.com/ethereum/evm2.0-design/blob/master/metering.md) for instructions
 * and aims to restrict [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
 
@@ -39,14 +39,14 @@ eWASM:
 ### Glossary
 
 * *eWASM contract*: a contract adhering to the eWASM specification
-* *Ethereum interface*: a set of methods available to eWASM contracts
+* *Ethereum environment interface (EEI)*: a set of methods available to eWASM contracts
 * *metering*: the act of measuring execution cost in a deterministic way
 * *metering injector*: a transformation tool inserting metering code to an eWASM contract
 * *EVM transpiler*: an EVM bytecode (the current Ethereum VM) to eWASM transcompiler
 
 ### Resources
 
-* [Ethereum system module](./eth_interface.md)
+* [Ethereum environment interface](./eth_interface.md)
 * [Original Proposal](https://github.com/ethereum/EIPs/issues/48)
 * [WASM's design docs](https://github.com/WebAssembly/design)
 * [JS prototype](https://github.com/ethereumjs/ewasm-kernel)

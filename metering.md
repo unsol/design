@@ -45,7 +45,7 @@ This then can be ran on a canonical WASM VM with the [Ethereum Interface](https:
 
 ### If Else
 This is an example of rule `1.` There is an if else statement which creates 3 subtree. 
-![if else](./assests/if.png)
+![if else](./assets/if.png)
 
 This code can be transformed to 
 ```
@@ -70,7 +70,7 @@ This code can be transformed to
 ### Blocks and Branches
 This is an example of rule `2`. This AST gets broken up into 4 subtrees. One is unreachable so it does not need to be metered
 
-![if else](./assests/blocks.png)
+![if else](./assets/blocks.png)
 
 This code can be transformed to 
 

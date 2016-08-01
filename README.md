@@ -3,19 +3,21 @@
 
 The goal for this repository is to track research and development of alternative VM's for use in Ethereum. Currently eWASM has had the most research.
 
-## eWASM Design 
+## eWASM Design
 
-eWASM is an experimental VM design for Ethereum that uses [Webassembly](https://github.com/WebAssembly/design) as the [instruction set](https://en.wikipedia.org/wiki/Instruction_set). This design follows Wasm's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
+eWASM is an experimental VM design for Ethereum that uses [WebAssembly](https://github.com/WebAssembly/design) as the [instruction set](https://en.wikipedia.org/wiki/Instruction_set). This design follows WebAssembly's [design](https://github.com/WebAssembly/design) which should be referenced for further details.
 
 ## What is Ethereum flavored WebAssembly (eWASM)?
 
-> WebAssembly or wasm is a new, portable, size- and load-time-efficient format. WebAssembly is currently being designed as an open standard by a W3C Community Group.
+> WebAssembly is a new, portable, size- and load-time-efficient format. WebAssembly is currently being designed as an open standard by a W3C Community Group.
 
-Ethereum flavored WebAssembly or ewasm is a restricted subset of wasm that defines an interface for interacting with the Ethereum Blockchain. The changes and additions to wasm are as follows
+Ethereum flavored WebAssembly or eWASM is a restricted subset of WASM to be used for contracts in Ethereum.
 
-* Specifies an [Ethereum system module](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) to facilitate interaction with the Ethereum Environment
-* [Adds Metering](https://github.com/ethereum/evm2.0-design/blob/master/metering.md)
-* Restricts [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
+eWASM:
+* specifies the semantics for an *eWASM contract*
+* specifies an [Ethereum system module](https://github.com/ethereum/evm2.0-design/blob/master/eth_interface.md) to facilitate interaction with the Ethereum Environment from an *eWASM contract*.
+* specifies [metering](https://github.com/ethereum/evm2.0-design/blob/master/metering.md) for instructions
+* and aims to restrict [non-deterministic behavior](https://github.com/WebAssembly/design/blob/master/Nondeterminism.md)
 
 ### Resources
 

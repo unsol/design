@@ -6,7 +6,7 @@ WASM's FAQ can be found [here](https://github.com/WebAssembly/design/blob/master
 Currently it is being researched as a replacement instuction set for EVM1. Other instuction sets have been considered but so far WASM seems the most suitable. 
 
 ## What are alternatives to WASM?  
-Some that have been considered are [here](https://github.com/ethereum/evm2.0-design/blob/master/comparison.md)
+Some that have been considered are [here](./comparison.md)
 
 ## What are the benefits?   
 * Performance 

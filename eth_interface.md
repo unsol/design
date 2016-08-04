@@ -220,7 +220,7 @@ Returns the current gasCounter
 
 Returns **integer** 
 
-## gasLimit
+## blockGasLimit
 
 Get the block’s gas limit.
 
@@ -287,7 +287,7 @@ balance to an address path
 -   `offset` **integer** the offset to load the address from
 -   `addressOffset` **integer** 
 
-## timestamp
+## blockTimestamp
 
 Get the block’s timestamp.
 

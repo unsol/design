@@ -325,18 +325,6 @@ Gets price of gas in current environment.
 
 `gasPrice` **integer**
 
-## gasUsed
-
-Returns the current gasCounter
-
-**Parameters**
-
-*none*
-
-**Returns**
-
-`gasUsed` **integer**
-
 ## log
 
 Creates a new log in the current enviroment

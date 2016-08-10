@@ -14,8 +14,8 @@ The Ethereum Environment Interface exposes the following information.
 * origin - The origin address of the message that caused this contract to run
 * coinbase - The current block's coinbase
 * difficulty - The current block's difficulty
-* caller - The address that directly messaged this contract 
-* callValue - The value in wei of that the message has 
+* caller - The address that directly messaged this contract
+* callValue - The value in wei of that the message has
 * callData - The message's data
 * code - The code of the current running contract
 * logs - All the logs that the contract emitted
@@ -46,7 +46,7 @@ the given offset.
 
 **Parameters**
 
--   `offset` **integer** 
+-   `offset` **integer**
 
 ## balance
 
@@ -56,7 +56,7 @@ offset.
 **Parameters**
 
 -   `addressOffset` **integer** the memory offset to load the address
--   `resultOffset` **integer** 
+-   `resultOffset` **integer**
 
 ## blockHash
 
@@ -78,8 +78,8 @@ Sends a message with arbitrary date to a given address path
 -   `dataOffset` **integer** the offset to load data from
 -   `dataLength` **integer** the length of data
 -   `resultOffset` **integer** the offset to store the result data at
--   `resultLength` **integer** 
--   `gas` **integer** 
+-   `resultLength` **integer**
+-   `gas` **integer**
 
 Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
@@ -99,7 +99,11 @@ the input data passed with the message call instruction or transaction.
 Get size of input data in current environment. This pertains to the input
 data passed with the message call instruction or transaction.
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**
 
 ## callDelegate
 
@@ -113,8 +117,8 @@ persisting the current values for sender and value.
 -   `dataOffset` **integer** the offset to load data from
 -   `dataLength` **integer** the length of data
 -   `resultOffset` **integer** the offset to store the result data at
--   `resultLength` **integer** 
--   `gas` **integer** 
+-   `resultLength` **integer**
+-   `gas` **integer**
 
 Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
@@ -142,7 +146,7 @@ the address of the account that is directly responsible for this execution.
 
 **Parameters**
 
--   `offset` **integer** 
+-   `offset` **integer**
 
 ## callValue
 
@@ -151,7 +155,7 @@ this execution and loads it into memory at the given location.
 
 **Parameters**
 
--   `offset` **integer** 
+-   `offset` **integer**
 
 ## codeCopy
 
@@ -167,7 +171,11 @@ Copys the code running in current environment to memory.
 
 Gets the size of code running in current environment.
 
-Returns **interger** 
+**Parameters**
+
+*none*
+
+Returns **interger**
 
 ## coinbase
 
@@ -175,7 +183,7 @@ Gets the block’s beneficiary address and loads into memory.
 
 **Parameters**
 
--   `offset` the memory offset 
+-   `offset` the memory offset
 
 ## create
 
@@ -191,7 +199,11 @@ Creates a new contract with a given value.
 
 Get the block’s difficulty.
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**
 
 ## extCodeCopy
 
@@ -212,31 +224,47 @@ Get size of an account’s code.
 
 -   `addressOffset` **integer** the offset in memory to load the address from
 
-Returns **integer** 
+Returns **integer**
 
 ## gasLeft
 
 Returns the current gasCounter
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**
 
 ## blockGasLimit
 
 Get the block’s gas limit.
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**
 
 ## gasPrice
 
 Gets price of gas in current environment.
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**
 
 ## gasUsed
 
 Returns the current gasCounter
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**
 
 ## log
 
@@ -246,17 +274,21 @@ Creates a new log in the current enviroment
 
 -   `dataOffset` **integer** the offset in memory to load the memory
 -   `length` **integer** the data length
--   `topic1` **integer** 
--   `topic2` **integer** 
--   `topic3` **integer** 
--   `topic4` **integer** 
--   `topic5` **integer** 
+-   `topic1` **integer**
+-   `topic2` **integer**
+-   `topic3` **integer**
+-   `topic4` **integer**
+-   `topic5` **integer**
 
 ## blockNumber
 
 Get the block’s number.
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**
 
 ## origin
 
@@ -266,7 +298,7 @@ account with non-empty associated code.
 
 **Parameters**
 
--   `offset` **integer** 
+-   `offset` **integer**
 
 ## return
 
@@ -285,10 +317,14 @@ balance to an address path
 **Parameters**
 
 -   `offset` **integer** the offset to load the address from
--   `addressOffset` **integer** 
+-   `addressOffset` **integer**
 
 ## blockTimestamp
 
 Get the block’s timestamp.
 
-Returns **integer** 
+**Parameters**
+
+*none*
+
+Returns **integer**

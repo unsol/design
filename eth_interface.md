@@ -389,8 +389,7 @@ balance to an address path
 
 **Parameters**
 
--   `offset` **integer** the offset to load the address from
--   `addressOffset` **integer**
+-   `addressOffset` **integer** the offset to load the address from
 
 **Returns**
 

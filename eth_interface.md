@@ -97,11 +97,13 @@ Sends a message with arbitrary date to a given address path
 -   `resultLength` **integer**
 -   `gas` **integer**
 
-Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
+**Returns**
+
+`result` **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
 ## callDataCopy
 
-Copys the input data in current environment to memory. This pertains to
+Copies the input data in current environment to memory. This pertains to
 the input data passed with the message call instruction or transaction.
 
 **Parameters**
@@ -123,7 +125,9 @@ data passed with the message call instruction or transaction.
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`callDataSize` **integer**
 
 ## callDelegate
 
@@ -140,7 +144,9 @@ persisting the current values for sender and value.
 -   `resultLength` **integer**
 -   `gas` **integer**
 
-Returns **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
+**Returns**
+
+`result` **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
 ## sstore
 Store 256-bit a value in memory to persistant storage
@@ -214,7 +220,9 @@ Gets the size of code running in current environment.
 
 *none*
 
-Returns **interger**
+**Returns**
+
+`codeSize` **interger**
 
 ## coinbase
 
@@ -250,7 +258,9 @@ Get the block’s difficulty.
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`difficulty` **integer**
 
 ## extCodeCopy
 
@@ -275,7 +285,9 @@ Get size of an account’s code.
 
 -   `addressOffset` **integer** the offset in memory to load the address from
 
-Returns **integer**
+**Returns**
+
+`extCodeSize` **integer**
 
 ## gasLeft
 
@@ -285,7 +297,9 @@ Returns the current gasCounter
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`gasLeft` **integer**
 
 ## blockGasLimit
 
@@ -295,7 +309,9 @@ Get the block’s gas limit.
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`blockGasLimit` **integer**
 
 ## gasPrice
 
@@ -305,7 +321,9 @@ Gets price of gas in current environment.
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`gasPrice` **integer**
 
 ## gasUsed
 
@@ -315,7 +333,9 @@ Returns the current gasCounter
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`gasUsed` **integer**
 
 ## log
 
@@ -343,7 +363,9 @@ Get the block’s number.
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`blockNumber` **integer**
 
 ## origin
 
@@ -394,4 +416,6 @@ Get the block’s timestamp.
 
 *none*
 
-Returns **integer**
+**Returns**
+
+`blockTimestamp` **integer**

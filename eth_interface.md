@@ -50,7 +50,7 @@ the given offset.
 
 **Parameters**
 
--   `offset` **integer** the memory offset to load the address into
+-   `resultOffset` **integer** the memory offset to load the address into
 
 **Returns**
 
@@ -108,7 +108,7 @@ the input data passed with the message call instruction or transaction.
 
 **Parameters**
 
--   `offset` **integer** the memory offset to load data into
+-   `resultOffset` **integer** the memory offset to load data into
 -   `dataOffset` **integer** the offset in the input data
 -   `length` **integer** the length of data to copy
 
@@ -179,7 +179,7 @@ the address of the account that is directly responsible for this execution.
 
 **Parameters**
 
--   `offset` **integer** the memory offset to load the address into
+-   `resultOffset` **integer** the memory offset to load the address into
 
 **Returns**
 
@@ -192,7 +192,7 @@ this execution and loads it into memory at the given location.
 
 **Parameters**
 
--   `offset` **integer** the memory offset to load the value into
+-   `resultOffset` **integer** the memory offset to load the value into
 
 **Returns**
 
@@ -204,7 +204,7 @@ Copies the code running in current environment to memory.
 
 **Parameters**
 
--   `offset` **integer** the memory offset to load the result into
+-   `resultOffset` **integer** the memory offset to load the result into
 -   `codeOffset` **integer** the offset within the code
 -   `length` **integer** the length of code to copy
 
@@ -230,7 +230,7 @@ Gets the block’s beneficiary address and loads into memory.
 
 **Parameters**
 
--   `offset` the memory offset to load the coinbase address into
+-   `resultOffset` the memory offset to load the coinbase address into
 
 **Returns**
 
@@ -269,7 +269,7 @@ Copies the code of an account to memory.
 **Parameters**
 
 -   `addressOffset` **integer** the memory offset to load the address from
--   `offset` **integer** the memory offset to load the result into
+-   `resultOffset` **integer** the memory offset to load the result into
 -   `codeOffset` **integer** the offset within the code
 -   `length` **integer** the length of code to copy
 
@@ -363,7 +363,7 @@ account with non-empty associated code.
 
 **Parameters**
 
--   `offset` **integer** the memory offset to load the origin address from
+-   `resultOffset` **integer** the memory offset to load the origin address from
 
 **Returns**
 
@@ -375,7 +375,7 @@ Halt execution returning output data.
 
 **Parameters**
 
--   `offset` **integer** the memory offset of the output data
+-   `dataOffset` **integer** the memory offset of the output data
 -   `length` **integer** the length of the output data
 
 **Returns**

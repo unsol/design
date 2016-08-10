@@ -25,9 +25,9 @@ Further more we define the following caps on the environmental variables
 
 * `codesize` is capped to a 64 bit integer
 * `calldata` size is capped to 64 bits
-* `balances` are repesented as a 128 bit little endian unsigned integer
-* `gasPrice` is repesented as a 64 bit little endian unsigned integer
-* `gas`      is repesented as a 64 bit little endian unsigned integer
+* `balances` are represented as a 128 bit little endian unsigned integer
+* `gasPrice` is represented as a 64 bit little endian unsigned integer
+* `gas`      is represented as a 64 bit little endian unsigned integer
 
 # API
 
@@ -50,7 +50,7 @@ the given offset.
 
 **Parameters**
 
--   `offset` **integer**
+-   `offset` **integer** the memory offset to load the address into
 
 **Returns**
 
@@ -63,8 +63,8 @@ offset.
 
 **Parameters**
 
--   `addressOffset` **integer** the memory offset to load the address
--   `resultOffset` **integer**
+-   `addressOffset` **integer** the memory offset to load the address from
+-   `resultOffset` **integer** the memory offset to load the balance into
 
 **Returns**
 
@@ -77,7 +77,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 **Parameters**
 
 -   `number` **integer** which block to load
--   `resultOffset` **integer** the offset to load the hash into
+-   `resultOffset` **integer** the memory offset to load the hash into
 
 **Returns**
 
@@ -89,13 +89,13 @@ Sends a message with arbitrary date to a given address path
 
 **Parameters**
 
--   `addressOffset` **integer** the offset to load the address path from
--   `valueOffset` **integer** the offset to load the value from
--   `dataOffset` **integer** the offset to load data from
+-   `addressOffset` **integer** the memory offset to load the address from
+-   `valueOffset` **integer** the memory offset to load the value from
+-   `dataOffset` **integer** the memory offset to load data from
 -   `dataLength` **integer** the length of data
--   `resultOffset` **integer** the offset to store the result data at
--   `resultLength` **integer**
--   `gas` **integer**
+-   `resultOffset` **integer** the memory offset to store the result data at
+-   `resultLength` **integer** the maximal length of result data
+-   `gas` **integer** the gas limit
 
 **Returns**
 
@@ -108,7 +108,7 @@ the input data passed with the message call instruction or transaction.
 
 **Parameters**
 
--   `offset` **integer** the offset in memory to load into
+-   `offset` **integer** the memory offset to load data into
 -   `dataOffset` **integer** the offset in the input data
 -   `length` **integer** the length of data to copy
 
@@ -136,37 +136,37 @@ persisting the current values for sender and value.
 
 **Parameters**
 
--   `addressOffset` **integer** the offset to load the address path from
--   `valueOffset` **integer** the offset to load the value from
--   `dataOffset` **integer** the offset to load data from
+-   `addressOffset` **integer** the memory offset to load the address from
+-   `valueOffset` **integer** the memory offset to load the value from
+-   `dataOffset` **integer** the memory offset to load data from
 -   `dataLength` **integer** the length of data
--   `resultOffset` **integer** the offset to store the result data at
--   `resultLength` **integer**
--   `gas` **integer**
+-   `resultOffset` **integer** the memory offset to store the result data at
+-   `resultLength` **integer** the maximal length of result data
+-   `gas` **integer** the gas limit
 
 **Returns**
 
 `result` **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
 ## storageStore
-Store 256-bit a value in memory to persistant storage
+Store 256-bit a value in memory to persistent storage
 
 **Parameters**
 
--   `pathOffest` **integer** the offset to load the address path from
--   `valueOffset` **integer** the offset to load the value from
+-   `pathOffest` **integer** the memory offset to load the path from
+-   `valueOffset` **integer** the memory offset to load the value from
 
 **Returns**
 
 *nothing*
 
 ## storageLoad
-Loads a 256-bit a value to memory from persistant storage
+Loads a 256-bit a value to memory from persistent storage
 
 **Parameters**
 
--   `pathOffest` **integer** the offset to load the address path from
--   `resultOffset` **integer** the offset to store the result data at
+-   `pathOffest` **integer** the memory offset to load the path from
+-   `resultOffset` **integer** the memory offset to store the result at
 
 **Returns**
 
@@ -179,7 +179,7 @@ the address of the account that is directly responsible for this execution.
 
 **Parameters**
 
--   `offset` **integer**
+-   `offset` **integer** the memory offset to load the address into
 
 **Returns**
 
@@ -192,7 +192,7 @@ this execution and loads it into memory at the given location.
 
 **Parameters**
 
--   `offset` **integer**
+-   `offset` **integer** the memory offset to load the value into
 
 **Returns**
 
@@ -200,12 +200,12 @@ this execution and loads it into memory at the given location.
 
 ## codeCopy
 
-Copys the code running in current environment to memory.
+Copies the code running in current environment to memory.
 
 **Parameters**
 
--   `offset` **integer** the memory offset
--   `codeOffset` **integer** the code offset
+-   `offset` **integer** the memory offset to load the result into
+-   `codeOffset` **integer** the offset within the code
 -   `length` **integer** the length of code to copy
 
 **Returns**
@@ -230,7 +230,7 @@ Gets the block’s beneficiary address and loads into memory.
 
 **Parameters**
 
--   `offset` the memory offset
+-   `offset` the memory offset to load the coinbase address into
 
 **Returns**
 
@@ -242,8 +242,8 @@ Creates a new contract with a given value.
 
 **Parameters**
 
--   `valueOffset` **integer** the offset in memory to the value from
--   `dataOffset` **integer** the offset to load the code for the new contract from
+-   `valueOffset` **integer** the memory offset to load the value from
+-   `dataOffset` **integer** the memory offset to load the code for the new contract from
 -   `length` **integer** the data length
 
 **Returns**
@@ -264,13 +264,13 @@ Get the block’s difficulty.
 
 ## externalCodeCopy
 
-Copys the code of an account to memory.
+Copies the code of an account to memory.
 
 **Parameters**
 
--   `addressOffset` **integer** the memory offset of the address
--   `offset` **integer** the memory offset
--   `codeOffset` **integer** the code offset
+-   `addressOffset` **integer** the memory offset to load the address from
+-   `offset` **integer** the memory offset to load the result into
+-   `codeOffset` **integer** the offset within the code
 -   `length` **integer** the length of code to copy
 
 **Returns**
@@ -283,7 +283,7 @@ Get size of an account’s code.
 
 **Parameters**
 
--   `addressOffset` **integer** the offset in memory to load the address from
+-   `addressOffset` **integer** the memory offset to load the address from
 
 **Returns**
 
@@ -327,11 +327,11 @@ Gets price of gas in current environment.
 
 ## log
 
-Creates a new log in the current enviroment
+Creates a new log in the current environment
 
 **Parameters**
 
--   `dataOffset` **integer** the offset in memory to load the memory
+-   `dataOffset` **integer** the memory offset to load data from
 -   `length` **integer** the data length
 -   `topic1` **integer**
 -   `topic2` **integer**
@@ -363,7 +363,7 @@ account with non-empty associated code.
 
 **Parameters**
 
--   `offset` **integer**
+-   `offset` **integer** the memory offset to load the origin address from
 
 **Returns**
 
@@ -375,8 +375,8 @@ Halt execution returning output data.
 
 **Parameters**
 
--   `offset` **integer** the offset of the output data.
--   `length` **integer** the length of the output data.
+-   `offset` **integer** the memory offset of the output data
+-   `length` **integer** the length of the output data
 
 **Returns**
 
@@ -389,7 +389,7 @@ balance to an address path
 
 **Parameters**
 
--   `addressOffset` **integer** the offset to load the address from
+-   `addressOffset` **integer** the memory offset to load the address from
 
 **Returns**
 

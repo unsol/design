@@ -26,5 +26,6 @@ Debug-mode is a special VM option, where an additional set of debugging interfac
 symbols should be rejected.
 
 The imports are available under the `debug` namespace:
-- `print(i32 offset, i32 length)`: print a string as pointed by `offset`
-- `printHex(i32 offset, i32 length)`: print a hex representation of the memory pointed to by `offset`
+- `print(i64)`: print a number
+- `printMem(i32 offset, i32 length)`: print a string as pointed by `offset`
+- `printMemHex(i32 offset, i32 length)`: print a hex representation of the memory pointed to by `offset`

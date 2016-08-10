@@ -129,6 +129,24 @@ data passed with the message call instruction or transaction.
 
 `callDataSize` **integer**
 
+## callCode
+
+ Message-call into this account with an alternative account's code.
+
+**Parameters**
+
+-   `addressOffset` **integer** the memory offset to load the address from
+-   `valueOffset` **integer** the memory offset to load the value from
+-   `dataOffset` **integer** the memory offset to load data from
+-   `dataLength` **integer** the length of data
+-   `resultOffset` **integer** the memory offset to store the result data at
+-   `resultLength` **integer** the maximal length of result data
+-   `gas` **integer** the gas limit
+
+**Returns**
+
+`result` **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
+
 ## callDelegate
 
 Message-call into this account with an alternative account’s code, but

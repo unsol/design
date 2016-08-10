@@ -43,7 +43,7 @@ Subtracts an amount to the gas counter
 
 *nothing*
 
-## address
+## getAddress
 
 Gets address of currently executing account and loads it into memory at
 the given offset.
@@ -56,7 +56,7 @@ the given offset.
 
 *nothing*
 
-## balance
+## getBalance
 
 Gets balance of the given account and loads it into memory at the given
 offset.
@@ -70,7 +70,7 @@ offset.
 
 *nothing*
 
-## blockHash
+## getBlockHash
 
 Gets the hash of one of the 256 most recent complete blocks.
 
@@ -116,7 +116,7 @@ the input data passed with the message call instruction or transaction.
 
 *nothing*
 
-## callDataSize
+## getCallDataSize
 
 Get size of input data in current environment. This pertains to the input
 data passed with the message call instruction or transaction.
@@ -148,7 +148,7 @@ persisting the current values for sender and value.
 
 `result` **integer** Returns 1 or 0 depending on if the VM trapped on the message or not
 
-## sstore
+## storageStore
 Store 256-bit a value in memory to persistant storage
 
 **Parameters**
@@ -160,7 +160,7 @@ Store 256-bit a value in memory to persistant storage
 
 *nothing*
 
-## sload
+## storageLoad
 Loads a 256-bit a value to memory from persistant storage
 
 **Parameters**
@@ -172,7 +172,7 @@ Loads a 256-bit a value to memory from persistant storage
 
 *nothing*
 
-## caller
+## getCaller
 
 Gets caller address and loads it into memory at the given offset. This is
 the address of the account that is directly responsible for this execution.
@@ -185,7 +185,7 @@ the address of the account that is directly responsible for this execution.
 
 *nothing*
 
-## callValue
+## getCallValue
 
 Gets the deposited value by the instruction/transaction responsible for
 this execution and loads it into memory at the given location.
@@ -212,7 +212,7 @@ Copys the code running in current environment to memory.
 
 *nothing*
 
-## codeSize
+## getCodeSize
 
 Gets the size of code running in current environment.
 
@@ -224,7 +224,7 @@ Gets the size of code running in current environment.
 
 `codeSize` **interger**
 
-## coinbase
+## getCoinbase
 
 Gets the block’s beneficiary address and loads into memory.
 
@@ -250,7 +250,7 @@ Creates a new contract with a given value.
 
 *nothing*
 
-## difficulty
+## getDifficulty
 
 Get the block’s difficulty.
 
@@ -262,7 +262,7 @@ Get the block’s difficulty.
 
 `difficulty` **integer**
 
-## extCodeCopy
+## externalCodeCopy
 
 Copys the code of an account to memory.
 
@@ -277,7 +277,7 @@ Copys the code of an account to memory.
 
 *nothing*
 
-## extCodeSize
+## getExternalCodeSize
 
 Get size of an account’s code.
 
@@ -289,7 +289,7 @@ Get size of an account’s code.
 
 `extCodeSize` **integer**
 
-## gasLeft
+## getGasLeft
 
 Returns the current gasCounter
 
@@ -301,7 +301,7 @@ Returns the current gasCounter
 
 `gasLeft` **integer**
 
-## blockGasLimit
+## getBlockGasLimit
 
 Get the block’s gas limit.
 
@@ -313,7 +313,7 @@ Get the block’s gas limit.
 
 `blockGasLimit` **integer**
 
-## gasPrice
+## getTxGasPrice
 
 Gets price of gas in current environment.
 
@@ -343,7 +343,7 @@ Creates a new log in the current enviroment
 
 *nothing*
 
-## blockNumber
+## getBlockNumber
 
 Get the block’s number.
 
@@ -355,7 +355,7 @@ Get the block’s number.
 
 `blockNumber` **integer**
 
-## origin
+## getTxOrigin
 
 Gets the execution's origination address and loads it into memory at the
 given offset. This is the sender of original transaction; it is never an
@@ -382,7 +382,7 @@ Halt execution returning output data.
 
 *nothing*
 
-## selfdestruct
+## selfDestruct
 
 Halt execution and register account for later deletion giving the remaining
 balance to an address path
@@ -396,7 +396,7 @@ balance to an address path
 
 *nothing*
 
-## blockTimestamp
+## getBlockTimestamp
 
 Get the block’s timestamp.
 

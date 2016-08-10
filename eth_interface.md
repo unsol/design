@@ -31,7 +31,7 @@ Further more we define the following caps on the environmental variables
 
 # API
 
-## addGas
+## useGas
 
 Subtracts an amount to the gas counter
 
@@ -252,7 +252,7 @@ Creates a new log in the current enviroment
 -   `topic4` **integer** 
 -   `topic5` **integer** 
 
-## number
+## blockNumber
 
 Get the block’s number.
 
@@ -277,7 +277,7 @@ Halt execution returning output data.
 -   `offset` **integer** the offset of the output data.
 -   `length` **integer** the length of the output data.
 
-## destruct
+## selfdestruct
 
 Halt execution and register account for later deletion giving the remaining
 balance to an address path

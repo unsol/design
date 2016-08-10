@@ -39,6 +39,10 @@ Subtracts an amount to the gas counter
 
 -   `amount` **integer** the amount to subtract to the gas counter
 
+**Returns**
+
+*nothing*
+
 ## address
 
 Gets address of currently executing account and loads it into memory at
@@ -47,6 +51,10 @@ the given offset.
 **Parameters**
 
 -   `offset` **integer**
+
+**Returns**
+
+*nothing*
 
 ## balance
 
@@ -58,6 +66,10 @@ offset.
 -   `addressOffset` **integer** the memory offset to load the address
 -   `resultOffset` **integer**
 
+**Returns**
+
+*nothing*
+
 ## blockHash
 
 Gets the hash of one of the 256 most recent complete blocks.
@@ -66,6 +78,10 @@ Gets the hash of one of the 256 most recent complete blocks.
 
 -   `number` **integer** which block to load
 -   `resultOffset` **integer** the offset to load the hash into
+
+**Returns**
+
+*nothing*
 
 ## call
 
@@ -93,6 +109,10 @@ the input data passed with the message call instruction or transaction.
 -   `offset` **integer** the offset in memory to load into
 -   `dataOffset` **integer** the offset in the input data
 -   `length` **integer** the length of data to copy
+
+**Returns**
+
+*nothing*
 
 ## callDataSize
 
@@ -130,6 +150,10 @@ Store 256-bit a value in memory to persistant storage
 -   `pathOffest` **integer** the offset to load the address path from
 -   `valueOffset` **integer** the offset to load the value from
 
+**Returns**
+
+*nothing*
+
 ## sload
 Loads a 256-bit a value to memory from persistant storage
 
@@ -138,6 +162,9 @@ Loads a 256-bit a value to memory from persistant storage
 -   `pathOffest` **integer** the offset to load the address path from
 -   `resultOffset` **integer** the offset to store the result data at
 
+**Returns**
+
+*nothing*
 
 ## caller
 
@@ -148,6 +175,10 @@ the address of the account that is directly responsible for this execution.
 
 -   `offset` **integer**
 
+**Returns**
+
+*nothing*
+
 ## callValue
 
 Gets the deposited value by the instruction/transaction responsible for
@@ -156,6 +187,10 @@ this execution and loads it into memory at the given location.
 **Parameters**
 
 -   `offset` **integer**
+
+**Returns**
+
+*nothing*
 
 ## codeCopy
 
@@ -166,6 +201,10 @@ Copys the code running in current environment to memory.
 -   `offset` **integer** the memory offset
 -   `codeOffset` **integer** the code offset
 -   `length` **integer** the length of code to copy
+
+**Returns**
+
+*nothing*
 
 ## codeSize
 
@@ -185,6 +224,10 @@ Gets the block’s beneficiary address and loads into memory.
 
 -   `offset` the memory offset
 
+**Returns**
+
+*nothing*
+
 ## create
 
 Creates a new contract with a given value.
@@ -194,6 +237,10 @@ Creates a new contract with a given value.
 -   `valueOffset` **integer** the offset in memory to the value from
 -   `dataOffset` **integer** the offset to load the code for the new contract from
 -   `length` **integer** the data length
+
+**Returns**
+
+*nothing*
 
 ## difficulty
 
@@ -215,6 +262,10 @@ Copys the code of an account to memory.
 -   `offset` **integer** the memory offset
 -   `codeOffset` **integer** the code offset
 -   `length` **integer** the length of code to copy
+
+**Returns**
+
+*nothing*
 
 ## extCodeSize
 
@@ -280,6 +331,10 @@ Creates a new log in the current enviroment
 -   `topic4` **integer**
 -   `topic5` **integer**
 
+**Returns**
+
+*nothing*
+
 ## blockNumber
 
 Get the block’s number.
@@ -300,6 +355,10 @@ account with non-empty associated code.
 
 -   `offset` **integer**
 
+**Returns**
+
+*nothing*
+
 ## return
 
 Halt execution returning output data.
@@ -308,6 +367,10 @@ Halt execution returning output data.
 
 -   `offset` **integer** the offset of the output data.
 -   `length` **integer** the length of the output data.
+
+**Returns**
+
+*nothing*
 
 ## selfdestruct
 
@@ -318,6 +381,10 @@ balance to an address path
 
 -   `offset` **integer** the offset to load the address from
 -   `addressOffset` **integer**
+
+**Returns**
+
+*nothing*
 
 ## blockTimestamp
 

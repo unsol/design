@@ -36,7 +36,7 @@ Gas needs to be charged for the initial allocated pages as well as any increase 
 
 ### Initial memory allocation
 
-Metering call needs to be injected as the very first instruction if preallocated memory pages are defined.
+The cost of pre-allocated memory must be included in the very first metering call.
 
 ### Increasing memory
 

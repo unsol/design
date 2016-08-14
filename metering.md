@@ -42,9 +42,9 @@ The cost of pre-allocated memory must be included in the very first metering cal
 
 Any calls to `grow_memory` needs to be prepended with a call for metering.
 
-## TODO
+## Special metering: Ethereum environment interface (EEI)
 
-* Specify a cost table for Ethereum System calls
+Calls to the EEI methods do not need to be metered separately, because they will deduct gas on their own.
 
 ## Examples
 

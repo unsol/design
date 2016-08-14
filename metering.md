@@ -45,7 +45,7 @@ This code can be transformed to
     (call_import 0
       (i32.const 2))
     (i64.const 1))
-  (import "ethereum" "gasAdd"
+  (import "ethereum" "useGas"
     (param i32)))
 ```
 This then can be ran on a canonical WASM VM with the [Ethereum Interface](./eth_interface.md)
@@ -73,7 +73,7 @@ This code can be transformed to
         (call_import 0
           (i32.const 1))
         (i64.const 1))))
-  (import "ethereum" "gasAdd"
+  (import "ethereum" "useGas"
     (param i32)))
 ```
 
@@ -106,6 +106,6 @@ This code can be transformed to
         (i32.const 2))
       (call_import $print
         (i32.const 2))))
-  (import "ethereum" "gasAdd"
+  (import "ethereum" "useGas"
     (param i32)))
 ```

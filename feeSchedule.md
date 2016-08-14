@@ -146,3 +146,11 @@ All fees for opcodes are currently 1 gas. This needs to be updated before finali
 |Opcode     |Price |
 |-----------|------|
 |unreachable|1     |
+
+# Expanding memory
+
+Memory can be expanded in pages, where a page corresponds to 65536 bytes of space.
+
+The EVM1 formula for extending memory is `words * 3 + words ^ 2 / 512` where `word` corresponds to 32 bytes.
+
+From this we can calculate that a 65536 byte page should cost 14336 gas.

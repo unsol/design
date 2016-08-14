@@ -14,7 +14,9 @@ cost. The fee schedule for eWASM is yet to be specified.
 ## Identification of code
 We assume there is some sort of code handler function that all clients have 
 implemented. The code handler identifies the instruction set type by whether it
-starts with WASM's magic number (0x6d736100) or not.
+starts with WASM's magic number or not.
+
+The WASM magic number is the following byte sequence: `0x00, 0x61, 0x73, 0x6d`.
 
 ## Solidity
 Support of compiling to eWASM can be accompilshed by adding a new backend to

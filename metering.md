@@ -13,7 +13,7 @@ Metering can be accomplished by injecting the counting code into the AST then pa
 ## Metering by Branch
 Metering is done by counting the cost of running a continuous subtree of the AST. Where the gas total is sum of the gas charged for each opcode. Continuous is defined by subtrees that do not contain any branch conditions. Any time a branch in the AST is reached by the VM gas for that entire subtree is immediately deducted. There are two rules for determining the continuous subtrees;
 
-1. For If Else statements the `then` and `else` statements become new subtrees.
+1. For conditional (`if`) statements the `then` and `else` statements become new subtrees.
 2. For branches (`br`, `br_table`) existing in a enclosing construct; all immediately following statements in that enclosing construct becomes a new subtree.
 
 Currently each opcode is measused as 1 unit of gas.  Functions, Parameters to functions and Result values are also counted as  1 unit of gas. See the [fee schedule](./feeSchedule.md) for more information.
@@ -43,7 +43,7 @@ This code can be transformed to
 ```
 This then can be ran on a canonical WASM VM with the [Ethereum Interface](./eth_interface.md)
 
-### If Else
+### Conditionals
 This is an example of rule `1.` There is an if else statement which creates 3 subtree. 
 ![if else](./assets/if.png)
 

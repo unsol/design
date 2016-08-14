@@ -20,6 +20,10 @@ A contract must have exactly two exported symbols:
 
 The method exported as `main` will be executed by the VM.
 
+On successful execution, the code should return via a normal code path.
+
+If it needs to abort due to a failure, an *unreachable* instruction should be executed.
+
 ### Debug-mode
 
 Debug-mode is a special VM option, where an additional set of debugging interfaces are available to contracts.  On a live VM, any bytecode trying to import these

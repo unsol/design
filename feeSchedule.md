@@ -1,8 +1,15 @@
 # Fee Schedule
-Fees charged for running opcodes. All fees for opcodes are currently 1 gas.
-This will change before MVP
 
-## Registers
+Fees are charged in three different ways:
+- running opcodes
+- expanding memory
+- calls to EEI methods
+
+## Opcodes
+
+All fees for opcodes are currently 1 gas. This needs to be updated before finalising this specification.
+
+### Registers
 |Opcode     |Price |
 |-----------|------|
 |get_local  | 1    |
@@ -11,7 +18,7 @@ This will change before MVP
 |get_global | 1    |
 |set_global | 1    |
 
-## Memory
+### Memory
 |Opcode        |Price |
 |--------------|------|
 |i32.load8_s   | 1    |
@@ -29,7 +36,7 @@ This will change before MVP
 |grow_memory   | 1    |
 |current_memory| 1    |
 
-## Flow Control
+### Flow Control
 |Opcode     |Price |
 |-----------|------|
 |nop        | 1    |
@@ -41,25 +48,25 @@ This will change before MVP
 |br_table   | 1    |
 |return     | 1    |
 
-## Calls
+### Calls
 |Opcode       |Price |
 |-------------|------|
 |call         | 1    |
 |call_indirect| 1    |
 |call_import  | 1    |
 
-## Constants
+### Constants
 |Opcode     |Price |
 |-----------|------|
 |i32.const  | 1    |
 |i64.const  | 1    |
 
 
-## 32-bit Integer operators
+### 32-bit Integer operators
 |Opcode     |Price |
 |-----------|------|
 |i32.add    |1     |
-|i32.sub    |1     | 
+|i32.sub    |1     |
 |i32.mul    |1     |
 |i32.div_s  |1     |
 |i32.div_u  |1     |
@@ -88,11 +95,11 @@ This will change before MVP
 |i32.popcnt |1     |
 |i32.eqz    |1     |
 
-## 64-bit Integer operators
+### 64-bit Integer operators
 |Opcode     |Price |
 |-----------|------|
 |i64.add    |1     |
-|i64.sub    |1     | 
+|i64.sub    |1     |
 |i64.mul    |1     |
 |i64.div_s  |1     |
 |i64.div_u  |1     |
@@ -121,21 +128,21 @@ This will change before MVP
 |i64.popcnt |1     |
 |i64.eqz    |1     |
 
-## Datatype conversions, truncations, reinterpretations, promotions, and demotions
+### Datatype conversions, truncations, reinterpretations, promotions, and demotions
 |Opcode          |Price |
 |----------------|------|
 |i32.wrap/i64    |1     |
 |i64.extend_s/i32|1     |
 |i64.extend_u/i32|1     |
 
-## Type-parametric operators.
+### Type-parametric operators.
 |Opcode     |Price |
 |-----------|------|
 |drop       |1     |
 |select     |1     |
 
 
-## Other
+### Other
 |Opcode     |Price |
 |-----------|------|
 |unreachable|1     |

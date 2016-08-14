@@ -20,10 +20,31 @@ Metering is done by counting the cost of running a continuous subtree of the AST
 
 Currently each opcode is measured as 1 unit of gas.  Functions, Parameters to functions and Result values are also counted as  1 unit of gas. See the [fee schedule](./feeSchedule.md) for more information.
 
+## Special metering: memory
+
+Metering memory makes use of the separate memory system of WebAssembly:
+- the module parameter `memory`
+- the two instructions:
+  - `grow_memory`
+  - `current_memory`
+
+Memory size is expressed in pages, where a page is 65536 bytes.
+
+The module parameter specifies the initial page count and an optional maximal page count the module cannot exceed. The currently available page count can be queried via `current_memory` and new pages can be allocated via `grow_memory`. Read more about memory in the [the WebAssembly design](https://github.com/WebAssembly/design/blob/master/Modules.md#linear-memory-section).
+
+Gas needs to be charged for the initial allocated pages as well as any increase of pages via `grow_memory`.
+
+### Initial memory allocation
+
+The cost of pre-allocated memory must be included in the very first metering call.
+
+### Increasing memory
+
+Any calls to `grow_memory` needs to be prepended with a call for metering.
+
 ## TODO
 
 * Specify a cost table for Ethereum System calls
-* Specify cost for memory
 
 ## Examples
 

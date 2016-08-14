@@ -147,10 +147,47 @@ All fees for opcodes are currently 1 gas. This needs to be updated before finali
 |-----------|------|
 |unreachable|1     |
 
-# Expanding memory
+
+## Expanding memory
 
 Memory can be expanded in pages, where a page corresponds to 65536 bytes of space.
 
 The EVM1 formula for extending memory is `words * 3 + words ^ 2 / 512` where `word` corresponds to 32 bytes.
 
 From this we can calculate that a 65536 byte page should cost 14336 gas.
+
+
+## Calls to the EEI
+
+Calls to the EEI are charged the same price as their equivalent EVM1 opcode.
+
+| Method               | EVM1 Opcode  |
+|----------------------|--------------|
+| getAddress           | ADDRESS      |
+| getBalance           | BALANCE      |
+| getBlockHash         | BLOCKHASH    |
+| call                 | CALL         |
+| callDataCopy         | CALLDATACOPY |
+| getCallDataSize      | CALLDATASIZE |
+| callCode             | CALLCODE     |
+| callDelegate         | DELEGATECALL |
+| storageStore         | SSTORE       |
+| storageLoad          | SLOAD        |
+| getCaller            | CALLER       |
+| getCallValue         | CALLVALUE    |
+| codeCopy             | CODECOPY     |
+| getCodeSize          | CODESIZE     |
+| getBlockCoinbase     | COINBASE     |
+| create               | CREATE       |
+| getBlockDifficulty   | DIFFICULTY   |
+| externalCodeCopy     | EXTCODECOPY  |
+| getExternalCodeSize  | EXTCODESIZE  |
+| getGasLeft           | GAS          |
+| getBlockGasLimit     | GASLIMIT     |
+| getTxGasPrice        | GASPRICE     |
+| log                  | LOG*n*       |
+| getBlockNumber       | NUMBER       |
+| getTxOrigin          | ORIGIN       |
+| return               | RETURN       |
+| selfDestruct         | SELFDESTRUCT |
+| getBlockTimestamp    | TIMESTAMP    |

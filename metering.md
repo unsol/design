@@ -41,12 +41,12 @@ This would cost two gas to run
 This code can be transformed to
 ```
 (module
+  (import $useGas "ethereum" "useGas"
+    (param i32)))
   (func
-    (call_import 0
+    (call_import $useGas
       (i32.const 2))
     (i64.const 1))
-  (import "ethereum" "useGas"
-    (param i32)))
 ```
 This then can be ran on a canonical WASM VM with the [Ethereum Interface](./eth_interface.md)
 
@@ -59,22 +59,22 @@ This is an example of rule `1.` There is an if else statement which creates 3 su
 This code can be transformed to
 ```
 (module
+  (import $useGas "ethereum" "useGas"
+    (param i32)))
   (func
     (param i64)
-    (call_import 0
+    (call_import $useGas
       (i32.const 6))
     (if
       (i64.eq (get_local 0) (i64.const 0))
       (then
-        (call_import 0
+        (call_import $useGas
           (i32.const 1))
         (i64.const 1))
       (else
-        (call_import 0
+        (call_import $useGas
           (i32.const 1))
         (i64.const 1))))
-  (import "ethereum" "useGas"
-    (param i32)))
 ```
 
 ### Blocks and Branches
@@ -89,23 +89,24 @@ This code can be transformed to
 (module
   (import $print "spectest" "print"
     (param i32))
+  (import $useGas "ethereum" "useGas"
+    (param i32)))
   (func
-    (call_import 1
+    (call_import $useGas
       (i32.const 5))
     (block $zero
       (block $one
         (block $two
           (br 0)
           (unreachable)
-        (call_import 1
+        (call_import $useGas
           (i32.const 3))
         (call_import $print
           (i32.const 1))
         (nop))
-      (call_import 1
+      (call_import $useGas
         (i32.const 2))
       (call_import $print
         (i32.const 2))))
-  (import "ethereum" "useGas"
-    (param i32)))
+
 ```

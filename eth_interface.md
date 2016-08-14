@@ -242,7 +242,7 @@ Gets the size of code running in current environment.
 
 `codeSize` **interger**
 
-## getCoinbase
+## getBlockCoinbase
 
 Gets the block’s beneficiary address and loads into memory.
 
@@ -268,7 +268,7 @@ Creates a new contract with a given value.
 
 *nothing*
 
-## getDifficulty
+## getBlockDifficulty
 
 Get the block’s difficulty.
 

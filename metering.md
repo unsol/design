@@ -44,7 +44,7 @@ Any calls to `grow_memory` needs to be prepended with a call for metering.
 
 ## Special metering: Ethereum environment interface (EEI)
 
-Calls to the EEI methods do not need to be metered separately, because they will deduct gas on their own.
+Other than the cost of `call_import`, calls to the EEI methods do not need to be metered separately, because they will deduct gas on their own.
 
 ## Examples
 

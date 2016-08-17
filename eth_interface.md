@@ -155,7 +155,6 @@ persisting the current values for sender and value.
 **Parameters**
 
 -   `addressOffset` **i32** the memory offset to load the address from
--   `valueOffset` **i32** the memory offset to load the value from
 -   `dataOffset` **i32** the memory offset to load data from
 -   `dataLength` **i32** the length of data
 -   `resultOffset` **i32** the memory offset to store the result data at

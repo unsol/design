@@ -350,11 +350,11 @@ Creates a new log in the current environment
 
 -   `dataOffset` **i32** the memory offset to load data from
 -   `length` **i32** the data length
--   `topic1` **integer**
--   `topic2` **integer**
--   `topic3` **integer**
--   `topic4` **integer**
--   `topic5` **integer**
+-   `numberOfTopics` **i32** the number of topics following (0 to 4)
+-   `topic1` **i32** the memory offset to load topic1 from
+-   `topic2` **i32** the memory offset to load topic2 from
+-   `topic3` **i32** the memory offset to load topic3 from
+-   `topic4` **i32** the memory offset to load topic4 from
 
 **Returns**
 

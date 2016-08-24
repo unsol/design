@@ -23,8 +23,8 @@ The Ethereum Environment Interface exposes the following information.
 
 Further more we define the following caps on the environmental variables
 
-* `codesize` is capped to a 64 bit integer
-* `calldata` size is capped to 64 bits
+* `codesize` is capped to a 32 bits
+* `calldata` size is capped to 32 bits
 * `balances` are represented as a 128 bit little endian unsigned integer
 * `gasPrice` is represented as a 64 bit little endian unsigned integer
 * `gas`      is represented as a 64 bit little endian unsigned integer
@@ -127,7 +127,7 @@ data passed with the message call instruction or transaction.
 
 **Returns**
 
-`callDataSize` **integer**
+`callDataSize` **i32**
 
 ## callCode
 

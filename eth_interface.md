@@ -76,7 +76,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 
 **Parameters**
 
--   `number` **integer** which block to load
+-   `number` **i64** which block to load
 -   `resultOffset` **i32** the memory offset to load the hash into
 
 **Returns**
@@ -370,7 +370,7 @@ Get the block’s number.
 
 **Returns**
 
-`blockNumber` **integer**
+`blockNumber` **i64**
 
 ## getTxOrigin
 

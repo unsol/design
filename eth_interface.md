@@ -29,6 +29,14 @@ Further more we define the following caps on the environmental variables
 * `gasPrice` is represented as a 64 bit little endian unsigned integer
 * `gas`      is represented as a 64 bit little endian unsigned integer
 
+# Data types
+
+We define the following data types:
+- `bytes`: an array of bytes with unrestricted length
+- `address`: a 160 bit number, represented as a 20 bytes long little endian unsigned integer in memory
+- `u128`: a 128 bit number, represented as a 16 bytes long little endian unsigned integer in memory
+- `u256`: a 256 bit number, represented as a 32 bytes long little endian unsigned integer in memory
+
 # API
 
 ## useGas

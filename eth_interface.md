@@ -270,10 +270,11 @@ Creates a new contract with a given value.
 -   `valueOffset` **i32** the memory offset to load the value from
 -   `dataOffset` **i32** the memory offset to load the code for the new contract from
 -   `length` **i32** the data length
+-   `resultOffset` **i32** the memory offset to write the new contract address to
 
 **Returns**
 
-*nothing*
+`result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
 
 ## getBlockDifficulty
 

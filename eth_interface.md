@@ -2,33 +2,6 @@
 
 The Ethereum Environment Interface exposes the core Ethereum API to the eWASM environment. The Ethereum [module](https://github.com/WebAssembly/design/blob/master/Modules.md) will be implemented in the Ethereum client's native language. All parameters and returns are restricted to 32 or 64 bit integers. Floats are disallowed.
 
-## Environment
-
-The Ethereum Environment Interface exposes the following information.
-
-* gasCount - the current amount of gas used
-* gas -  The totally amount of gas that the contract instance has to use
-* gasPrice - The price in wei paid for gas
-* gasLimit - The max amount of gas that maybe expended
-* address - The contract's address
-* origin - The origin address of the message that caused this contract to run
-* coinbase - The current block's coinbase
-* difficulty - The current block's difficulty
-* caller - The address that directly messaged this contract
-* callValue - The value in wei of that the message has
-* callData - The message's data
-* code - The code of the current running contract
-* logs - All the logs that the contract emitted
-* state - Ethereum's state as stored in the state trie
-
-Further more we define the following caps on the environmental variables
-
-* `codesize` is capped to a 32 bits
-* `calldata` size is capped to 32 bits
-* `balances` are represented as a 128 bit little endian unsigned integer
-* `gasPrice` is represented as a 64 bit little endian unsigned integer
-* `gas`      is represented as a 64 bit little endian unsigned integer
-
 # Data types
 
 We define the following data types:

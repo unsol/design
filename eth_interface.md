@@ -37,7 +37,7 @@ Subtracts an amount to the gas counter
 
 **Parameters**
 
--   `amount` **integer** the amount to subtract to the gas counter
+-   `amount` **i64** the amount to subtract to the gas counter
 
 **Returns**
 
@@ -89,7 +89,7 @@ Sends a message with arbitrary date to a given address path
 
 **Parameters**
 
--   `gas` **integer** the gas limit
+-   `gas` **i64** the gas limit
 -   `addressOffset` **i32** the memory offset to load the address from
 -   `valueOffset` **i32** the memory offset to load the value from
 -   `dataOffset` **i32** the memory offset to load data from
@@ -135,7 +135,7 @@ data passed with the message call instruction or transaction.
 
 **Parameters**
 
--   `gas` **integer** the gas limit
+-   `gas` **i64** the gas limit
 -   `addressOffset` **i32** the memory offset to load the address from
 -   `valueOffset` **i32** the memory offset to load the value from
 -   `dataOffset` **i32** the memory offset to load data from
@@ -154,7 +154,7 @@ persisting the current values for sender and value.
 
 **Parameters**
 
--   `gas` **integer** the gas limit
+-   `gas` **i64** the gas limit
 -   `addressOffset` **i32** the memory offset to load the address from
 -   `dataOffset` **i32** the memory offset to load data from
 -   `dataLength` **i32** the length of data
@@ -316,7 +316,7 @@ Returns the current gasCounter
 
 **Returns**
 
-`gasLeft` **integer**
+`gasLeft` **i64**
 
 ## getBlockGasLimit
 
@@ -328,7 +328,7 @@ Get the block’s gas limit.
 
 **Returns**
 
-`blockGasLimit` **integer**
+`blockGasLimit` **i64**
 
 ## getTxGasPrice
 

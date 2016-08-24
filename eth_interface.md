@@ -4,11 +4,16 @@ The Ethereum Environment Interface exposes the core Ethereum API to the eWASM en
 
 # Data types
 
-We define the following data types:
+We define the following Ethereum data types:
 - `bytes`: an array of bytes with unrestricted length
 - `address`: a 160 bit number, represented as a 20 bytes long little endian unsigned integer in memory
 - `u128`: a 128 bit number, represented as a 16 bytes long little endian unsigned integer in memory
 - `u256`: a 256 bit number, represented as a 32 bytes long little endian unsigned integer in memory
+
+We also define the following WebAssembly data types:
+- `i32`: same as `i32` in WebAssembly
+- `i32ptr`: same as `i32` in WebAssembly, but treated as a pointer to a WebAssembly memory offset
+- `i64`: same as `i64` in WebAssembly
 
 # API
 
@@ -31,7 +36,7 @@ the given offset.
 
 **Parameters**
 
--   `resultOffset` **i32** the memory offset to load the address into (`address`)
+-   `resultOffset` **i32ptr** the memory offset to load the address into (`address`)
 
 **Returns**
 
@@ -44,8 +49,8 @@ offset.
 
 **Parameters**
 
--   `addressOffset` **i32** the memory offset to load the address from (`address`)
--   `resultOffset` **i32** the memory offset to load the balance into (`u128`)
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
+-   `resultOffset` **i32ptr** the memory offset to load the balance into (`u128`)
 
 **Returns**
 
@@ -58,7 +63,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 **Parameters**
 
 -   `number` **i64** which block to load
--   `resultOffset` **i32** the memory offset to load the hash into (`u256`)
+-   `resultOffset` **i32ptr** the memory offset to load the hash into (`u256`)
 
 **Returns**
 
@@ -71,11 +76,11 @@ Sends a message with arbitrary date to a given address path
 **Parameters**
 
 -   `gas` **i64** the gas limit
--   `addressOffset` **i32** the memory offset to load the address from (`address`)
--   `valueOffset` **i32** the memory offset to load the value from (`u128`)
--   `dataOffset` **i32** the memory offset to load data from (`bytes`)
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
+-   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
+-   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the length of data
--   `resultOffset` **i32** the memory offset to store the result data at (`bytes`)
+-   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
 -   `resultLength` **i32** the maximal length of result data
 
 **Returns**
@@ -89,7 +94,7 @@ the input data passed with the message call instruction or transaction.
 
 **Parameters**
 
--   `resultOffset` **i32** the memory offset to load data into (`bytes`)
+-   `resultOffset` **i32ptr** the memory offset to load data into (`bytes`)
 -   `dataOffset` **i32** the offset in the input data
 -   `length` **i32** the length of data to copy
 
@@ -117,11 +122,11 @@ data passed with the message call instruction or transaction.
 **Parameters**
 
 -   `gas` **i64** the gas limit
--   `addressOffset` **i32** the memory offset to load the address from (`address`)
--   `valueOffset` **i32** the memory offset to load the value from (`u128`)
--   `dataOffset` **i32** the memory offset to load data from (`bytes`)
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
+-   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
+-   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the length of data
--   `resultOffset` **i32** the memory offset to store the result data at (`bytes`)
+-   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
 -   `resultLength` **i32** the maximal length of result data
 
 **Returns**
@@ -136,10 +141,10 @@ persisting the current values for sender and value.
 **Parameters**
 
 -   `gas` **i64** the gas limit
--   `addressOffset` **i32** the memory offset to load the address from (`address`)
--   `dataOffset` **i32** the memory offset to load data from (`bytes`)
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
+-   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the length of data
--   `resultOffset` **i32** the memory offset to store the result data at (`bytes`)
+-   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
 -   `resultLength` **i32** the maximal length of result data
 
 **Returns**
@@ -152,8 +157,8 @@ Store 256-bit a value in memory to persistent storage
 
 **Parameters**
 
--   `pathOffest` **i32** the memory offset to load the path from (`u256`)
--   `valueOffset` **i32** the memory offset to load the value from (`u256`)
+-   `pathOffest` **i32ptr** the memory offset to load the path from (`u256`)
+-   `valueOffset` **i32ptr** the memory offset to load the value from (`u256`)
 
 **Returns**
 
@@ -165,8 +170,8 @@ Loads a 256-bit a value to memory from persistent storage
 
 **Parameters**
 
--   `pathOffest` **i32** the memory offset to load the path from (`u256`)
--   `resultOffset` **i32** the memory offset to store the result at (`u256`)
+-   `pathOffest` **i32ptr** the memory offset to load the path from (`u256`)
+-   `resultOffset` **i32ptr** the memory offset to store the result at (`u256`)
 
 **Returns**
 
@@ -179,7 +184,7 @@ the address of the account that is directly responsible for this execution.
 
 **Parameters**
 
--   `resultOffset` **i32** the memory offset to load the address into (`address`)
+-   `resultOffset` **i32ptr** the memory offset to load the address into (`address`)
 
 **Returns**
 
@@ -192,7 +197,7 @@ this execution and loads it into memory at the given location.
 
 **Parameters**
 
--   `resultOffset` **i32** the memory offset to load the value into (`u128`)
+-   `resultOffset` **i32ptr** the memory offset to load the value into (`u128`)
 
 **Returns**
 
@@ -204,7 +209,7 @@ Copies the code running in current environment to memory.
 
 **Parameters**
 
--   `resultOffset` **i32** the memory offset to load the result into (`bytes`)
+-   `resultOffset` **i32ptr** the memory offset to load the result into (`bytes`)
 -   `codeOffset` **i32** the offset within the code
 -   `length` **i32** the length of code to copy
 
@@ -230,7 +235,7 @@ Gets the block’s beneficiary address and loads into memory.
 
 **Parameters**
 
--   `resultOffset` **i32** the memory offset to load the coinbase address into (`address`)
+-   `resultOffset` **i32ptr** the memory offset to load the coinbase address into (`address`)
 
 **Returns**
 
@@ -242,10 +247,10 @@ Creates a new contract with a given value.
 
 **Parameters**
 
--   `valueOffset` **i32** the memory offset to load the value from (`u128`)
--   `dataOffset` **i32** the memory offset to load the code for the new contract from (`bytes`)
+-   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
+-   `dataOffset` **i32ptr** the memory offset to load the code for the new contract from (`bytes`)
 -   `length` **i32** the data length
--   `resultOffset` **i32** the memory offset to write the new contract address to (`address`)
+-   `resultOffset` **i32ptr** the memory offset to write the new contract address to (`address`)
 
 **Returns**
 
@@ -257,7 +262,7 @@ Get the block’s difficulty.
 
 **Parameters**
 
--   `offset` **i32** the memory offset to load the difficulty into (`u256`)
+-   `offset` **i32ptr** the memory offset to load the difficulty into (`u256`)
 
 **Returns**
 
@@ -269,8 +274,8 @@ Copies the code of an account to memory.
 
 **Parameters**
 
--   `addressOffset` **i32** the memory offset to load the address from (`address`)
--   `resultOffset` **i32** the memory offset to load the result into (`bytes`)
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
+-   `resultOffset` **i32ptr** the memory offset to load the result into (`bytes`)
 -   `codeOffset` **i32** the offset within the code
 -   `length` **i32** the length of code to copy
 
@@ -284,7 +289,7 @@ Get size of an account’s code.
 
 **Parameters**
 
--   `addressOffset` **i32** the memory offset to load the address from (`address`)
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 
 **Returns**
 
@@ -320,7 +325,7 @@ Gets price of gas in current environment.
 
 **Parameters**
 
--   `valueOffset` **i32** the memory offset to write the value to (`u128`)
+-   `valueOffset` **i32ptr** the memory offset to write the value to (`u128`)
 
 **Returns**
 
@@ -332,13 +337,13 @@ Creates a new log in the current environment
 
 **Parameters**
 
--   `dataOffset` **i32** the memory offset to load data from (`bytes`)
+-   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `length` **i32** the data length
 -   `numberOfTopics` **i32** the number of topics following (0 to 4)
--   `topic1` **i32** the memory offset to load topic1 from (`u256`)
--   `topic2` **i32** the memory offset to load topic2 from (`u256`)
--   `topic3` **i32** the memory offset to load topic3 from (`u256`)
--   `topic4` **i32** the memory offset to load topic4 from (`u256`)
+-   `topic1` **i32ptr** the memory offset to load topic1 from (`u256`)
+-   `topic2` **i32ptr** the memory offset to load topic2 from (`u256`)
+-   `topic3` **i32ptr** the memory offset to load topic3 from (`u256`)
+-   `topic4` **i32ptr** the memory offset to load topic4 from (`u256`)
 
 **Returns**
 
@@ -364,7 +369,7 @@ account with non-empty associated code.
 
 **Parameters**
 
--   `resultOffset` **i32** the memory offset to load the origin address from (`address`)
+-   `resultOffset` **i32ptr** the memory offset to load the origin address from (`address`)
 
 **Returns**
 
@@ -376,7 +381,7 @@ Halt execution returning output data.
 
 **Parameters**
 
--   `dataOffset` **i32** the memory offset of the output data (`bytes`)
+-   `dataOffset` **i32ptr** the memory offset of the output data (`bytes`)
 -   `length` **i32** the length of the output data
 
 **Returns**
@@ -390,7 +395,7 @@ balance to an address path
 
 **Parameters**
 
--   `addressOffset` **i32** the memory offset to load the address from (`address`)
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 
 **Returns**
 

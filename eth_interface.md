@@ -422,4 +422,4 @@ Get the block’s timestamp.
 
 **Returns**
 
-`blockTimestamp` **integer**
+`blockTimestamp` **i64**

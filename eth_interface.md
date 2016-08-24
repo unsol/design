@@ -273,11 +273,11 @@ Get the block’s difficulty.
 
 **Parameters**
 
-*none*
+-   `offset` **i32** the memory offset to load the difficulty into
 
 **Returns**
 
-`difficulty` **integer**
+*nothing*
 
 ## externalCodeCopy
 

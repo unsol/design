@@ -336,11 +336,11 @@ Gets price of gas in current environment.
 
 **Parameters**
 
-*none*
+-   `valueOffset` **i32** the memory offset to write the value to
 
 **Returns**
 
-`gasPrice` **integer**
+*nothing*
 
 ## log
 

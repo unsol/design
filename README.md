@@ -1,8 +1,8 @@
-# EVM2 Design
-> This repository contains documents describing the design and high-level overview of EVM 2.0. Expect the contents of this repository to be in flux: everything is still under discussion.
+# Ethereum flavored WebAssembly Design
 
-The goal for this repository is to track research and development of alternative VM's for use in Ethereum.
-Currently eWASM has had the most research.
+The goal for this repository is to track research and development of ewasm
+
+> This repository contains documents describing the design and high-level overview of ewasm. Expect the contents of this repository to be in flux: everything is still under discussion.
 
 ## What is WebAssembly?
 
@@ -53,6 +53,7 @@ eWASM:
 * [eWASM Contract Interface](./contract_interface.md)
 * [Backwards compatibility instructions](./backwardsCompatibility.md)
 * [Original Proposal](https://github.com/ethereum/EIPs/issues/48) (EIP#48)
+* [WabAssembly Specification](https://github.com/WebAssembly/spec/blob/md-proto/md-proto/WebAssembly.md)
 * [WebAssembly design documents](https://github.com/WebAssembly/design)
 
 ### Projects

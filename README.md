@@ -1,8 +1,6 @@
-# Ethereum flavored WebAssembly Design
+# Ethereum flavored WebAssembly (eWASM) Design
 
-The goal for this repository is to track research and development of ewasm
-
-> This repository contains documents describing the design and high-level overview of ewasm. Expect the contents of this repository to be in flux: everything is still under discussion.
+This repository contains documents describing the design and high-level overview of eWASM. Expect the contents of this repository to be in flux: everything is still under discussion.
 
 ## What is WebAssembly?
 

@@ -18,7 +18,7 @@ Metering is done by counting the cost of running a continuous subtree of the AST
 1. For conditional (`if`) statements the `then` and `else` statements become new subtrees.
 2. For branches (`br`, `br_table`) existing in a enclosing construct; all immediately following statements in that enclosing construct becomes a new subtree.
 
-Currently each opcode is measured as 1 unit of gas.  Functions, Parameters to functions and Result values are also counted as  1 unit of gas. See the [fee schedule](./feeSchedule.md) for more information.
+Currently each opcode is measured as 1 unit of gas.  Functions, Parameters to functions and Result values are also counted as  1 unit of gas. See the [fee schedule](./fee_schedule.md) for more information.
 
 ## Special metering: memory
 

@@ -53,7 +53,7 @@ eWASM:
 * [Ethereum environment interface](./eth_interface.md)
 * [eWASM Contract Interface](./contract_interface.md)
 * [System contracts](./system_contracts.md)
-* [Backwards compatibility instructions](./backwardsCompatibility.md)
+* [Backwards compatibility instructions](./backwards_compatibility.md)
 * [Original Proposal](https://github.com/ethereum/EIPs/issues/48) (EIP#48)
 * [WabAssembly Specification](https://github.com/WebAssembly/spec/blob/md-proto/md-proto/WebAssembly.md)
 * [WebAssembly design documents](https://github.com/WebAssembly/design)

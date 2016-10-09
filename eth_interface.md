@@ -377,7 +377,9 @@ account with non-empty associated code.
 
 ## return
 
-Halt execution returning output data.
+Set the returning output data for the execution.
+
+*Note*: multiple invocations will overwrite the previous data.
 
 **Parameters**
 
@@ -390,8 +392,12 @@ Halt execution returning output data.
 
 ## selfDestruct
 
-Halt execution and register account for later deletion giving the remaining
-balance to an address path
+Mark account for later deletion and give the remaining balance to the specified
+beneficiary address. This takes effect once the contract execution terminates.
+
+*Note*: multiple invocations will overwrite the benficiary address.
+
+*Note*: the contract **shall** halt execution after this call.
 
 **Parameters**
 

@@ -12,7 +12,7 @@ A few key points:
 * WebAssembly defines an instruction set, intermediate source format (WAST) and a binary encoded format (WASM).
 * WebAssembly has a few higher level features, such as the ability to import and execute outside methods defined via an interface.
 * LLVM includes a WebAssembly backend to generate WASM output.
-* Multiple JIT or interpreted VMs exist for WASM. Major browser JavaScript engines will notably have native support for WebAssembly, including but not limited to: Google's V8 engine (used in both Node.js and Chromium-based browsers), Microsoft's Chakra engine (used in Microsoft Edge), Mozilla's Spidermonkey engine (notably used in Firefox and Thunderbird).
+* Multiple JIT or interpreted VMs exist for WASM. Major browser JavaScript engines will notably have native support for WebAssembly, including but not limited to: Google's V8 engine (Node.js and Chromium-based browsers), Microsoft's Chakra engine (Microsoft Edge), Mozilla's Spidermonkey engine (Firefox and Thunderbird).
 
 ## What is Ethereum flavored WebAssembly (eWASM)?
 

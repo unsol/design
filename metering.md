@@ -29,7 +29,7 @@ And a metering function `$meter`. The meter function has a signature of `(type (
 
 Then given an array of opcodes we iterate the array and divided into segments that start with one of the `branching_ops`
 
-```javascript=
+```javascript
 const code = [...opcodes]
 const segments = []
 let current_segment = []
@@ -56,7 +56,7 @@ metered_segments = segments.map(segment => {
 ```
 
 Lastly we concatenate all the metered segments together
-```javascript=
+```javascript
 metered_code = metered_segments.reduce(a, b => {
   return a.concat(b)
 },[])

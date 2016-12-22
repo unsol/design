@@ -1,8 +1,8 @@
-# Metering Computation
+# Metering
 
 Given a set of operations and a corresponding set of costs for each operation we can deterministically run computation for any number of cost units by summing up the costs on the execution of each operation. We call the cost units here "gas" and it stands as a estimation for computational time. 
 
-# Metering in WASM
+## Metering in WASM
 
 The following has been implemented [here](https://github.com/ewasm/wasm-metering)
 

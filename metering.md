@@ -1,24 +1,66 @@
+# Metering Computation
+
+Given a set of operations and a corresponding set of costs for each operation we can deterministically run computation for any number of cost units by summing up the costs on the execution of each operation. We call the cost units here "gas" and it stands as a estimation for computational time. 
+
 # Metering in WASM
 
-Metering can be accomplished by injecting the counting code into the AST then passing the modified AST to a canonical WASM VM. Modifying the AST is done by traversing the AST and adding a gas check immediately after each branch condition and at the start of functions and loops.
-
-```
-+------------+                   +----------------+       +-----------------+
-|            |  inject metering  |                |  run  |                 |
-| Wasm Code  +------------------>+  Metered code  +------>+ WASM Environment|
-|            |                   |                |       |                 |
-+------------+                   +----------------+       +-----------------+
-```
-
+The following has been implemented [here](https://github.com/ewasm/wasm-metering)
 
 ## Metering by Branch
+To meter Webassembly we first define all the operation that can cause branches. 
 
-Metering is done by counting the cost of running a continuous subtree of the AST. Where the gas total is sum of the gas charged for each opcode. Continuous is defined by subtrees that do not contain any branch conditions. Any time a branch in the AST is reached by the VM gas for that entire subtree is immediately deducted. There are two rules for determining the continuous subtrees;
+`const branching_ops = new Set(['end', 'br', 'br_table', 'br_if', 'if', 'else', 'return', 'loop'])`
 
-1. For conditional (`if`) statements the `then` and `else` statements become new subtrees.
-2. For branches (`br`, `br_table`) existing in a enclosing construct; all immediately following statements in that enclosing construct becomes a new subtree.
+We also define a map that contains each opcode and its associated cost. We will refer to this as the cost table. The Default cost table is defined [here](https://github.com/ewasm/design/blob/master/determining_wasm_gas_costs.md)
 
-Currently each opcode is measured as 1 unit of gas.  Functions, Parameters to functions and Result values are also counted as  1 unit of gas. See the [fee schedule](./fee_schedule.md) for more information.
+```
+cost_table = {
+  'op': cost
+}
+```
+
+Lastly we need a metering statement, we will uses
+```
+i64.const <cost>
+call $meter
+```
+
+And a metering function `$meter`. The meter function has a signature of `(type (func (param i64)))`. Internal this function should keep a running sum and if that sum grows larger than a given threshold, end the program's execution. The metering function can be imbedded in the binary itself or can use wasm's import to define it externally. 
+
+Then given an array of opcodes we iterate the array and divided into segments that start with one of the `branching_ops`
+
+```javascript=
+const code = [...opcodes]
+const segments = []
+let current_segment = []
+
+for (let op in code) {
+  current_segment.push(op)
+  if (branching_ops.has(op)) {
+    segments.push(current_segment)
+    current_segment = []
+  }
+}
+```
+
+Then for each segment we calculate the sum of the operations. At the beginning for each segment we then append a metering statement. 
+
+```javascript
+metered_segments = segments.map(segment => {
+  let cost_of_segment = segment.reduce((sum, op) => {
+    return sum + cost_table[op]
+  }, 0)
+  
+  return getMeterStatement(cost).concat(segment)
+})
+```
+
+Lastly we concatenate all the metered segments together
+```javascript=
+metered_code = metered_segments.reduce(a, b => {
+  return a.concat(b)
+},[])
+```
 
 ## Special metering: memory
 
@@ -30,104 +72,94 @@ Metering memory makes use of the separate memory system of WebAssembly:
 
 Memory size is expressed in pages, where a page is 65536 bytes.
 
-The module parameter specifies the initial page count and an optional maximal page count the module cannot exceed. The currently available page count can be queried via `current_memory` and new pages can be allocated via `grow_memory`. Read more about memory in the [the WebAssembly design](https://github.com/WebAssembly/design/blob/master/Modules.md#linear-memory-section).
+The module parameter specifies the initial page count and an optional maximum page count the module cannot exceed. The currently available page count can be queried via `current_memory` and new pages can be allocated via `grow_memory`. Read more about memory in the [the WebAssembly design](https://github.com/WebAssembly/design/blob/master/Modules.md#linear-memory-section).
 
 Gas needs to be charged for the initial allocated pages as well as any increase of pages via `grow_memory`.
 
 ### Initial memory allocation
 
-The cost of pre-allocated memory must be included in the very first metering call.
+The cost of pre-allocated memory should be counted before instantiating the module.
 
 ### Increasing memory
 
 Any calls to `grow_memory` needs to be prepended with a call for metering.
 
-## Special metering: Ethereum environment interface (EEI)
-
-Other than the cost of `call_import`, calls to the EEI methods do not need to be metered separately, because they will deduct gas on their own.
-
 ## Examples
 
-The examples are in S-expressions which have a near 1 to 1 representation to binary WASM. They also show one possible transformation to inject metering into canonical WASM code. These examples were generated with a [metering prototype](https://github.com/ewasm/wasm-metering)
+The following examples assume we have a cost table that defines all operations to have the cost of 1
 
 ### Basic
-
-This would cost two gas to run
 ```
 (module
-  (func ;;+1
-    (i64.const 1))) ;; +1
+  (fun
+    i64.const 1 ;; +1
+    drop        ;; +1
+    end         ;; +1
+  )
+)
 ```
-
 This code can be transformed to
 ```
 (module
-  (import $useGas "ethereum" "useGas"
-    (param i32)))
-  (func
-    (call_import $useGas
-      (i32.const 2))
-    (i64.const 1))
+  (type (func))
+  (type (func (param i64)))
+  
+  (import "ethereum" "useGas" (func $meter (type 1)))
+  (func (type 0)
+   	i64.const 5 ;; 3 +  2 the cost of metering  
+	call $meter
+    i64.const 1 
+    drop       
+    end       
+  )
+    
 ```
-This then can be ran on a canonical WASM VM with the [Ethereum Interface](./eth_interface.md)
-
 ### Conditionals
 
-This is an example of rule `1.` There is an if else statement which creates 3 subtree.
-
-![if](./assets/if.png)
-
 This code can be transformed to
 ```
 (module
-  (import $useGas "ethereum" "useGas"
-    (param i32)))
-  (func
-    (param i64)
-    (call_import $useGas
-      (i32.const 6))
-    (if
-      (i64.eq (get_local 0) (i64.const 0))
+  (func $fac (param i64) (result i64)
+    (if i64
+      (i64.lt_s (get_local 0) (i64.const 1))
+      (then (i64.const 1))
+      (else
+        (i64.mul
+          (get_local 0)
+          (call $fac
+            (i64.sub
+              (get_local 0)
+              (i64.const 1)))))))
+  (export "fac" (func $fac)))
+```
+
+```
+(module
+  (type $a (func(param i64) (result i64)))
+  (type $b (func(param i64)))
+
+  (import "metering" "usegas" (func $useGas (type $b)))
+
+  (func $fac (type $a)
+    (call $useGas (i64.const 8))
+    (if i64
+      (i64.lt_s (get_local 0) (i64.const 1))
       (then
-        (call_import $useGas
-          (i32.const 1))
+        (call $useGas (i64.const 4))
         (i64.const 1))
       (else
-        (call_import $useGas
-          (i32.const 1))
-        (i64.const 1))))
+        (call $useGas (i64.const 9))
+        (i64.mul
+          (get_local 0)
+          (call $fac
+            (i64.sub
+              (get_local 0)
+              (i64.const 1))))))
+      (call $useGas (i64.const 3))
+    )
+  (export "fac" (func $fac)))
 ```
 
-### Blocks and Branches
+## Future Work
 
-This is an example of rule `2`. This AST gets broken up into 4 subtrees. One is unreachable so it does not need to be metered
-
-![blocks](./assets/blocks.png)
-
-This code can be transformed to
-
-```
-(module
-  (import $print "spectest" "print"
-    (param i32))
-  (import $useGas "ethereum" "useGas"
-    (param i32)))
-  (func
-    (call_import $useGas
-      (i32.const 5))
-    (block $zero
-      (block $one
-        (block $two
-          (br 0)
-          (unreachable)
-        (call_import $useGas
-          (i32.const 3))
-        (call_import $print
-          (i32.const 1))
-        (nop))
-      (call_import $useGas
-        (i32.const 2))
-      (call_import $print
-        (i32.const 2))))
-
-```
+More efficient metering algorithms can be defined. For example if we can prove that an `end` is impossible to jump to it doesn't need to be segmented. The tradeoff here is the complexity for implementing these algorithms.

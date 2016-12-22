@@ -25,7 +25,7 @@ i64.const <cost>
 call $meter
 ```
 
-And a metering function `$meter`. The meter function has a signature of `(type (func (param i64)))`. Internal this function should keep a running sum and if that sum grows larger than a given threshold, end the program's execution. The metering function can be imbedded in the binary itself or can use wasm's import to define it externally. 
+And a metering function `$meter`. The meter function has a signature of `(type (func (param i64)))`. Internally this function should keep a running sum and if that sum grows larger than a given threshold, end the program's execution. The metering function can be imbedded in the binary itself or can use wasm's import to define it externally. 
 
 Then given an array of opcodes we iterate the array and divided into segments that start with one of the `branching_ops`
 

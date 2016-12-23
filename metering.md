@@ -116,7 +116,7 @@ This code can be transformed to
 ```
 ### Conditionals
 
-This code can be transformed to
+
 ```
 (module
   (func $fac (param i64) (result i64)
@@ -132,32 +132,35 @@ This code can be transformed to
               (i64.const 1)))))))
   (export "fac" (func $fac)))
 ```
-
+This code can be transformed to
 ```
 (module
-  (type $a (func(param i64) (result i64)))
-  (type $b (func(param i64)))
-
-  (import "metering" "usegas" (func $useGas (type $b)))
-
-  (func $fac (type $a)
-    (call $useGas (i64.const 8))
-    (if i64
-      (i64.lt_s (get_local 0) (i64.const 1))
-      (then
-        (call $useGas (i64.const 4))
-        (i64.const 1))
-      (else
-        (call $useGas (i64.const 9))
-        (i64.mul
-          (get_local 0)
-          (call $fac
-            (i64.sub
-              (get_local 0)
-              (i64.const 1))))))
-      (call $useGas (i64.const 3))
-    )
-  (export "fac" (func $fac)))
+  (type $type0 (func (param i32) (result i32)))
+  (type $type1 (func (param i32)))
+  (import $meter "metering" "usegas"  (param i32))
+  (export "fac" $func1)
+  (func $func1 (param $var0 i32) (result i32)
+    i32.const 211
+    call $meter
+    get_local $var0
+    i32.const 1
+    i32.lt_s
+    if i32
+      i32.const 180
+      call $import0
+      i32.const 1
+    else
+      i32.const 420
+      call $meter
+      get_local $var0
+      get_local $var0
+      i32.const 1
+      i32.sub
+      call $func1
+      i32.mul
+    end
+  )
+)
 ```
 
 ## Future Work

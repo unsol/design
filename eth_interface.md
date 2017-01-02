@@ -16,7 +16,7 @@ We also define the following WebAssembly data types:
 - `i64`: same as `i64` in WebAssembly
 
 # Tables  
-A table named 'callbacks' must be exported if any callbacks are used. All callbacks functions have a parameter of a single `i32` which will contain the error code of the orginal operation. If there where no errors then the return value will be 0 other wise it will be 1.
+A table named 'callback' must be exported if any callbacks are used. All callbacks functions have a parameter of a single `i32` which will contain the error code of the orginal operation. If there where no errors then the return value will be 0 other wise it will be 1.
 
 # API
 

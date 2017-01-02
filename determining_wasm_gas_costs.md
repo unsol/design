@@ -41,7 +41,7 @@ opcodes.
 *Rationale*: EVM1 opcodes operate on 256-bits of data, while WASM opcodes are limited
 to at most 64-bits, which results in executing four instructions in the best
 case to match EVM1. Most arithmetic instructions in EVM1 cost 3 gas, which would
-amount to 0.75 gas for each 64-bit WASM instruction.
+amount to 0.75 gas for most 64-bit WASM instructions.
 
 Internally, eWASM gas measurements should be recorded in a 64 bit variable
 with 4 decimal digits precision. We call this *particles*. It is a minor

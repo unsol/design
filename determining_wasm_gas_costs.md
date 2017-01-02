@@ -1,7 +1,5 @@
 # Determining eWASM gas costs
 
-*Alex Beregszaszi, August 2016*
-
 The goal of this document is to describe the process of determining gas costs
 for eWASM instructions.
 
@@ -16,7 +14,7 @@ Ethereum nodes. We assume that a 2.2 Ghz model is the average.
 According to Intel, the 2.2 Ghz clock rate roughly equals to `2 200 000 000` cycles per second.
 
 **Assumption 2**: 1 second of CPU execution equals to 10 million gas
-(i.e. 1 gas equals to 0.1 ns).
+(i.e. 1 gas equals to 0.1 us).
 
 This equals to **`0.0045` gas per cycle**. (`10 000 000 / 2 200 000 000`)
 

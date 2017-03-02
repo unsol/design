@@ -85,4 +85,4 @@ For now, high-level design discussions should continue to be held in the design 
 ## Chat
 [Matrix](https://riot.im/app/#/room/#the_vertex:matrix.org)  
 IRC freenode@ewasm  
-[Gitter](https://gitter.im/ethereum/ewasm-design)  
+[Gitter](https://gitter.im/ewasm/Lobby)  

@@ -67,7 +67,9 @@ Gets the hash of one of the 256 most recent complete blocks.
 
 **Returns**
 
-*nothing*
+`result` **i32** Returns 0 on success and 1 on failure
+
+*Note:* in case of failure, the output memory pointed by `resultOffset` is unchanged.
 
 ## call
 

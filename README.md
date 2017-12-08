@@ -11,7 +11,7 @@ Please review the [WebAssembly design and instruction set](https://github.com/We
 A few key points:
 * WebAssembly defines an instruction set, intermediate source format (WAST) and a binary encoded format (WASM).
 * WebAssembly has a few higher level features, such as the ability to import and execute outside methods defined via an interface.
-* LLVM includes a WebAssembly backend to generate WASM output.
+* [LLVM](https://llvm.org/) includes a WebAssembly backend to generate WASM output.
 * Major browser JavaScript engines will notably have native support for
   WebAssembly, including but not limited to: Google's
   [V8](https://github.com/v8/v8) engine (Node.js and Chromium-based browsers),

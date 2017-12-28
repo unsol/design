@@ -2,7 +2,7 @@
 
 The Ethereum Environment Interface exposes the core Ethereum API to the eWASM environment. The Ethereum [module](https://github.com/WebAssembly/design/blob/master/Modules.md) will be implemented in the Ethereum client's native language. All parameters and returns are restricted to 32 or 64 bit integers. Floats are disallowed.
 
-# Data types  
+# Data types
 
 We define the following Ethereum data types:
 - `bytes`: an array of bytes with unrestricted length
@@ -15,56 +15,56 @@ We also define the following WebAssembly data types:
 - `i32ptr`: same as `i32` in WebAssembly, but treated as a pointer to a WebAssembly memory offset
 - `i64`: same as `i64` in WebAssembly
 
-# Tables  
+# Tables
 A table named 'callback' must be exported if any callbacks are used. All callbacks functions have a parameter of a single `i32` which will contain the error code of the orginal operation. If there where no errors then the return value will be 0 other wise it will be 1.
 
 # API
 
-## useGas  
+## useGas
 Subtracts an amount to the gas counter
 
-**Parameters**  
+**Parameters**
 -   `amount` **i64** the amount to subtract to the gas counter
 
-**Returns**  
+**Returns**
 *nothing*
 
-## getAddress  
+## getAddress
 Gets address of currently executing account and loads it into memory at
 the given offset.
 
-**Parameters**  
+**Parameters**
 -   `resultOffset` **i32ptr** the memory offset to load the address into (`address`)
 
-**Returns**  
+**Returns**
 *nothing*
 
-## getBalance  
+## getBalance
 Gets balance of the given account and loads it into memory at the given
 offset.
 
-**Parameters**  
+**Parameters**
 -   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 -   `resultOffset` **i32ptr** the memory offset to load the balance into (`u128`)
 -   `callBackIndex` **i32** an index of the callback function
 
-**Returns**  
+**Returns**
 *nothing*
 
-## getBlockHash  
+## getBlockHash
 Gets the hash of one of the 256 most recent complete blocks.
 
-**Parameters**  
+**Parameters**
 -   `number` **i64** which block to load
 -   `resultOffset` **i32ptr** the memory offset to load the hash into (`u256`)
 
-**Returns**  
+**Returns**
 *nothing*
 
-## call  
+## call
 Sends a message with arbitrary date to a given address path
 
-**Parameters**  
+**Parameters**
 -   `gas` **i64** the gas limit
 -   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 -   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
@@ -74,32 +74,32 @@ Sends a message with arbitrary date to a given address path
 -   `resultLength` **i32** the maximal length of result data
 -   `callBackIndex` **i32** an index of the callback function
 
-## callDataCopy  
+## callDataCopy
 Copies the input data in current environment to memory. This pertains to
 the input data passed with the message call instruction or transaction.
 
-**Parameters**  
+**Parameters**
 -   `resultOffset` **i32ptr** the memory offset to load data into (`bytes`)
 -   `dataOffset` **i32** the offset in the input data
 -   `length` **i32** the length of data to copy
 
-**Returns**  
+**Returns**
 *nothing*
 
-## getCallDataSize  
+## getCallDataSize
 Get size of input data in current environment. This pertains to the input
 data passed with the message call instruction or transaction.
 
-**Parameters**  
+**Parameters**
 *none*
 
-**Returns**  
+**Returns**
 `callDataSize` **i32**
 
-## callCode  
+## callCode
  Message-call into this account with an alternative account's code.
 
-**Parameters**  
+**Parameters**
 -   `gas` **i64** the gas limit
 -   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 -   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
@@ -109,11 +109,11 @@ data passed with the message call instruction or transaction.
 -   `resultLength` **i32** the maximal length of result data
 -   `callBackIndex` **i32** an index of the callback function
 
-## callDelegate  
+## callDelegate
 Message-call into this account with an alternative account’s code, but
 persisting the current values for sender and value.
 
-**Parameters**  
+**Parameters**
 -   `gas` **i64** the gas limit
 -   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
@@ -253,40 +253,40 @@ Get size of an account’s code.
 -   `resultOffset` **i32ptr** the memory offset to load the result into (`i32`)
 -   `callBackIndex` **i32** an index of the callback function
 
-**Returns**  
+**Returns**
 *none*
 
-## getGasLeft  
+## getGasLeft
 Returns the current gasCounter
 
-**Parameters**  
+**Parameters**
 *none*
 
-**Returns**  
+**Returns**
 `gasLeft` **i64**
 
-## getBlockGasLimit  
+## getBlockGasLimit
 Get the block’s gas limit.
 
-**Parameters**  
+**Parameters**
 *none*
 
-**Returns**  
+**Returns**
 `blockGasLimit` **i64**
 
-## getTxGasPrice  
+## getTxGasPrice
 Gets price of gas in current environment.
 
-**Parameters**  
+**Parameters**
 -   `valueOffset` **i32ptr** the memory offset to write the value to (`u128`)
 
-**Returns**  
+**Returns**
 *nothing*
 
-## log  
+## log
 Creates a new log in the current environment
 
-**Parameters**  
+**Parameters**
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `length` **i32** the data length
 -   `numberOfTopics` **i32** the number of topics following (0 to 4)
@@ -295,42 +295,42 @@ Creates a new log in the current environment
 -   `topic3` **i32ptr** the memory offset to load topic3 from (`u256`)
 -   `topic4` **i32ptr** the memory offset to load topic4 from (`u256`)
 
-**Returns**  
+**Returns**
 *nothing*
 
-## getBlockNumber  
+## getBlockNumber
 Get the block’s number.
 
-**Parameters**  
+**Parameters**
 *none*
 
-**Returns**  
+**Returns**
 `blockNumber` **i64**
 
-## getTxOrigin  
+## getTxOrigin
 Gets the execution's origination address and loads it into memory at the
 given offset. This is the sender of original transaction; it is never an
 account with non-empty associated code.
 
-**Parameters**  
+**Parameters**
 -   `resultOffset` **i32ptr** the memory offset to load the origin address from (`address`)
 
-**Returns**  
+**Returns**
 *nothing*
 
-## return  
+## return
 Set the returning output data for the execution.
 
 *Note*: multiple invocations will overwrite the previous data.
 
-**Parameters**  
+**Parameters**
 -   `dataOffset` **i32ptr** the memory offset of the output data (`bytes`)
 -   `length` **i32** the length of the output data
 
-**Returns**  
+**Returns**
 *nothing*
 
-## selfDestruct  
+## selfDestruct
 Mark account for later deletion and give the remaining balance to the specified
 beneficiary address. This takes effect once the contract execution terminates.
 
@@ -338,17 +338,17 @@ beneficiary address. This takes effect once the contract execution terminates.
 
 *Note*: the contract **shall** halt execution after this call.
 
-**Parameters**  
+**Parameters**
 -   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 
-**Returns**  
+**Returns**
 *nothing*
 
-## getBlockTimestamp  
+## getBlockTimestamp
 Get the block’s timestamp.
 
-**Parameters**  
+**Parameters**
 *none*
 
-**Returns**  
+**Returns**
 `blockTimestamp` **i64**

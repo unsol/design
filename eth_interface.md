@@ -151,6 +151,25 @@ persisting the current values for sender and value.
 
 `result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
 
+## callStatic
+
+Sends a message with arbitrary data to a given address path, but disallow state
+modifications. This includes `log`, `create`, `selfdestruct` and `call` with a non-zero
+value.
+
+**Parameters**
+
+-   `gas` **i64** the gas limit
+-   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
+-   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
+-   `dataLength` **i32** the length of data
+-   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
+-   `resultLength` **i32** the maximal length of result data
+
+**Returns**
+
+`result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
+
 ## storageStore
 
 Store 256-bit a value in memory to persistent storage
@@ -376,6 +395,21 @@ account with non-empty associated code.
 *nothing*
 
 ## return
+
+Set the returning output data for the execution.
+
+*Note*: multiple invocations will overwrite the previous data.
+
+**Parameters**
+
+-   `dataOffset` **i32ptr** the memory offset of the output data (`bytes`)
+-   `length` **i32** the length of the output data
+
+**Returns**
+
+*nothing*
+
+## revert
 
 Set the returning output data for the execution.
 

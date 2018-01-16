@@ -271,6 +271,8 @@ Creates a new contract with a given value.
 -   `length` **i32** the data length
 -   `resultOffset` **i32ptr** the memory offset to write the new contract address to (`address`)
 
+*Note*: `create` will clear the return buffer in case of success or may fill it with data coming from `revert`.
+
 **Returns**
 
 `result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
@@ -419,6 +421,38 @@ Set the returning output data for the execution.
 
 -   `dataOffset` **i32ptr** the memory offset of the output data (`bytes`)
 -   `length` **i32** the length of the output data
+
+**Returns**
+
+*nothing*
+
+## getReturnDataSize
+
+Get size of current return data buffer to memory. This contains the return data
+from the last executed `call`, `callCode`, `callDelegate`, `callStatic` or `create`.
+
+*Note*: `create` only fills the return data buffer in case of a failure.
+
+**Parameters**
+
+*none*
+
+**Returns**
+
+`dataSize` **i32**
+
+## returnDataCopy
+
+Copies the current return data buffer to memory. This contains the return data
+from last executed `call`, `callCode`, `callDelegate`, `callStatic` or `create`.
+
+*Note*: `create` only fills the return data buffer in case of a failure.
+
+**Parameters**
+
+-   `resultOffset` **i32ptr** the memory offset to load data into (`bytes`)
+-   `dataOffset` **i32** the offset in the return data
+-   `length` **i32** the length of data to copy
 
 **Returns**
 

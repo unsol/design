@@ -80,8 +80,6 @@ Sends a message with arbitrary date to a given address path
 -   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the length of data
--   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
--   `resultLength` **i32** the maximal length of result data
 
 **Returns**
 
@@ -126,8 +124,6 @@ data passed with the message call instruction or transaction.
 -   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the length of data
--   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
--   `resultLength` **i32** the maximal length of result data
 
 **Returns**
 
@@ -144,8 +140,6 @@ persisting the current values for sender and value.
 -   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the length of data
--   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
--   `resultLength` **i32** the maximal length of result data
 
 **Returns**
 
@@ -163,8 +157,6 @@ value.
 -   `addressOffset` **i32ptr** the memory offset to load the address from (`address`)
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the length of data
--   `resultOffset` **i32ptr** the memory offset to store the result data at (`bytes`)
--   `resultLength` **i32** the maximal length of result data
 
 **Returns**
 

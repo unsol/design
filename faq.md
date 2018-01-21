@@ -3,7 +3,7 @@
 WASM's FAQ can be found [here](https://github.com/WebAssembly/design/blob/master/FAQ.md) 
 
 ## Is eWASM primarily the replacement for EVM?  
-Currently it is being researched as a replacement instuction set for EVM1. Other instuction sets have been considered but so far WASM seems the most suitable. 
+Currently it is being researched as a replacement instruction set for EVM1. Other instruction sets have been considered but so far WASM seems the most suitable.
 
 ## What are alternatives to WASM?  
 Some that have been considered are [here](./comparison.md)
@@ -20,7 +20,7 @@ Metering VMs is the same concept as electrical power companies have when chargin
 ## Will Solidity/Serpent be compatible with eWASM, or will another HLL have to be created?  
 Not off the bat, a transpiler will have to be created to compile exsiting EVM code into eWASM. As far as other High level langauges you should be able to use an language that can be compiled by LLVM ( c/c++/rust/go)
 
-## How does eWASM handle nom-determinism when a variety of programming languages are allowed to be used?
+## How does eWASM handle non-determinism when a variety of programming languages are allowed to be used?
 Part of the project goal is to eliminate nasal-demons. It's in the MVP. There are still a couple of edge case like sign values on NaNs but they can be canonicalized by AST transforms.  
 
 ## Will eWASM be compatible with WASM?  

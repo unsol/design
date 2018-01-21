@@ -96,6 +96,18 @@ Input:
 Output:
 - **variable length**: *output data*
 
+### keccak256
+
+Address: `0x0000000000000000000000000000000000000009`
+
+Returns the KECCAK-256 hash of the input. It is being used by the EVM Transcompiler.
+
+Input:
+- **variable length**: *input data*
+
+Output:
+- **32 bytes**: *keccak-256 hash*
+
 ### Appendix A: eWASM deployer preamble
 
 ```

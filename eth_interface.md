@@ -83,7 +83,7 @@ Sends a message with arbitrary date to a given address path
 
 **Returns**
 
-`result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
+`result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
 ## callDataCopy
 
@@ -127,7 +127,7 @@ data passed with the message call instruction or transaction.
 
 **Returns**
 
-`result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
+`result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
 ## callDelegate
 
@@ -143,7 +143,7 @@ persisting the current values for sender and value.
 
 **Returns**
 
-`result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
+`result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
 ## callStatic
 
@@ -160,7 +160,7 @@ value.
 
 **Returns**
 
-`result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
+`result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
 ## storageStore
 
@@ -267,7 +267,7 @@ Creates a new contract with a given value.
 
 **Returns**
 
-`result` **i32** Returns 1 or 0 depending on if the VM trapped on the message or not
+`result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
 ## getBlockDifficulty
 

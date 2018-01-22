@@ -30,7 +30,10 @@ Output:
 
 Address: `0x000000000000000000000000000000000000000b`
 
-This is optional. It is provided for pure eWASM VMs to support EVM1 contracts.
+Transcompiles EVM1 bytecode into eWASM bytecode.
+
+The use of this is optional. A compatible client may implement EVM1 natively or
+may choose to use this transcompiler.
 
 Input:
 - **variable length**: *EVM1 contract code*

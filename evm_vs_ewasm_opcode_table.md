@@ -2,7 +2,7 @@
 
 These tables compares EVM opcodes with ewasm methods and wasm instructions. The EVM defines 134 opcodes (as of the Byzantium hard fork). Of these 134 opcodes, some are generic machine instructions (ADD, MUL, ISZERO, XOR, etc.) and the rest are Ethereum-specific opcodes (SLOAD, SSTORE, CALLVALUE, BLOCKHASH, etc.).
 
-When EVM bytecode is translated into ewasm bytecode, the Ethereum-specific opcodes translate to ewasm interface methods (Ethereum Environment Interface (EEI) methods). These interface methods are provided as "host functions" to the wasm VM. All other EVM opcodes are not Ethereum-specific and do not access data from the Ethereum environment, so they can be translated to plain wasm instructions.
+When EVM bytecode is translated into ewasm bytecode, the Ethereum-specific opcodes translate to ewasm interface methods (Ethereum Environment Interface (EEI) methods). These interface methods are provided as [host functions](https://webassembly.github.io/threads/exec/runtime.html#syntax-hostfunc) to the wasm VM. All other EVM opcodes are not Ethereum-specific and do not access data from the Ethereum environment, so they can be translated to plain wasm instructions.
 
 To reference EVM opcodes, try the [yellow paper](https://ethereum.github.io/yellowpaper/paper.pdf), the [readable yellow paper](https://github.com/chronaeon/beigepaper/blob/master/beigepaper.pdf), or the [pyethereum implementation](https://github.com/ethereum/pyethereum/blob/develop/ethereum/opcodes.py).
 

@@ -71,7 +71,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 
 ## call
 
-Sends a message with arbitrary date to a given address path
+Sends a message with arbitrary data to a given address path
 
 **Parameters**
 

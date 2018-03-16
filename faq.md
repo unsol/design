@@ -11,7 +11,7 @@ Some that have been considered are [here](./comparison.md)
 ## What are the benefits?   
 * Performance 
 * A well Standized ISA, that will be widely deployed
-* AST byte; which can decouple metering and make it more preforment.
+* Stack machine; which can decouple metering, make it more preforment and can be transformed to any machine on target architecture
 * Shared tooling / Broader Tooling Compatibility
 
 ## What is metering?  

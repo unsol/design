@@ -1,22 +1,22 @@
 # WASM
-###Good
+### Good
 * limited well defined non-determinism
 * performant (near native speed)
 * portable
 * will be widely deployed
 * AST bytecode makes it easy to decouple metering from the VM
 
-###Bad
+### Bad
 * not stable yet
 
 # LLVM IR
-###Good
+### Good
 * very tested
 * large community
 * was used by googles PNACL
 * widely deployed
 
-###Bad
+### Bad
 * not intrinsically portable
 * not stable
 * lage surface (ISA) that VM implementors would have to deal with

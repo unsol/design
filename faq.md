@@ -18,7 +18,7 @@ Some that have been considered are [here](./comparison.md)
 Metering VMs is the same concept as electrical power companies have when charging you for the amount of electricity that you used. With VM's we attempt to get a measurement of computation time of some code and instead of electricity used, you are charged for the CPU's time used. We call this metering.
 
 ## Will Solidity/Serpent be compatible with eWASM, or will another HLL have to be created?  
-Not off the bat, a transpiler will have to be created to compile existing EVM code into eWASM. As far as other High level languages you should be able to use an language that can be compiled by LLVM ( c/c++/rust/go)
+Not off the bat, a transpiler will have to be created to compile existing EVM code into eWASM. As far as other High level languages you should be able to use a language that can be compiled by LLVM ( c/c++/rust/go)
 
 ## How does eWASM handle non-determinism when a variety of programming languages are allowed to be used?
 Part of the project goal is to eliminate nasal-demons. It's in the MVP. There are still a couple of edge case like sign values on NaNs but they can be canonicalized by AST transforms.  

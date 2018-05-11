@@ -168,7 +168,7 @@ Store 256-bit a value in memory to persistent storage
 
 **Parameters**
 
--   `pathOffest` **i32ptr** the memory offset to load the path from (`u256`)
+-   `pathOffset` **i32ptr** the memory offset to load the path from (`u256`)
 -   `valueOffset` **i32ptr** the memory offset to load the value from (`u256`)
 
 **Returns**
@@ -181,7 +181,7 @@ Loads a 256-bit a value to memory from persistent storage
 
 **Parameters**
 
--   `pathOffest` **i32ptr** the memory offset to load the path from (`u256`)
+-   `pathOffset` **i32ptr** the memory offset to load the path from (`u256`)
 -   `resultOffset` **i32ptr** the memory offset to store the result at (`u256`)
 
 **Returns**

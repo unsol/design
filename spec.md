@@ -144,18 +144,19 @@ Operator to deduct the given amount of gas (`GDEDUCT`) from the available gas.
 2.  If `GDEDUCT <=Int GAVAIL`:
 
     i.  then: Set `eei.gas` to `GAVAIL -Int GDEDUCT`.
+
     ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.gas` to `0`.
 
 ```k
     syntax EEIOp ::= "EEI.useGas" Int
  // ---------------------------------
-    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp </eeiOP>
-         <gas> GAVAIL => GAVAIL -Int GDEDUCT </gasAvalable>
+    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp              </eeiOP>
+         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gasAvalable>
       requires GAVAIL >=Int GDEDUCT
 
-    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp </eeiOP>
-         <gas> GAVAIL => 0 </gas>
-         <statusCode> _ => EVMC_OUT_OF_GAS </statusCode>
+    rule <eeiOP>      EEI.useGas GDEDUCT => .EEIOp          </eeiOP>
+         <gas>        GAVAIL             => 0               </gas>
+         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
       requires GAVAIL <Int GDEDUCT
 ```
 

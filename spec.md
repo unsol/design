@@ -173,7 +173,7 @@ For example, `EEI.useGas_ : Int` declares that `EEI.useGas` in an EEI operator w
 
 #### `EEI.useGas_ : Int`
 
-Operator to deduct the given amount of gas (`GDEDUCT`) from the available gas.
+Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
 
 1.  Load the value `GAVAIL` from `eei.gas`.
 
@@ -194,6 +194,38 @@ Operator to deduct the given amount of gas (`GDEDUCT`) from the available gas.
          <gas>        GAVAIL             => 0               </gas>
          <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
       requires GAVAIL <Int GDEDUCT
+```
+
+#### `EEI.getAddress`
+
+Return the address of the currently executing account.
+
+1.  Load and return the value `eei.id`.
+
+```k
+    syntax EEIOp ::= "EEI.getAddress"
+ // ---------------------------------
+    rule <eeiOP>       EEI.getAddress => .EEIOp </eeiOP>
+         <eeiResponse> _              => ADDR   </eeiResponse>
+         <id>          ADDR                     </id>
+```
+
+#### `EEI.getBalance_ : Int`
+
+Return the balance of the given account (`ACCT`).
+
+1.  Load and return the value `eei.accounts[ACCT].balance`.
+
+```k
+    syntax EEIOp ::= "EEI.getBalance" Int
+ // -------------------------------------
+    rule <eeiOP>       EEI.getBalance ACCT => .EEIOp </eeiOP>
+         <eeiResponse> _                   => BAL    </eeiResponse>
+         <account>
+           <acctID>  ACCT </acctID>
+           <balance> BAL  </balance>
+           ...
+         </account>
 ```
 
 ```k

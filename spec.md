@@ -25,7 +25,13 @@ Execution State
 ---------------
 
 First, we must specify the extra state that must be present for ewasm execution.
-We do that by specifying a K *configuration*:
+We do that by specifying a K *configuration*.
+
+Each XML-like *cell* contains a field which is relevant to Ethereum client execution.
+The default/initial values of the cells are provided along with the declaration of the configuration.
+
+The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<acctID>` as a key.
+For example, `eei.accounts[0x00001].nonce` would access the nonce of account `0x00001`.
 
 ```k
     configuration
@@ -56,8 +62,6 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
 ```
 
 The `<accounts>` sub-configuration stores information about each account on the blockchain.
-The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<acctID>` as a key.
-For example, `eei.accounts[0x00001].nonce` would access the nonce of account `0x00001`.
 
 ```k
         <accounts>
@@ -69,11 +73,33 @@ For example, `eei.accounts[0x00001].nonce` would access the nonce of account `0x
             <nonce>   0        </nonce>
           </account>
         </accounts>
-      </eei>
 ```
 
-Each XML-like *cell* contains a field which is relevant to Ethereum client execution.
-The default/initial values of the cells are provided along with the declaration of the configuration.
+Transaction and block information:
+
+```k
+        <gasPrice> 0 </gasPrice> // I_p
+        <origin>   0 </origin>   // I_o
+
+        <previousHash>     0          </previousHash>     // H_p
+        <ommersHash>       0          </ommersHash>       // H_o
+        <coinbase>         0          </coinbase>         // H_c
+        <stateRoot>        0          </stateRoot>        // H_r
+        <transactionsRoot> 0          </transactionsRoot> // H_t
+        <receiptsRoot>     0          </receiptsRoot>     // H_e
+     // <logsBloom>        .WordStack </logsBloom>        // H_b
+        <difficulty>       0          </difficulty>       // H_d
+        <number>           0          </number>           // H_i
+        <gasLimit>         0          </gasLimit>         // H_l
+        <gasUsed>          0          </gasUsed>          // H_g
+        <timestamp>        0          </timestamp>        // H_s
+     // <extraData>        .WordStack </extraData>        // H_x
+        <mixHash>          0          </mixHash>          // H_m
+        <blockNonce>       0          </blockNonce>       // H_n
+     // <ommerBlockHeaders> [ .JSONList ] </ommerBlockHeaders>
+     // <blockhash>         .List         </blockhash>
+      </eei>
+```
 
 In the texual rules below, we'll refer to cells by accesing subcells with the `.` operator.
 For example, we would access the `statusCode` cell with `eei.statusCode`.

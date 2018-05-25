@@ -30,6 +30,7 @@ We do that by specifying a K *configuration*:
 ```k
     configuration
       <eei>
+        <eeiOP>        .EEIOp      </eeiOP>
         <statusCode>   .StatusCode </statusCode>
         <gasAvailable> 0           </gasAvailable>
       </eei>
@@ -115,6 +116,16 @@ Execution of the contract entry point
 
 Host functions available to the contract
 ----------------------------------------
+
+### EEI Operators
+
+The EEI exports several operators which can be invoked by any of the VMs when appropriate.
+Here the syntax and semantics of these operators is defined.
+The special EEIOp `.EEIOp` is the "no-op" or "skip" operator.
+
+```k
+    syntax EEIOp ::= ".EEIOp"
+```
 
 ```k
 endmodule

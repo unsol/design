@@ -30,9 +30,9 @@ We do that by specifying a K *configuration*:
 ```k
     configuration
       <eei>
-        <eeiOP>        .EEIOp      </eeiOP>
-        <statusCode>   .StatusCode </statusCode>
-        <gasAvailable> 0           </gasAvailable>
+        <eeiOP>      .EEIOp      </eeiOP>
+        <statusCode> .StatusCode </statusCode>
+        <gas>        0           </gas>
       </eei>
 ```
 
@@ -125,6 +125,30 @@ The special EEIOp `.EEIOp` is the "no-op" or "skip" operator.
 
 ```k
     syntax EEIOp ::= ".EEIOp"
+```
+
+### `EEI.useGas_ : Int`
+
+Operator to deduct the given amount of gas (`GDEDUCT`) from the available gas.
+
+1.  Load the value `GAVAIL` from `EEI.gas`.
+
+2.  If `GDEDUCT <=Int GAVAIL`:
+
+    i.  then: Set `EEI.gas` to `GAVAIL -Int GDEDUCT`.
+    ii. else: Set `EEI.statusCode` to `EVMC_OUT_OF_GAS` and `EEI.gas` to `0`.
+
+```k
+    syntax EEIOp ::= "EEI.useGas" Int
+ // ---------------------------------
+    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp </eeiOP>
+         <gas> GAVAIL => GAVAIL -Int GDEDUCT </gasAvalable>
+      requires GAVAIL >=Int GDEDUCT
+
+    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp </eeiOP>
+         <gas> GAVAIL => 0 </gas>
+         <statusCode> _ => EVMC_OUT_OF_GAS </statusCode>
+      requires GAVAIL <Int GDEDUCT
 ```
 
 ```k

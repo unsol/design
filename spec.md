@@ -33,8 +33,13 @@ We do that by specifying a K *configuration*:
         <eeiOP>       .EEIOp      </eeiOP>
         <eeiResponse> 0           </eeiResponse>
         <statusCode>  .StatusCode </statusCode>
+```
+
+The `<callState>` sub-configuration can be saved/restored when needed between calls.
+
+```k
         <callState>
-          <callDepth> 0        </callDepth>
+          <callDepth> 0 </callDepth>
 
           // I_*
           <id>        0        </id>        // I_a
@@ -48,6 +53,22 @@ We do that by specifying a K *configuration*:
           <memoryUsed>  0 </memoryUsed>     // \mu_i
           <previousGas> 0 </previousGas>
         </callState>
+```
+
+The `<accounts>` sub-configuration stores information about each account on the blockchain.
+The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<acctID>` as a key.
+For example, `eei.accounts[0x00001].nonce` would access the nonce of account `0x00001`.
+
+```k
+        <accounts>
+          <account multiplicity="*" type="Map">
+            <acctID>  0        </acctID>
+            <balance> 0        </balance>
+         // <code>    .Program </code>
+            <storage> .Map     </storage>
+            <nonce>   0        </nonce>
+          </account>
+        </accounts>
       </eei>
 ```
 

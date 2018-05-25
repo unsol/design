@@ -151,7 +151,7 @@ Operator to deduct the given amount of gas (`GDEDUCT`) from the available gas.
     syntax EEIOp ::= "EEI.useGas" Int
  // ---------------------------------
     rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp              </eeiOP>
-         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gasAvalable>
+         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
       requires GAVAIL >=Int GDEDUCT
 
     rule <eeiOP>      EEI.useGas GDEDUCT => .EEIOp          </eeiOP>

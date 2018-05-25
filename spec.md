@@ -39,6 +39,9 @@ We do that by specifying a K *configuration*:
 Each XML-like *cell* contains a field which is relevant to Ethereum client execution.
 The default/initial values of the cells are provided along with the declaration of the configuration.
 
+In the texual rules below, we'll refer to cells by accesing subcells with the `.` operator.
+For example, we would access the `statusCode` cell with `eei.statusCode`.
+
 ### Status Codes
 
 The [EVMC] status codes are used to indicate to the client how VM execution ended.
@@ -127,16 +130,18 @@ The special EEIOp `.EEIOp` is the "no-op" or "skip" operator.
     syntax EEIOp ::= ".EEIOp"
 ```
 
+In the semantics below, we'll give both a texual description of the state updates for each operator, and the K rule.
+
 ### `EEI.useGas_ : Int`
 
 Operator to deduct the given amount of gas (`GDEDUCT`) from the available gas.
 
-1.  Load the value `GAVAIL` from `EEI.gas`.
+1.  Load the value `GAVAIL` from `eei.gas`.
 
 2.  If `GDEDUCT <=Int GAVAIL`:
 
-    i.  then: Set `EEI.gas` to `GAVAIL -Int GDEDUCT`.
-    ii. else: Set `EEI.statusCode` to `EVMC_OUT_OF_GAS` and `EEI.gas` to `0`.
+    i.  then: Set `eei.gas` to `GAVAIL -Int GDEDUCT`.
+    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.gas` to `0`.
 
 ```k
     syntax EEIOp ::= "EEI.useGas" Int

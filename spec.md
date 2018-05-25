@@ -280,9 +280,16 @@ Return the blockhash of one of the `N`th most recent complete blocks (as long as
 
 #### `EEI.call___ : Int ByteString ByteString`
 
+-   `EEI.call` **TODO**
+-   `EEI.callCode` **TODO**
+-   `EEI.callDelegate` **TODO**
+-   `EEI.callStatic` **TODO**
+
 **TODO:** Implement one abstract-level `EEI.call`, akin to `#call` in KEVM, which other `CALL*` opcodes can be expressed in terms of.
 
 #### `EEI.callDataCopy`
+
+-   `callDataSize` can be implemented client-side in terms of this opcode.
 
 Returns the calldata associated with this call.
 
@@ -350,6 +357,47 @@ Returns the value at the given `INDEX` in the current executing accounts storage
          </account>
       requires notBool INDEX in_keys(STORAGE)
 ```
+
+#### `EEI.getCaller` **TODO**
+
+#### `EEI.getCallValue` **TODO**
+
+#### `EEI.codeCopy` **TODO**
+
+-   `getCodeSize` can be implemented in terms of this operator.
+-   `externalCodeCopy` can be implemented in terms of this operator.
+
+#### `EEI.getBlockCoinbase` **TODO**
+
+#### `EEI.create` **TODO**
+
+#### `EEI.getBlockDifficulty` **TODO**
+
+#### `EEI.getExternalCodeSize` **TODO**
+
+#### `EEI.getGasLeft` **TODO**
+
+#### `EEI.getBlockGasLimit` **TODO**
+
+#### `EEI.getTxGasPrice` **TODO**
+
+#### `EEI.log` **TODO**
+
+#### `EEI.getBlockNumber` **TODO**
+
+#### `EEI.getTxOrigin` **TODO**
+
+#### `EEI.return` **TODO**
+
+#### `EEI.revert` **TODO**
+
+#### `EEI.returnDataCopy` **TODO**
+
+-   `getReturnDataSize` can be implemented in terms of this operator.
+
+#### `EEI.selfDestruct` **TODO**
+
+#### `EEI.getBlockTimestamp` **TODO**
 
 ```k
 endmodule

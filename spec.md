@@ -278,6 +278,79 @@ Return the blockhash of one of the `N`th most recent complete blocks (as long as
       requires N >=Int 256
 ```
 
+#### `EEI.call___ : Int ByteString ByteString`
+
+**TODO:** Implement one abstract-level `EEI.call`, akin to `#call` in KEVM, which other `CALL*` opcodes can be expressed in terms of.
+
+#### `EEI.callDataCopy`
+
+Returns the calldata associated with this call.
+
+1.  Load and return `eei.callData`.
+
+```k
+    syntax EEIOp ::= "EEI.callDataCopy"
+ // -----------------------------------
+    rule <eeiOP>       EEI.callDataCopy => .EEIOp </eeiOP>
+         <eeiResponse> _                => CDATA  </eeiResponse>
+         <callData>    CDATA                      </callData>
+```
+
+#### `EEI.storageStore__ : Int Int`
+
+At the given `INDEX` in the executing accounts storage, stores the given `VALUE`.
+
+1.  Load `ACCT` from `eei.id`.
+
+2.  Set `eei.accounts[ACCT].storage[INDEX]` to `VALUE`.
+
+```k
+    syntax EEIOp ::= "EEI.storageStore" Int Int
+ // -------------------------------------------
+    rule <eeiOP> EEI.storageStore INDEX VALUE => .EEIOp </eeiOP>
+         <id>    ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE => STORAGE [ INDEX <- VALUE ] </storage>
+           ...
+         </account>
+```
+
+#### `EEI.storageLoad_ : Int`
+
+Returns the value at the given `INDEX` in the current executing accounts storage.
+
+1.  Load `ACCT` from `eei.id`.
+
+2.  If `eei.accounts[ACCT].storage[INDEX]` exists:
+
+    i.  then: return `eei.accounts[ACCT].storage[INDEX]`.
+
+    ii. else: return `0`.
+
+```k
+    syntax EEIOp ::= "EEI.storageLoad" Int
+ // --------------------------------------
+    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
+         <eeiResponse> _                     => VALUE  </eeiResponse>
+         <id> ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> ... INDEX |-> VALUE ... </storage>
+           ...
+         </account>
+
+    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
+         <eeiResponse> _                     => 0      </eeiResponse>
+         <id> ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE </storage>
+           ...
+         </account>
+      requires notBool INDEX in_keys(STORAGE)
+```
+
 ```k
 endmodule
 ```

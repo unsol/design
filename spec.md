@@ -32,12 +32,13 @@ The default/initial values of the cells are provided along with the declaration 
 
 The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<acctID>` as a key.
 For example, `eei.accounts[0x00001].nonce` would access the nonce of account `0x00001`.
+Similarly, cells that contain a `List` data-type can be indexed using standard array-access notation, eg `L[N]` gets the `N`th element of list `L` (starting at `0`).
 
 ```k
     configuration
       <eei>
         <eeiOP>       .EEIOp      </eeiOP>
-        <eeiResponse> 0           </eeiResponse>
+        <eeiResponse> .K          </eeiResponse>
         <statusCode>  .StatusCode </statusCode>
 ```
 
@@ -97,7 +98,7 @@ Transaction and block information:
         <mixHash>          0          </mixHash>          // H_m
         <blockNonce>       0          </blockNonce>       // H_n
      // <ommerBlockHeaders> [ .JSONList ] </ommerBlockHeaders>
-     // <blockhash>         .List         </blockhash>
+        <blockhash>         .List         </blockhash>
       </eei>
 ```
 
@@ -252,6 +253,29 @@ Return the balance of the given account (`ACCT`).
            <balance> BAL  </balance>
            ...
          </account>
+```
+
+#### `EEI.getBlockHash_ : Int`
+
+Return the blockhash of one of the `N`th most recent complete blocks (as long as `N <Int 256`).
+
+1.  If `N <Int 256`:
+
+    i.  then: Load and return `eei.blockhash[N]`.
+
+    ii. else: Return `0`.
+
+```k
+    syntax EEIOp ::= "EEI.getBlockHash" Int
+ // ---------------------------------------
+    rule <eeiOP>       EEI.getBlockHash N => .EEIOp       </eeiOP>
+         <eeiResponse> _                  => BLKHASHES[N] </eeiResponse>
+         <blockhash>   BLKHASHES                          </blockhash>
+      requires N <Int 256
+
+    rule <eeiOP>       EEI.getBlockHash N => .EEIOp </eeiOP>
+         <eeiResponse> _                  => 0      </eeiResponse>
+      requires N >=Int 256
 ```
 
 ```k

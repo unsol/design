@@ -30,9 +30,24 @@ We do that by specifying a K *configuration*:
 ```k
     configuration
       <eei>
-        <eeiOP>      .EEIOp      </eeiOP>
-        <statusCode> .StatusCode </statusCode>
-        <gas>        0           </gas>
+        <eeiOP>       .EEIOp      </eeiOP>
+        <eeiResponse> 0           </eeiResponse>
+        <statusCode>  .StatusCode </statusCode>
+        <callState>
+          <callDepth> 0        </callDepth>
+
+          // I_*
+          <id>        0        </id>        // I_a
+       // <program>   .Program </program>   // I_b
+          <caller>    0        </caller>    // I_s
+          <callData>  .List    </callData>  // I_d
+          <callValue> 0        </callValue> // I_v
+
+          // \mu_*
+          <gas>         0 </gas>            // \mu_g
+          <memoryUsed>  0 </memoryUsed>     // \mu_i
+          <previousGas> 0 </previousGas>
+        </callState>
       </eei>
 ```
 

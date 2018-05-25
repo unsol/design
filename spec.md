@@ -46,11 +46,12 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
 
 ```k
         <callState>
-          <callDepth> 0 </callDepth>
+          <callDepth>  0     </callDepth>
+          <returnData> .List </returnData>
 
           // I_*
           <id>        0        </id>        // I_a
-       // <program>   .Program </program>   // I_b
+          <program>   .Program </program>   // I_b
           <caller>    0        </caller>    // I_s
           <callData>  .List    </callData>  // I_d
           <callValue> 0        </callValue> // I_v
@@ -69,7 +70,7 @@ The `<accounts>` sub-configuration stores information about each account on the 
           <account multiplicity="*" type="Map">
             <acctID>  0        </acctID>
             <balance> 0        </balance>
-         // <code>    .Program </code>
+            <code>    .Program </code>
             <storage> .Map     </storage>
             <nonce>   0        </nonce>
           </account>
@@ -90,7 +91,7 @@ Transaction and block information:
         <receiptsRoot>     0          </receiptsRoot>     // H_e
      // <logsBloom>        .WordStack </logsBloom>        // H_b
         <difficulty>       0          </difficulty>       // H_d
-        <number>           0          </number>           // H_i
+        <blockNumber>      0          </blockNumber>      // H_i
         <gasLimit>         0          </gasLimit>         // H_l
         <gasUsed>          0          </gasUsed>          // H_g
         <timestamp>        0          </timestamp>        // H_s
@@ -104,6 +105,15 @@ Transaction and block information:
 
 In the texual rules below, we'll refer to cells by accesing subcells with the `.` operator.
 For example, we would access the `statusCode` cell with `eei.statusCode`.
+
+### Abstract Programs
+
+Different VMs have different representations of programs.
+Here, we make a sort `Program` which has a single constant `.Program` to use as the default.
+
+```k
+    syntax Program ::= ".Program"
+```
 
 ### Status Codes
 
@@ -358,46 +368,192 @@ Returns the value at the given `INDEX` in the current executing accounts storage
       requires notBool INDEX in_keys(STORAGE)
 ```
 
-#### `EEI.getCaller` **TODO**
+#### `EEI.getCaller`
 
-#### `EEI.getCallValue` **TODO**
+Get the account id of the caller into the current execution.
 
-#### `EEI.codeCopy` **TODO**
+1.  Load and return `eei.caller`.
 
--   `getCodeSize` can be implemented in terms of this operator.
--   `externalCodeCopy` can be implemented in terms of this operator.
+```k
+    syntax EEIOp ::= "EEI.getCaller"
+ // --------------------------------
+    rule <eeiOP>       EEI.getCaller => .EEIOp </eeiOP>
+         <eeiResponse> _             => CACCT  </eeiResponse>
+         <caller>      CACCT                   </caller>
+```
 
-#### `EEI.getBlockCoinbase` **TODO**
+#### `EEI.getCallValue`
+
+Get the value transferred for the current call.
+
+1.  Load and return `eei.callValue`.
+
+```k
+    syntax EEIOp ::= "EEI.getCallValue"
+ // -----------------------------------
+    rule <eeiOP>       EEI.getCallValue => .EEIOp </eeiOP>
+         <eeiResponse> _                => CVALUE </eeiResponse>
+         <callValue>   CVALUE                     </callValue>
+```
+
+#### `EEI.codeCopy_ : Int`
+
+-   `getCodeSize` and `getExternalCodeSize` can be implemented in terms of this operator.
+-   This implements what is traditionally `externalCodeCopy`, but traditional `codeCopy` can be implemented in terms of this as well.
+
+Get the code of the given account `ACCT`.
+
+1.  Load and return `eei.accounts[ACCT].code`.
+
+```k
+    syntax EEIOp ::= "EEI.codeCopy" Int
+ // -----------------------------------
+    rule <eeiOP>       EEI.codeCopy ACCT => .EEIOp   </eeiOP>
+         <eeiResponse> _                 => ACCTCODE </eeiResponse>
+         <accounts>
+           <acctID> ACCT </acctID>
+           <code> ACCTCODE </code>
+           ...
+         </accounts>
+```
+
+#### `EEI.getBlockCoinbase`
+
+Get the coinbase of the current block.
+
+1.  Load and return `eei.coinbase`.
+
+```k
+    syntax EEIOp ::= "EEI.getBlockCoinbase"
+ // ---------------------------------------
+    rule <eeiOP>       EEI.getBlockCoinbase => .EEIOp </eeiOP>
+         <eeiResponse> _                    => CBASE  </eeiResponse>
+         <coinbase>    CBASE                          </coinbase>
+```
 
 #### `EEI.create` **TODO**
 
-#### `EEI.getBlockDifficulty` **TODO**
+#### `EEI.getBlockDifficulty`
 
-#### `EEI.getExternalCodeSize` **TODO**
+Get the difficulty of the current block.
 
-#### `EEI.getGasLeft` **TODO**
+1.  Load and return `eei.difficulty`.
 
-#### `EEI.getBlockGasLimit` **TODO**
+```k
+    syntax EEIOp ::= "EEI.getBlockDifficulty"
+ // -----------------------------------------
+    rule <eeiOP>       EEI.getBlockDifficulty => .EEIOp </eeiOP>
+         <eeiResponse> _                      => DIFF   </eeiResponse>
+         <difficulty>  DIFF                             </difficulty>
+```
 
-#### `EEI.getTxGasPrice` **TODO**
+#### `EEI.getGasLeft`
+
+Get the gas left available for this execution.
+
+1.  Load and return `eei.gas`.
+
+```k
+    syntax EEIOp ::= "EEI.getGasLeft"
+ // ---------------------------------
+    rule <eeiOP>       EEI.getGasLeft => .EEIOp </eeiOP>
+         <eeiResponse> _              => GAVAIL </eeiResponse>
+         <gas>         GAVAIL                   </gas>
+```
+
+#### `EEI.getBlockGasLimit`
+
+Get the gas limit for the current block.
+
+1.  Load and return `eei.gasLimit`.
+
+```k
+    syntax EEIOp ::= "EEI.getBlockGasLimit"
+ // ---------------------------------------
+    rule <eeiOP>       EEI.getBlockGasLimit => .EEIOp </eeiOP>
+         <eeiResponse> _                    => GLIMIT </eeiResponse>
+         <gasLimit>    GLIMIT                         </gasLimit>
+```
+
+#### `EEI.getTxGasPrice`
+
+Get the gas price of the current transation.
+
+1.  Load and return `eei.gasPrice`.
+
+```k
+    syntax EEIOp ::= "EEI.getTxGasPrice"
+ // ------------------------------------
+    rule <eeiOP>       EEI.getTxGasPrice => .EEIOp </eeiOP>
+         <eeiResponse> _                 => GPRICE </eeiResponse>
+         <gasPrice>    GPRICE                      </gasPrice>
+```
 
 #### `EEI.log` **TODO**
 
-#### `EEI.getBlockNumber` **TODO**
+#### `EEI.getBlockNumber`
 
-#### `EEI.getTxOrigin` **TODO**
+Get the current block number.
+
+1.  Load and return `eei.blockNumber`.
+
+```k
+    syntax EEIOp ::= "EEI.getBlockNumber"
+ // -------------------------------------
+    rule <eeiOP>       EEI.getBlockNumber => .EEIOp    </eeiOP>
+         <eeiResponse> _                  => BLKNUMBER </eeiResponse>
+         <blockNumber> BLKNUMBER                       </blockNumber>
+```
+
+#### `EEI.getTxOrigin`
+
+Get the address which sent this transaction.
+
+1.  Load and return `eei.origin`.
+
+```k
+    syntax EEIOp ::= "EEI.getTxOrigin"
+ // ----------------------------------
+    rule <eeiOP>       EEI.getTxOrigin => .EEIOp </eeiOP>
+         <eeiResponse> _               => ORG    </eeiResponse>
+         <origin>      ORG                       </origin>
+```
 
 #### `EEI.return` **TODO**
 
 #### `EEI.revert` **TODO**
 
-#### `EEI.returnDataCopy` **TODO**
+#### `EEI.returnDataCopy`
 
 -   `getReturnDataSize` can be implemented in terms of this operator.
 
+Get the return data of the last call.
+
+1.  Load and return `eei.returnData`.
+
+```k
+    syntax EEIOp ::= "EEI.returnDataCopy"
+ // -------------------------------------
+    rule <eeiOP>       EEI.returnDataCopy => .EEIOp  </eeiOP>
+         <eeiResponse> _                  => RETDATA </eeiResponse>
+         <returnData>  RETDATA                       </returnData>
+```
+
 #### `EEI.selfDestruct` **TODO**
 
-#### `EEI.getBlockTimestamp` **TODO**
+#### `EEI.getBlockTimestamp`
+
+Get the timestamp of the last block.
+
+1.  Load and return `eei.timestamp`.
+
+```k
+    syntax EEIOp ::= "EEI.getBlockTimestamp"
+ // ----------------------------------------
+    rule <eeiOP>       EEI.getBlockTimestamp => .EEIOp </eeiOP>
+         <eeiResponse> _                     => TSTAMP </eeiResponse>
+         <timestamp>   TSTAMP                          </timestamp>
+```
 
 ```k
 endmodule

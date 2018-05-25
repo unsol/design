@@ -131,8 +131,11 @@ The special EEIOp `.EEIOp` is the "no-op" or "skip" operator.
 ```
 
 In the semantics below, we'll give both a texual description of the state updates for each operator, and the K rule.
+Each section header gives the name of the given EEI operator, along with the arguments needed.
+Argument positions are marked with underbars (`_`), and the types of those arguments are given after the colon (`:`).
+For example, `EEI.useGas_ : Int` declares that `EEI.useGas` in an EEI operator which takes a single integer as input.
 
-### `EEI.useGas_ : Int`
+#### `EEI.useGas_ : Int`
 
 Operator to deduct the given amount of gas (`GDEDUCT`) from the available gas.
 

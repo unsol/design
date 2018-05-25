@@ -38,6 +38,75 @@ We do that by specifying a K *configuration*:
 Each XML-like *cell* contains a field which is relevant to Ethereum client execution.
 The default/initial values of the cells are provided along with the declaration of the configuration.
 
+### Status Codes
+
+The [EVMC] status codes are used to indicate to the client how VM execution ended.
+Currently, they are broken into three subsorts, for exceptional, ending, or error statuses.
+The extra status code `.StatusCode` is used as a default status code when none has been set.
+
+```k
+    syntax StatusCode ::= ExceptionalStatusCode
+                        | EndStatusCode
+                        | ErrorStatusCode
+                        | ".StatusCode"
+```
+
+#### Exceptional Codes
+
+The following codes all indicate that the VM ended execution with an exception, but give details about how.
+
+-   `EVMC_FAILURE` is a catch-all for generic execution failure.
+-   `EVMC_INVALID_INSTRUCTION` indicates reaching the designated `INVALID` opcode.
+-   `EVMC_UNDEFINED_INSTRUCTION` indicates that an undefined opcode has been reached.
+-   `EVMC_OUT_OF_GAS` indicates that execution exhausted the gas supply.
+-   `EVMC_BAD_JUMP_DESTINATION` indicates a `JUMP*` to a non-`JUMPDEST` location.
+-   `EVMC_STACK_OVERFLOW` indicates pushing more than 1024 elements onto the wordstack.
+-   `EVMC_STACK_UNDERFLOW` indicates popping elements off an empty wordstack.
+-   `EVMC_CALL_DEPTH_EXCEEDED` indicates that we have executed too deeply a nested sequence of `CALL*` or `CREATE` opcodes.
+-   `EVMC_INVALID_MEMORY_ACCESS` indicates that a bad memory access occured.
+    This can happen when accessing local memory with `CODECOPY*` or `CALLDATACOPY`, or when accessing return data with `RETURNDATACOPY`.
+-   `EVMC_STATIC_MODE_VIOLATION` indicates that a `STATICCALL` tried to change state.
+-   `EVMC_PRECOMPILE_FAILURE` indicates an errors in the precompiled contracts (eg. invalid points handed to elliptic curve functions).
+
+```k
+    syntax ExceptionalStatusCode ::= "EVMC_FAILURE"
+                                   | "EVMC_INVALID_INSTRUCTION"
+                                   | "EVMC_UNDEFINED_INSTRUCTION"
+                                   | "EVMC_OUT_OF_GAS"
+                                   | "EVMC_BAD_JUMP_DESTINATION"
+                                   | "EVMC_STACK_OVERFLOW"
+                                   | "EVMC_STACK_UNDERFLOW"
+                                   | "EVMC_CALL_DEPTH_EXCEEDED"
+                                   | "EVMC_INVALID_MEMORY_ACCESS"
+                                   | "EVMC_STATIC_MODE_VIOLATION"
+                                   | "EVMC_PRECOMPILE_FAILURE"
+```
+
+#### Ending Codes
+
+These additional status codes indicate that execution has ended in some non-exceptional way.
+
+-   `EVMC_SUCCESS` indicates successful end of execution.
+-   `EVMC_REVERT` indicates that the contract called `REVERT`.
+
+```k
+    syntax EndStatusCode ::= ExceptionalStatusCode
+                           | "EVMC_SUCCESS"
+                           | "EVMC_REVERT"
+```
+
+#### Other Codes
+
+The following codes indicate other non-execution errors with the VM.
+
+-   `EVMC_REJECTED` indicates malformed or wrong-version EVM bytecode.
+-   `EVMC_INTERNAL_ERROR` indicates some other error that is unrecoverable but not due to the bytecode.
+
+```k
+    syntax ErrorStatusCode ::= "EVMC_REJECTED"
+                             | "EVMC_INTERNAL_ERROR"
+```
+
 Initialisation of a contract
 ----------------------------
 
@@ -55,3 +124,4 @@ Resources
 =========
 
 [K Framework]: <https://github.com/kframework/k>
+[EVMC]: <https://github.com/ethereum/evmc>

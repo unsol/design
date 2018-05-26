@@ -116,13 +116,11 @@ Data
 ### Ethereum Simulations
 
 Ethereum simulations will drive execution of the VMs and network updates.
-Here we will be extending the `EEIOp` sort with functionality made available by all clients.
-
-**TODO:** Rename sort `EEIOp => EEIMethod`.
+Here we will be extending the `EEIMethod` sort with functionality made available by all clients.
 
 ```k
-    syntax EthereumCommand ::= EEIOp
- // --------------------------------
+    syntax EthereumCommand ::= EEIMethod
+ // ------------------------------------
 
     syntax EthereumSimulation ::= List{EthereumCommand, ""}
  // -------------------------------------------------------
@@ -212,11 +210,6 @@ EEI Methods
 
 The EEI exports several methods which can be invoked by any of the VMs when appropriate.
 Here the syntax and semantics of these methods is defined.
-The special EEIOp `.EEIOp` is the "no-op" or "skip" method.
-
-```k
-    syntax EEIOp ::= ".EEIOp"
-```
 
 In the semantics below, we'll give both a texual description of the state updates for each method, and the K rule.
 Each section header gives the name of the given EEI method, along with the arguments needed.
@@ -236,22 +229,20 @@ If there are not `N` blocks yet, return `0`.
 
 1.  Load `BLOCKNUM` from `eei.block.number`.
 
-1.  If `N <Int 256` and `N <Int BLOCKNUM`:
+2.  If `N <Int 256` and `N <Int BLOCKNUM`:
 
     i.  then: Load and return `eei.block.hashes[N]`.
 
     ii. else: Return `0`.
 
 ```k
-    syntax EEIOp ::= "EEI.getBlockHash" Int
- // ---------------------------------------
-    rule <k>           EEI.getBlockHash N => .EEIOp       </k>
-         <eeiResponse> _                  => BLKHASHES[N] </eeiResponse>
-         <hashes>      BLKHASHES                          </hashes>
+    syntax EEIMethod ::= "EEI.getBlockHash" Int
+ // -------------------------------------------
+    rule <k> EEI.getBlockHash N => BLKHASHES[N] ... </k>
+         <hashes> BLKHASHES </hashes>
       requires N <Int 256
 
-    rule <k>           EEI.getBlockHash N => .EEIOp </k>
-         <eeiResponse> _                  => 0      </eeiResponse>
+    rule <k> EEI.getBlockHash N => 0 ... </k>
       requires N >=Int 256
 ```
 
@@ -262,11 +253,10 @@ Get the coinbase of the current block.
 1.  Load and return `eei.block.coinbase`.
 
 ```k
-    syntax EEIOp ::= "EEI.getBlockCoinbase"
- // ---------------------------------------
-    rule <k>           EEI.getBlockCoinbase => .EEIOp </k>
-         <eeiResponse> _                    => CBASE  </eeiResponse>
-         <coinbase>    CBASE                          </coinbase>
+    syntax EEIMethod ::= "EEI.getBlockCoinbase"
+ // -------------------------------------------
+    rule <k> EEI.getBlockCoinbase => CBASE ... </k>
+         <coinbase> CBASE </coinbase>
 ```
 
 #### `EEI.getBlockDifficulty`
@@ -276,11 +266,10 @@ Get the difficulty of the current block.
 1.  Load and return `eei.block.difficulty`.
 
 ```k
-    syntax EEIOp ::= "EEI.getBlockDifficulty"
- // -----------------------------------------
-    rule <k>           EEI.getBlockDifficulty => .EEIOp </k>
-         <eeiResponse> _                      => DIFF   </eeiResponse>
-         <difficulty>  DIFF                             </difficulty>
+    syntax EEIMethod ::= "EEI.getBlockDifficulty"
+ // ---------------------------------------------
+    rule <k> EEI.getBlockDifficulty => DIFF ... </k>
+         <difficulty> DIFF </difficulty>
 ```
 
 #### `EEI.getBlockGasLimit`
@@ -290,11 +279,10 @@ Get the gas limit for the current block.
 1.  Load and return `eei.block.gasLimit`.
 
 ```k
-    syntax EEIOp ::= "EEI.getBlockGasLimit"
- // ---------------------------------------
-    rule <k>           EEI.getBlockGasLimit => .EEIOp </k>
-         <eeiResponse> _                    => GLIMIT </eeiResponse>
-         <gasLimit>    GLIMIT                         </gasLimit>
+    syntax EEIMethod ::= "EEI.getBlockGasLimit"
+ // -------------------------------------------
+    rule <k> EEI.getBlockGasLimit => GLIMIT ... </k>
+         <gasLimit> GLIMIT </gasLimit>
 ```
 
 #### `EEI.getBlockNumber`
@@ -304,11 +292,10 @@ Get the current block number.
 1.  Load and return `eei.block.number`.
 
 ```k
-    syntax EEIOp ::= "EEI.getBlockNumber"
- // -------------------------------------
-    rule <k>           EEI.getBlockNumber => .EEIOp    </k>
-         <eeiResponse> _                  => BLKNUMBER </eeiResponse>
-         <number>      BLKNUMBER                       </number>
+    syntax EEIMethod ::= "EEI.getBlockNumber"
+ // -----------------------------------------
+    rule <k> EEI.getBlockNumber => BLKNUMBER ... </k>
+         <number> BLKNUMBER </number>
 ```
 
 #### `EEI.getBlockTimestamp`
@@ -318,11 +305,10 @@ Get the timestamp of the last block.
 1.  Load and return `eei.block.timestamp`.
 
 ```k
-    syntax EEIOp ::= "EEI.getBlockTimestamp"
- // ----------------------------------------
-    rule <k>           EEI.getBlockTimestamp => .EEIOp </k>
-         <eeiResponse> _                     => TSTAMP </eeiResponse>
-         <timestamp>   TSTAMP                          </timestamp>
+    syntax EEIMethod ::= "EEI.getBlockTimestamp"
+ // --------------------------------------------
+    rule <k> EEI.getBlockTimestamp => TSTAMP ... </k>
+         <timestamp> TSTAMP </timestamp>
 ```
 
 #### `EEI.getTxGasPrice`
@@ -332,11 +318,10 @@ Get the gas price of the current transation.
 1.  Load and return `eei.tx.gasPrice`.
 
 ```k
-    syntax EEIOp ::= "EEI.getTxGasPrice"
- // ------------------------------------
-    rule <k>           EEI.getTxGasPrice => .EEIOp </k>
-         <eeiResponse> _                 => GPRICE </eeiResponse>
-         <gasPrice>    GPRICE                      </gasPrice>
+    syntax EEIMethod ::= "EEI.getTxGasPrice"
+ // ----------------------------------------
+    rule <k> EEI.getTxGasPrice => GPRICE ... </k>
+         <gasPrice> GPRICE </gasPrice>
 ```
 
 #### `EEI.getTxOrigin`
@@ -346,11 +331,10 @@ Get the address which sent this transaction.
 1.  Load and return `eei.tx.origin`.
 
 ```k
-    syntax EEIOp ::= "EEI.getTxOrigin"
- // ----------------------------------
-    rule <k>           EEI.getTxOrigin => .EEIOp </k>
-         <eeiResponse> _               => ORG    </eeiResponse>
-         <origin>      ORG                       </origin>
+    syntax EEIMethod ::= "EEI.getTxOrigin"
+ // --------------------------------------
+    rule <k> EEI.getTxOrigin => ORG ... </k>
+         <origin> ORG </origin>
 ```
 
 ### Call State Methods
@@ -364,11 +348,10 @@ Return the address of the currently executing account.
 1.  Load and return the value `eei.call.id`.
 
 ```k
-    syntax EEIOp ::= "EEI.getAddress"
- // ---------------------------------
-    rule <k>           EEI.getAddress => .EEIOp </k>
-         <eeiResponse> _              => ADDR   </eeiResponse>
-         <id>          ADDR                     </id>
+    syntax EEIMethod ::= "EEI.getAddress"
+ // -------------------------------------
+    rule <k> EEI.getAddress => ADDR ... </k>
+         <id> ADDR </id>
 ```
 
 #### `EEI.getCaller`
@@ -378,11 +361,10 @@ Get the account id of the caller into the current execution.
 1.  Load and return `eei.call.caller`.
 
 ```k
-    syntax EEIOp ::= "EEI.getCaller"
- // --------------------------------
-    rule <k>           EEI.getCaller => .EEIOp </k>
-         <eeiResponse> _             => CACCT  </eeiResponse>
-         <caller>      CACCT                   </caller>
+    syntax EEIMethod ::= "EEI.getCaller"
+ // ------------------------------------
+    rule <k> EEI.getCaller => CACCT ... </k>
+         <caller> CACCT </caller>
 ```
 
 #### `EEI.getCallData`
@@ -394,11 +376,10 @@ Returns the calldata associated with this call.
 1.  Load and return `eei.call.callData`.
 
 ```k
-    syntax EEIOp ::= "EEI.getCallData"
- // ----------------------------------
-    rule <k>           EEI.getCallData => .EEIOp </k>
-         <eeiResponse> _               => CDATA  </eeiResponse>
-         <callData>    CDATA                     </callData>
+    syntax EEIMethod ::= "EEI.getCallData"
+ // --------------------------------------
+    rule <k> EEI.getCallData => CDATA ... </k>
+         <callData> CDATA </callData>
 ```
 
 #### `EEI.getCallValue`
@@ -408,11 +389,10 @@ Get the value transferred for the current call.
 1.  Load and return `eei.call.callValue`.
 
 ```k
-    syntax EEIOp ::= "EEI.getCallValue"
- // -----------------------------------
-    rule <k>           EEI.getCallValue => .EEIOp </k>
-         <eeiResponse> _                => CVALUE </eeiResponse>
-         <callValue>   CVALUE                     </callValue>
+    syntax EEIMethod ::= "EEI.getCallValue"
+ // ---------------------------------------
+    rule <k> EEI.getCallValue => CVALUE ... </k>
+         <callValue> CVALUE </callValue>
 ```
 
 #### `EEI.getGasLeft`
@@ -422,11 +402,10 @@ Get the gas left available for this execution.
 1.  Load and return `eei.call.gas`.
 
 ```k
-    syntax EEIOp ::= "EEI.getGasLeft"
- // ---------------------------------
-    rule <k>           EEI.getGasLeft => .EEIOp </k>
-         <eeiResponse> _              => GAVAIL </eeiResponse>
-         <gas>         GAVAIL                   </gas>
+    syntax EEIMethod ::= "EEI.getGasLeft"
+ // -------------------------------------
+    rule <k> EEI.getGasLeft => GAVAIL ... </k>
+         <gas> GAVAIL </gas>
 ```
 
 #### `EEI.getReturnData`
@@ -438,11 +417,10 @@ Get the return data of the last call.
 1.  Load and return `eei.call.returnData`.
 
 ```k
-    syntax EEIOp ::= "EEI.getReturnData"
- // ------------------------------------
-    rule <k>           EEI.getReturnData => .EEIOp  </k>
-         <eeiResponse> _                 => RETDATA </eeiResponse>
-         <returnData>  RETDATA                      </returnData>
+    syntax EEIMethod ::= "EEI.getReturnData"
+ // ----------------------------------------
+    rule <k> EEI.getReturnData => RETDATA ... </k>
+         <returnData> RETDATA </returnData>
 ```
 
 #### `EEI.useGas : Int`
@@ -458,15 +436,15 @@ Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
     ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.call.gas` to `0`.
 
 ```k
-    syntax EEIOp ::= "EEI.useGas" Int
- // ---------------------------------
-    rule <k>     EEI.useGas GDEDUCT => .EEIOp              </k>
-         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
+    syntax EEIMethod ::= "EEI.useGas" Int
+ // -------------------------------------
+    rule <k> EEI.useGas GDEDUCT => . ... </k>
+         <gas> GAVAIL => GAVAIL -Int GDEDUCT </gas>
       requires GAVAIL >=Int GDEDUCT
 
-    rule <k>          EEI.useGas GDEDUCT => .EEIOp          </k>
-         <gas>        GAVAIL             => 0               </gas>
-         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
+    rule <k> EEI.useGas GDEDUCT => . ... </k>
+         <statusCode> _ => EVMC_OUT_OF_GAS </statusCode>
+         <gas> GAVAIL </gas>
       requires GAVAIL <Int GDEDUCT
 ```
 
@@ -481,10 +459,9 @@ Return the balance of the given account (`ACCT`).
 1.  Load and return the value `eei.accounts[ACCT].balance`.
 
 ```k
-    syntax EEIOp ::= "EEI.getBalance" Int
- // -------------------------------------
-    rule <k>           EEI.getBalance ACCT => .EEIOp </k>
-         <eeiResponse> _                   => BAL    </eeiResponse>
+    syntax EEIMethod ::= "EEI.getBalance" Int
+ // -----------------------------------------
+    rule <k> EEI.getBalance ACCT => BAL ... </k>
          <account>
            <acctID>  ACCT </acctID>
            <balance> BAL  </balance>
@@ -502,10 +479,9 @@ Get the code of the given account `ACCT`.
 1.  Load and return `eei.accounts[ACCT].code`.
 
 ```k
-    syntax EEIOp ::= "EEI.getCode" Int
- // ----------------------------------
-    rule <k>           EEI.getCode ACCT => .EEIOp   </k>
-         <eeiResponse> _                => ACCTCODE </eeiResponse>
+    syntax EEIMethod ::= "EEI.getCode" Int
+ // --------------------------------------
+    rule <k> EEI.getCode ACCT => ACCTCODE ... </k>
          <accounts>
            <acctID> ACCT </acctID>
            <code> ACCTCODE </code>
@@ -522,10 +498,10 @@ At the given `INDEX` in the executing accounts storage, stores the given `VALUE`
 2.  Set `eei.accounts[ACCT].storage[INDEX]` to `VALUE`.
 
 ```k
-    syntax EEIOp ::= "EEI.storageStore" Int Int
- // -------------------------------------------
-    rule <k>     EEI.storageStore INDEX VALUE => .EEIOp </k>
-         <id>    ACCT </id>
+    syntax EEIMethod ::= "EEI.storageStore" Int Int
+ // -----------------------------------------------
+    rule <k>  EEI.storageStore INDEX VALUE => . ... </k>
+         <id> ACCT </id>
          <account>
            <acctID> ACCT </acctID>
            <storage> STORAGE => STORAGE [ INDEX <- VALUE ] </storage>
@@ -546,10 +522,9 @@ Returns the value at the given `INDEX` in the current executing accounts storage
     ii. else: return `0`.
 
 ```k
-    syntax EEIOp ::= "EEI.storageLoad" Int
- // --------------------------------------
-    rule <k>           EEI.storageLoad INDEX => .EEIOp </k>
-         <eeiResponse> _                     => VALUE  </eeiResponse>
+    syntax EEIMethod ::= "EEI.storageLoad" Int
+ // ------------------------------------------
+    rule <k> EEI.storageLoad INDEX => VALUE ... </k>
          <id> ACCT </id>
          <account>
            <acctID> ACCT </acctID>
@@ -557,8 +532,7 @@ Returns the value at the given `INDEX` in the current executing accounts storage
            ...
          </account>
 
-    rule <k>           EEI.storageLoad INDEX => .EEIOp </k>
-         <eeiResponse> _                     => 0      </eeiResponse>
+    rule <k> EEI.storageLoad INDEX => 0 ... </k>
          <id> ACCT </id>
          <account>
            <acctID> ACCT </acctID>
@@ -588,7 +562,9 @@ First we define a log-item, which is an account id and two byte lists (from the 
 2.  Append `{ ACCT | BS1 | BS2 }` to the `eei.substate.log`.
 
 ```k
-    rule <k> EEI.log BS1 BS2 => .EEIOp </k>
+    syntax EEIMethod ::= "EEI.log" List List
+ // ----------------------------------------
+    rule <k> EEI.log BS1 BS2 => . ... </k>
          <id> ACCT </id>
          <log> ... (.List => ListItem({ ACCT | BS1 | BS2 })) </log>
 ```
@@ -616,9 +592,9 @@ In any case, the status is set to `EVMC_SUCCESS`.
     ii. else: add `BAL` to `eei.accounts[ACCTTO].balance`.
 
 ```k
-    syntax EEIOp ::= "EEI.selfDestruct" Int
- // ---------------------------------------
-    rule <k> EEI.selfDestruct ACCTTO => .EEIOp </k>
+    syntax EEIMethod ::= "EEI.selfDestruct" Int
+ // -------------------------------------------
+    rule <k> EEI.selfDestruct ACCTTO => . ... </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
          <id> ACCT </id>
          <returnData> _ => .List </returnData>
@@ -638,7 +614,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
          </accounts>
       requires ACCTTO =/=K ACCT
 
-    rule <k> EEI.selfDestruct ACCT => .EEIOp </k>
+    rule <k> EEI.selfDestruct ACCT => . ... </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
          <id> ACCT </id>
          <returnData> _ => .List </returnData>
@@ -662,9 +638,9 @@ Set the return data to the given list of `RDATA` as well setting the status code
 2.  Set `eei.statusCode` to `EVMC_SUCCESS`.
 
 ```k
-    syntax EEIOp ::= "EEI.return" List
- // ----------------------------------
-    rule <k> EEI.return RDATA => .EEIOp </k>
+    syntax EEIMethod ::= "EEI.return" List
+ // --------------------------------------
+    rule <k> EEI.return RDATA => . ... </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
          <returnData> _ => RDATA </returnData>
 ```
@@ -678,9 +654,9 @@ Set the return data to the given list of `RDATA` as well setting the status code
 2.  Set `eei.statusCode` to `EVMC_REVERT`.
 
 ```k
-    syntax EEIOp ::= "EEI.revert" List
- // ----------------------------------
-    rule <k> EEI.revert RDATA => .EEIOp </k>
+    syntax EEIMethod ::= "EEI.revert" List
+ // --------------------------------------
+    rule <k> EEI.revert RDATA => . ... </k>
          <statusCode> _ => EVMC_REVERT </statusCode>
          <returnData> _ => RDATA </returnData>
 ```

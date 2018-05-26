@@ -557,9 +557,9 @@ Returns the value at the given `INDEX` in the current executing accounts storage
       requires notBool INDEX in_keys(STORAGE)
 ```
 
-### EEI Interaction Methods
+### EEI Call (and Call-like) Methods
 
-The remaining methods have more complex interactions with the EEI, either setting/getting account information or triggering further computation.
+The remaining methods have more complex interactions with the EEI, often triggering further computation.
 
 #### `EEI.selfDestruct` **TODO**
 

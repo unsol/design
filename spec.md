@@ -572,6 +572,27 @@ Returns the value at the given `INDEX` in the current executing accounts storage
 
 The remaining methods have more complex interactions with the EEI, often triggering further computation.
 
+#### `EEI.log : List List`
+
+Logging places a user-specified byte strings (`BS1` and `BS2`) on the blockchain Log for external inspection.
+
+First we define a log-item, which is an account id and two byte lists (from the wordstack and the local memory).
+
+```k
+    syntax LogItem ::= "{" Int "|" List "|" List "}"
+ // ------------------------------------------------
+```
+
+1.  Load the current `ACCT` from `eei.call.id`.
+
+2.  Append `{ ACCT | BS1 | BS2 }` to the `eei.substate.log`.
+
+```k
+    rule <k> EEI.log BS1 BS2 => .EEIOp </k>
+         <id> ACCT </id>
+         <log> ... (.List => ListItem({ ACCT | BS1 | BS2 })) </log>
+```
+
 #### `EEI.selfDestruct` **TODO**
 
 #### `EEI.return` **TODO**
@@ -588,8 +609,6 @@ The remaining methods have more complex interactions with the EEI, often trigger
 **TODO:** Implement one abstract-level `EEI.call`, akin to `#call` in KEVM, which other `CALL*` opcodes can be expressed in terms of.
 
 #### `EEI.create` **TODO**
-
-#### `EEI.log` **TODO**
 
 ```k
 endmodule

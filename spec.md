@@ -46,8 +46,8 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
 
 ```k
         <call>
-          <callDepth>  0     </callDepth>
-          <returnData> .List </returnData>
+          <callDepth>  0  </callDepth>
+          <returnData> .K </returnData>
 
           // I_*
           <id>        0        </id>        // I_a
@@ -169,7 +169,7 @@ These additional status codes indicate that execution has ended in some non-exce
                            | "EVMC_REVERT"
 ```
 
-#### Other Codes
+#### Error Codes
 
 The following codes indicate other non-execution errors with the VM.
 
@@ -271,20 +271,6 @@ Get the gas limit for the current block.
          <gasLimit>    GLIMIT                         </gasLimit>
 ```
 
-#### `EEI.getTxGasPrice`
-
-Get the gas price of the current transation.
-
-1.  Load and return `eei.gasPrice`.
-
-```k
-    syntax EEIOp ::= "EEI.getTxGasPrice"
- // ------------------------------------
-    rule <eeiOP>       EEI.getTxGasPrice => .EEIOp </eeiOP>
-         <eeiResponse> _                 => GPRICE </eeiResponse>
-         <gasPrice>    GPRICE                      </gasPrice>
-```
-
 #### `EEI.getBlockNumber`
 
 Get the current block number.
@@ -313,6 +299,20 @@ Get the timestamp of the last block.
          <timestamp>   TSTAMP                          </timestamp>
 ```
 
+#### `EEI.getTxGasPrice`
+
+Get the gas price of the current transation.
+
+1.  Load and return `eei.gasPrice`.
+
+```k
+    syntax EEIOp ::= "EEI.getTxGasPrice"
+ // ------------------------------------
+    rule <eeiOP>       EEI.getTxGasPrice => .EEIOp </eeiOP>
+         <eeiResponse> _                 => GPRICE </eeiResponse>
+         <gasPrice>    GPRICE                      </gasPrice>
+```
+
 #### `EEI.getTxOrigin`
 
 Get the address which sent this transaction.
@@ -335,7 +335,7 @@ These methods return information about the current call operation, which may cha
 
 Return the address of the currently executing account.
 
-1.  Load and return the value `eei.id`.
+1.  Load and return the value `eei.call.id`.
 
 ```k
     syntax EEIOp ::= "EEI.getAddress"
@@ -349,7 +349,7 @@ Return the address of the currently executing account.
 
 Get the account id of the caller into the current execution.
 
-1.  Load and return `eei.caller`.
+1.  Load and return `eei.call.caller`.
 
 ```k
     syntax EEIOp ::= "EEI.getCaller"
@@ -365,7 +365,7 @@ Get the account id of the caller into the current execution.
 
 Returns the calldata associated with this call.
 
-1.  Load and return `eei.callData`.
+1.  Load and return `eei.call.callData`.
 
 ```k
     syntax EEIOp ::= "EEI.getCallData"
@@ -379,7 +379,7 @@ Returns the calldata associated with this call.
 
 Get the value transferred for the current call.
 
-1.  Load and return `eei.callValue`.
+1.  Load and return `eei.call.callValue`.
 
 ```k
     syntax EEIOp ::= "EEI.getCallValue"
@@ -393,7 +393,7 @@ Get the value transferred for the current call.
 
 Get the gas left available for this execution.
 
-1.  Load and return `eei.gas`.
+1.  Load and return `eei.call.gas`.
 
 ```k
     syntax EEIOp ::= "EEI.getGasLeft"
@@ -401,6 +401,22 @@ Get the gas left available for this execution.
     rule <eeiOP>       EEI.getGasLeft => .EEIOp </eeiOP>
          <eeiResponse> _              => GAVAIL </eeiResponse>
          <gas>         GAVAIL                   </gas>
+```
+
+#### `EEI.getReturnData`
+
+-   `getReturnDataSize` can be implemented in terms of this method.
+
+Get the return data of the last call.
+
+1.  Load and return `eei.call.returnData`.
+
+```k
+    syntax EEIOp ::= "EEI.getReturnData"
+ // ------------------------------------
+    rule <eeiOP>       EEI.getReturnData => .EEIOp  </eeiOP>
+         <eeiResponse> _                 => RETDATA </eeiResponse>
+         <returnData>  RETDATA                      </returnData>
 ```
 
 ### Network State Getters
@@ -444,22 +460,6 @@ Get the code of the given account `ACCT`.
            <code> ACCTCODE </code>
            ...
          </accounts>
-```
-
-#### `EEI.getReturnData`
-
--   `getReturnDataSize` can be implemented in terms of this method.
-
-Get the return data of the last call.
-
-1.  Load and return `eei.returnData`.
-
-```k
-    syntax EEIOp ::= "EEI.getReturnData"
- // ------------------------------------
-    rule <eeiOP>       EEI.getReturnData => .EEIOp  </eeiOP>
-         <eeiResponse> _                 => RETDATA </eeiResponse>
-         <returnData>  RETDATA                      </returnData>
 ```
 
 ### EEI Interaction Methods
@@ -521,7 +521,6 @@ Returns the value at the given `INDEX` in the current executing accounts storage
       requires notBool INDEX in_keys(STORAGE)
 ```
 
-
 #### `EEI.selfDestruct` **TODO**
 
 #### `EEI.return` **TODO**
@@ -536,9 +535,9 @@ Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
 
 2.  If `GDEDUCT <=Int GAVAIL`:
 
-    i.  then: Set `eei.gas` to `GAVAIL -Int GDEDUCT`.
+    i.  then: Set `eei.call.gas` to `GAVAIL -Int GDEDUCT`.
 
-    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.gas` to `0`.
+    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.call.gas` to `0`.
 
 ```k
     syntax EEIOp ::= "EEI.useGas" Int

@@ -202,30 +202,10 @@ In the semantics below, we'll give both a texual description of the state update
 Each section header gives the name of the given EEI method, along with the arguments needed.
 For example, `EEI.useGas : Int` declares that `EEI.useGas` in an EEI method which takes a single integer as input.
 
-#### `EEI.useGas : Int`
+### EEI Getters
 
-Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
-
-1.  Load the value `GAVAIL` from `eei.gas`.
-
-2.  If `GDEDUCT <=Int GAVAIL`:
-
-    i.  then: Set `eei.gas` to `GAVAIL -Int GDEDUCT`.
-
-    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.gas` to `0`.
-
-```k
-    syntax EEIOp ::= "EEI.useGas" Int
- // ---------------------------------
-    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp              </eeiOP>
-         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
-      requires GAVAIL >=Int GDEDUCT
-
-    rule <eeiOP>      EEI.useGas GDEDUCT => .EEIOp          </eeiOP>
-         <gas>        GAVAIL             => 0               </gas>
-         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
-      requires GAVAIL <Int GDEDUCT
-```
+Many of the methods exported by the EEI simply query for somestate of the execution environment.
+These methods are prefixed with `get`, and have largely similar and simple rules.
 
 #### `EEI.getAddress`
 
@@ -282,15 +262,6 @@ Return the blockhash of one of the `N`th most recent complete blocks (as long as
       requires N >=Int 256
 ```
 
-#### `EEI.call : Int ByteString ByteString`
-
--   `EEI.call` **TODO**
--   `EEI.callCode` **TODO**
--   `EEI.callDelegate` **TODO**
--   `EEI.callStatic` **TODO**
-
-**TODO:** Implement one abstract-level `EEI.call`, akin to `#call` in KEVM, which other `CALL*` opcodes can be expressed in terms of.
-
 #### `EEI.callDataCopy`
 
 -   `callDataSize` can be implemented client-side in terms of this opcode.
@@ -305,61 +276,6 @@ Returns the calldata associated with this call.
     rule <eeiOP>       EEI.callDataCopy => .EEIOp </eeiOP>
          <eeiResponse> _                => CDATA  </eeiResponse>
          <callData>    CDATA                      </callData>
-```
-
-#### `EEI.storageStore : Int Int`
-
-At the given `INDEX` in the executing accounts storage, stores the given `VALUE`.
-
-1.  Load `ACCT` from `eei.id`.
-
-2.  Set `eei.accounts[ACCT].storage[INDEX]` to `VALUE`.
-
-```k
-    syntax EEIOp ::= "EEI.storageStore" Int Int
- // -------------------------------------------
-    rule <eeiOP> EEI.storageStore INDEX VALUE => .EEIOp </eeiOP>
-         <id>    ACCT </id>
-         <account>
-           <acctID> ACCT </acctID>
-           <storage> STORAGE => STORAGE [ INDEX <- VALUE ] </storage>
-           ...
-         </account>
-```
-
-#### `EEI.storageLoad : Int`
-
-Returns the value at the given `INDEX` in the current executing accounts storage.
-
-1.  Load `ACCT` from `eei.id`.
-
-2.  If `eei.accounts[ACCT].storage[INDEX]` exists:
-
-    i.  then: return `eei.accounts[ACCT].storage[INDEX]`.
-
-    ii. else: return `0`.
-
-```k
-    syntax EEIOp ::= "EEI.storageLoad" Int
- // --------------------------------------
-    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
-         <eeiResponse> _                     => VALUE  </eeiResponse>
-         <id> ACCT </id>
-         <account>
-           <acctID> ACCT </acctID>
-           <storage> ... INDEX |-> VALUE ... </storage>
-           ...
-         </account>
-
-    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
-         <eeiResponse> _                     => 0      </eeiResponse>
-         <id> ACCT </id>
-         <account>
-           <acctID> ACCT </acctID>
-           <storage> STORAGE </storage>
-           ...
-         </account>
-      requires notBool INDEX in_keys(STORAGE)
 ```
 
 #### `EEI.getCaller`
@@ -425,8 +341,6 @@ Get the coinbase of the current block.
          <coinbase>    CBASE                          </coinbase>
 ```
 
-#### `EEI.create` **TODO**
-
 #### `EEI.getBlockDifficulty`
 
 Get the difficulty of the current block.
@@ -483,8 +397,6 @@ Get the gas price of the current transation.
          <gasPrice>    GPRICE                      </gasPrice>
 ```
 
-#### `EEI.log` **TODO**
-
 #### `EEI.getBlockNumber`
 
 Get the current block number.
@@ -513,10 +425,6 @@ Get the address which sent this transaction.
          <origin>      ORG                       </origin>
 ```
 
-#### `EEI.return` **TODO**
-
-#### `EEI.revert` **TODO**
-
 #### `EEI.returnDataCopy`
 
 -   `getReturnDataSize` can be implemented in terms of this method.
@@ -533,8 +441,6 @@ Get the return data of the last call.
          <returnData>  RETDATA                       </returnData>
 ```
 
-#### `EEI.selfDestruct` **TODO**
-
 #### `EEI.getBlockTimestamp`
 
 Get the timestamp of the last block.
@@ -548,6 +454,109 @@ Get the timestamp of the last block.
          <eeiResponse> _                     => TSTAMP </eeiResponse>
          <timestamp>   TSTAMP                          </timestamp>
 ```
+
+### EEI Interaction Methods
+
+The remaining methods have more complex interactions with the EEI, either setting/getting account information or triggering further computation.
+
+#### `EEI.selfDestruct` **TODO**
+
+#### `EEI.return` **TODO**
+
+#### `EEI.revert` **TODO**
+
+#### `EEI.useGas : Int`
+
+Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
+
+1.  Load the value `GAVAIL` from `eei.gas`.
+
+2.  If `GDEDUCT <=Int GAVAIL`:
+
+    i.  then: Set `eei.gas` to `GAVAIL -Int GDEDUCT`.
+
+    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.gas` to `0`.
+
+```k
+    syntax EEIOp ::= "EEI.useGas" Int
+ // ---------------------------------
+    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp              </eeiOP>
+         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
+      requires GAVAIL >=Int GDEDUCT
+
+    rule <eeiOP>      EEI.useGas GDEDUCT => .EEIOp          </eeiOP>
+         <gas>        GAVAIL             => 0               </gas>
+         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
+      requires GAVAIL <Int GDEDUCT
+```
+
+#### `EEI.call : Int ByteString ByteString`
+
+-   `EEI.call` **TODO**
+-   `EEI.callCode` **TODO**
+-   `EEI.callDelegate` **TODO**
+-   `EEI.callStatic` **TODO**
+
+**TODO:** Implement one abstract-level `EEI.call`, akin to `#call` in KEVM, which other `CALL*` opcodes can be expressed in terms of.
+
+#### `EEI.storageStore : Int Int`
+
+At the given `INDEX` in the executing accounts storage, stores the given `VALUE`.
+
+1.  Load `ACCT` from `eei.id`.
+
+2.  Set `eei.accounts[ACCT].storage[INDEX]` to `VALUE`.
+
+```k
+    syntax EEIOp ::= "EEI.storageStore" Int Int
+ // -------------------------------------------
+    rule <eeiOP> EEI.storageStore INDEX VALUE => .EEIOp </eeiOP>
+         <id>    ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE => STORAGE [ INDEX <- VALUE ] </storage>
+           ...
+         </account>
+```
+
+#### `EEI.storageLoad : Int`
+
+Returns the value at the given `INDEX` in the current executing accounts storage.
+
+1.  Load `ACCT` from `eei.id`.
+
+2.  If `eei.accounts[ACCT].storage[INDEX]` exists:
+
+    i.  then: return `eei.accounts[ACCT].storage[INDEX]`.
+
+    ii. else: return `0`.
+
+```k
+    syntax EEIOp ::= "EEI.storageLoad" Int
+ // --------------------------------------
+    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
+         <eeiResponse> _                     => VALUE  </eeiResponse>
+         <id> ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> ... INDEX |-> VALUE ... </storage>
+           ...
+         </account>
+
+    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
+         <eeiResponse> _                     => 0      </eeiResponse>
+         <id> ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE </storage>
+           ...
+         </account>
+      requires notBool INDEX in_keys(STORAGE)
+```
+
+#### `EEI.create` **TODO**
+
+#### `EEI.log` **TODO**
 
 ```k
 endmodule

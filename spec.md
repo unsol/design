@@ -45,8 +45,8 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
 
 ```k
         <call>
-          <callDepth>  0  </callDepth>
-          <returnData> .K </returnData>
+          <callDepth>  0     </callDepth>
+          <returnData> .List </returnData>
 
           <id>        0        </id>        // I_a
           <program>   .Program </program>   // I_b
@@ -603,7 +603,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
 
 2.  Add `ACCT` to the set `eei.substate.selfDestruct`.
 
-3.  Set `eei.call.returnData` to `.K` (empty).
+3.  Set `eei.call.returnData` to `.List` (empty).
 
 4.  Load `BAL` from `eei.accounts[ACCT].balance`.
 
@@ -621,7 +621,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
     rule <k> EEI.selfDestruct ACCTTO => .EEIOp </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
          <id> ACCT </id>
-         <returnData> _ => .K </returnData>
+         <returnData> _ => .List </returnData>
          <selfDestruct> ... (.Set => SetItem(ACCT)) ... </selfDestruct>
          <accounts>
            <account>
@@ -641,7 +641,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
     rule <k> EEI.selfDestruct ACCT => .EEIOp </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
          <id> ACCT </id>
-         <returnData> _ => .K </returnData>
+         <returnData> _ => .List </returnData>
          <selfDestruct> ... (.Set => SetItem(ACCT)) ... </selfDestruct>
          <accounts>
            <account>
@@ -653,7 +653,21 @@ In any case, the status is set to `EVMC_SUCCESS`.
          </accounts>
 ```
 
-#### `EEI.return` **TODO**
+#### `EEI.return : List`
+
+Return sets the return data to the given list of `RDATA` as well setting the status code to `EVMC_SUCCESS`.
+
+1.  Set `eei.call.returnData` to `RDATA`.
+
+2.  Set `eei.statusCode` to `EVMC_SUCCESS`.
+
+```k
+    syntax EEIOp ::= "EEI.return" List
+ // ----------------------------------
+    rule <k> EEI.return RDATA => .EEIOp </k>
+         <statusCode> _ => EVMC_SUCCESS </statusCode>
+         <returnData> _ => RDATA </returnData>
+```
 
 #### `EEI.revert` **TODO**
 

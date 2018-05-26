@@ -48,18 +48,25 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
           <callDepth>  0  </callDepth>
           <returnData> .K </returnData>
 
-          // I_*
           <id>        0        </id>        // I_a
           <program>   .Program </program>   // I_b
           <caller>    0        </caller>    // I_s
           <callData>  .List    </callData>  // I_d
           <callValue> 0        </callValue> // I_v
 
-          // \mu_*
-          <gas>         0 </gas>            // \mu_g
-          <memoryUsed>  0 </memoryUsed>     // \mu_i
-          <previousGas> 0 </previousGas>
+          <gas>        0 </gas>        // \mu_g
+          <memoryUsed> 0 </memoryUsed> // \mu_i
         </call>
+```
+
+The execution `<substate>` keeps track of the self-destruct set, the log, and accumulated gas refund.
+
+```k
+        <substate>
+          <selfDestruct> .Set  </selfDestruct> // A_s
+          <log>          .List </log>          // A_l
+          <refund>       0     </refund>       // A_r
+        </substate>
 ```
 
 The `<accounts>` sub-configuration stores information about each account on the blockchain.
@@ -76,14 +83,18 @@ The `<accounts>` sub-configuration stores information about each account on the 
         </accounts>
 ```
 
-Transaction and block information:
+Transaction state `<tx>`:
 
 ```k
         <tx>
           <gasPrice> 0 </gasPrice> // I_p
           <origin>   0 </origin>   // I_o
         </tx>
+```
 
+And finally, block stack `<block>`:
+
+```k
         <block>
           <hashes>           .List      </hashes>
           <coinbase>         0          </coinbase>         // H_c

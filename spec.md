@@ -593,7 +593,65 @@ First we define a log-item, which is an account id and two byte lists (from the 
          <log> ... (.List => ListItem({ ACCT | BS1 | BS2 })) </log>
 ```
 
-#### `EEI.selfDestruct` **TODO**
+#### `EEI.selfDestruct : Int`
+
+Selfdestructing removes the current executing account and transfers the funds of it to the specified target account `ACCTTO`.
+If the target account is the same as the executing account, the balance of the current accound is zeroed immediately.
+In any case, the status is set to `EVMC_SUCCESS`.
+
+1.  Load `ACCT` from `eei.call.id`.
+
+2.  Add `ACCT` to the set `eei.substate.selfDestruct`.
+
+3.  Set `eei.call.returnData` to `.K` (empty).
+
+4.  Load `BAL` from `eei.accounts[ACCT].balance`.
+
+5.  Set `eei.accounts[ACCT].balance` to `0`.
+
+6.  If `ACCT == ACCTTO`:
+
+    i.  then: skip.
+
+    ii. else: add `BAL` to `eei.accounts[ACCTTO].balance`.
+
+```k
+    syntax EEIOp ::= "EEI.selfDestruct" Int
+ // ---------------------------------------
+    rule <k> EEI.selfDestruct ACCTTO => .EEIOp </k>
+         <statusCode> _ => EVMC_SUCCESS </statusCode>
+         <id> ACCT </id>
+         <returnData> _ => .K </returnData>
+         <selfDestruct> ... (.Set => SetItem(ACCT)) ... </selfDestruct>
+         <accounts>
+           <account>
+             <acctID> ACCT </acctID>
+             <balance> BAL => 0 </balance>
+             ...
+           </account>
+           <account>
+             <acctID> ACCTTO </acctID>
+             <balance> BALTO => BALTO +Int BAL </balance>
+             ...
+           </account>
+           ...
+         </accounts>
+      requires ACCTTO =/=K ACCT
+
+    rule <k> EEI.selfDestruct ACCT => .EEIOp </k>
+         <statusCode> _ => EVMC_SUCCESS </statusCode>
+         <id> ACCT </id>
+         <returnData> _ => .K </returnData>
+         <selfDestruct> ... (.Set => SetItem(ACCT)) ... </selfDestruct>
+         <accounts>
+           <account>
+             <acctID> ACCT </acctID>
+             <balance> BAL => 0 </balance>
+             ...
+           </account>
+           ...
+         </accounts>
+```
 
 #### `EEI.return` **TODO**
 

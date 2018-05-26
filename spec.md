@@ -248,7 +248,7 @@ If there are not `N` blocks yet, return `0`.
 
 Get the coinbase of the current block.
 
-1.  Load and return `eei.coinbase`.
+1.  Load and return `eei.block.coinbase`.
 
 ```k
     syntax EEIOp ::= "EEI.getBlockCoinbase"
@@ -262,7 +262,7 @@ Get the coinbase of the current block.
 
 Get the difficulty of the current block.
 
-1.  Load and return `eei.difficulty`.
+1.  Load and return `eei.block.difficulty`.
 
 ```k
     syntax EEIOp ::= "EEI.getBlockDifficulty"
@@ -276,7 +276,7 @@ Get the difficulty of the current block.
 
 Get the gas limit for the current block.
 
-1.  Load and return `eei.gasLimit`.
+1.  Load and return `eei.block.gasLimit`.
 
 ```k
     syntax EEIOp ::= "EEI.getBlockGasLimit"
@@ -304,7 +304,7 @@ Get the current block number.
 
 Get the timestamp of the last block.
 
-1.  Load and return `eei.timestamp`.
+1.  Load and return `eei.block.timestamp`.
 
 ```k
     syntax EEIOp ::= "EEI.getBlockTimestamp"
@@ -318,7 +318,7 @@ Get the timestamp of the last block.
 
 Get the gas price of the current transation.
 
-1.  Load and return `eei.gasPrice`.
+1.  Load and return `eei.tx.gasPrice`.
 
 ```k
     syntax EEIOp ::= "EEI.getTxGasPrice"
@@ -332,7 +332,7 @@ Get the gas price of the current transation.
 
 Get the address which sent this transaction.
 
-1.  Load and return `eei.origin`.
+1.  Load and return `eei.tx.origin`.
 
 ```k
     syntax EEIOp ::= "EEI.getTxOrigin"
@@ -342,7 +342,7 @@ Get the address which sent this transaction.
          <origin>      ORG                       </origin>
 ```
 
-### Call State Getters
+### Call State Methods
 
 These methods return information about the current call operation, which may change throughout a given transaction/block.
 
@@ -434,9 +434,34 @@ Get the return data of the last call.
          <returnData>  RETDATA                      </returnData>
 ```
 
-### Network State Getters
+#### `EEI.useGas : Int`
 
-These operators query the network/world state (eg. account balances).
+Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
+
+1.  Load the value `GAVAIL` from `eei.gas`.
+
+2.  If `GDEDUCT <=Int GAVAIL`:
+
+    i.  then: Set `eei.call.gas` to `GAVAIL -Int GDEDUCT`.
+
+    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.call.gas` to `0`.
+
+```k
+    syntax EEIOp ::= "EEI.useGas" Int
+ // ---------------------------------
+    rule <k>     EEI.useGas GDEDUCT => .EEIOp              </k>
+         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
+      requires GAVAIL >=Int GDEDUCT
+
+    rule <k>          EEI.useGas GDEDUCT => .EEIOp          </k>
+         <gas>        GAVAIL             => 0               </gas>
+         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
+      requires GAVAIL <Int GDEDUCT
+```
+
+### World State Methods
+
+These operators query the world state (eg. account balances).
 
 #### `EEI.getBalance : Int`
 
@@ -476,10 +501,6 @@ Get the code of the given account `ACCT`.
            ...
          </accounts>
 ```
-
-### EEI Interaction Methods
-
-The remaining methods have more complex interactions with the EEI, either setting/getting account information or triggering further computation.
 
 #### `EEI.storageStore : Int Int`
 
@@ -536,36 +557,15 @@ Returns the value at the given `INDEX` in the current executing accounts storage
       requires notBool INDEX in_keys(STORAGE)
 ```
 
+### EEI Interaction Methods
+
+The remaining methods have more complex interactions with the EEI, either setting/getting account information or triggering further computation.
+
 #### `EEI.selfDestruct` **TODO**
 
 #### `EEI.return` **TODO**
 
 #### `EEI.revert` **TODO**
-
-#### `EEI.useGas : Int`
-
-Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
-
-1.  Load the value `GAVAIL` from `eei.gas`.
-
-2.  If `GDEDUCT <=Int GAVAIL`:
-
-    i.  then: Set `eei.call.gas` to `GAVAIL -Int GDEDUCT`.
-
-    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.call.gas` to `0`.
-
-```k
-    syntax EEIOp ::= "EEI.useGas" Int
- // ---------------------------------
-    rule <k>     EEI.useGas GDEDUCT => .EEIOp              </k>
-         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
-      requires GAVAIL >=Int GDEDUCT
-
-    rule <k>          EEI.useGas GDEDUCT => .EEIOp          </k>
-         <gas>        GAVAIL             => 0               </gas>
-         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
-      requires GAVAIL <Int GDEDUCT
-```
 
 #### `EEI.call : Int ByteString ByteString`
 

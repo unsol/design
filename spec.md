@@ -106,6 +106,9 @@ Transaction and block information:
 In the texual rules below, we'll refer to cells by accesing subcells with the `.` operator.
 For example, we would access the `statusCode` cell with `eei.statusCode`.
 
+Data
+----
+
 ### Abstract Programs
 
 Different VMs have different representations of programs.
@@ -184,29 +187,21 @@ The following codes indicate other non-execution errors with the VM.
                              | "EVMC_INTERNAL_ERROR"
 ```
 
-Initialisation of a contract
-----------------------------
+EEI Methods
+-----------
 
-Execution of the contract entry point
--------------------------------------
-
-Host functions available to the contract
-----------------------------------------
-
-### EEI Operators
-
-The EEI exports several operators which can be invoked by any of the VMs when appropriate.
-Here the syntax and semantics of these operators is defined.
-The special EEIOp `.EEIOp` is the "no-op" or "skip" operator.
+The EEI exports several methods which can be invoked by any of the VMs when appropriate.
+Here the syntax and semantics of these methods is defined.
+The special EEIOp `.EEIOp` is the "no-op" or "skip" method.
 
 ```k
     syntax EEIOp ::= ".EEIOp"
 ```
 
-In the semantics below, we'll give both a texual description of the state updates for each operator, and the K rule.
-Each section header gives the name of the given EEI operator, along with the arguments needed.
+In the semantics below, we'll give both a texual description of the state updates for each method, and the K rule.
+Each section header gives the name of the given EEI method, along with the arguments needed.
 Argument positions are marked with underbars (`_`), and the types of those arguments are given after the colon (`:`).
-For example, `EEI.useGas_ : Int` declares that `EEI.useGas` in an EEI operator which takes a single integer as input.
+For example, `EEI.useGas_ : Int` declares that `EEI.useGas` in an EEI method which takes a single integer as input.
 
 #### `EEI.useGas_ : Int`
 
@@ -398,7 +393,7 @@ Get the value transferred for the current call.
 
 #### `EEI.codeCopy_ : Int`
 
--   `getCodeSize` and `getExternalCodeSize` can be implemented in terms of this operator.
+-   `getCodeSize` and `getExternalCodeSize` can be implemented in terms of this method.
 -   This implements what is traditionally `externalCodeCopy`, but traditional `codeCopy` can be implemented in terms of this as well.
 
 Get the code of the given account `ACCT`.
@@ -525,7 +520,7 @@ Get the address which sent this transaction.
 
 #### `EEI.returnDataCopy`
 
--   `getReturnDataSize` can be implemented in terms of this operator.
+-   `getReturnDataSize` can be implemented in terms of this method.
 
 Get the return data of the last call.
 

@@ -202,48 +202,21 @@ In the semantics below, we'll give both a texual description of the state update
 Each section header gives the name of the given EEI method, along with the arguments needed.
 For example, `EEI.useGas : Int` declares that `EEI.useGas` in an EEI method which takes a single integer as input.
 
-### EEI Getters
+### Block and Transaction Information Getters
 
-Many of the methods exported by the EEI simply query for somestate of the execution environment.
+Many of the methods exported by the EEI simply query for some state of the current block/transaction.
 These methods are prefixed with `get`, and have largely similar and simple rules.
-
-#### `EEI.getAddress`
-
-Return the address of the currently executing account.
-
-1.  Load and return the value `eei.id`.
-
-```k
-    syntax EEIOp ::= "EEI.getAddress"
- // ---------------------------------
-    rule <eeiOP>       EEI.getAddress => .EEIOp </eeiOP>
-         <eeiResponse> _              => ADDR   </eeiResponse>
-         <id>          ADDR                     </id>
-```
-
-#### `EEI.getBalance : Int`
-
-Return the balance of the given account (`ACCT`).
-
-1.  Load and return the value `eei.accounts[ACCT].balance`.
-
-```k
-    syntax EEIOp ::= "EEI.getBalance" Int
- // -------------------------------------
-    rule <eeiOP>       EEI.getBalance ACCT => .EEIOp </eeiOP>
-         <eeiResponse> _                   => BAL    </eeiResponse>
-         <account>
-           <acctID>  ACCT </acctID>
-           <balance> BAL  </balance>
-           ...
-         </account>
-```
 
 #### `EEI.getBlockHash : Int`
 
 Return the blockhash of one of the `N`th most recent complete blocks (as long as `N <Int 256`).
+If there are not `N` blocks yet, return `0`.
 
-1.  If `N <Int 256`:
+**TODO:** Double-check this logic, esp for off-by-one errors.
+
+1.  Load `BLOCKNUM` from `eei.blockNumber`.
+
+1.  If `N <Int 256` and `N <Int BLOCKNUM`:
 
     i.  then: Load and return `eei.blockhash[N]`.
 
@@ -260,71 +233,6 @@ Return the blockhash of one of the `N`th most recent complete blocks (as long as
     rule <eeiOP>       EEI.getBlockHash N => .EEIOp </eeiOP>
          <eeiResponse> _                  => 0      </eeiResponse>
       requires N >=Int 256
-```
-
-#### `EEI.callDataCopy`
-
--   `callDataSize` can be implemented client-side in terms of this opcode.
-
-Returns the calldata associated with this call.
-
-1.  Load and return `eei.callData`.
-
-```k
-    syntax EEIOp ::= "EEI.callDataCopy"
- // -----------------------------------
-    rule <eeiOP>       EEI.callDataCopy => .EEIOp </eeiOP>
-         <eeiResponse> _                => CDATA  </eeiResponse>
-         <callData>    CDATA                      </callData>
-```
-
-#### `EEI.getCaller`
-
-Get the account id of the caller into the current execution.
-
-1.  Load and return `eei.caller`.
-
-```k
-    syntax EEIOp ::= "EEI.getCaller"
- // --------------------------------
-    rule <eeiOP>       EEI.getCaller => .EEIOp </eeiOP>
-         <eeiResponse> _             => CACCT  </eeiResponse>
-         <caller>      CACCT                   </caller>
-```
-
-#### `EEI.getCallValue`
-
-Get the value transferred for the current call.
-
-1.  Load and return `eei.callValue`.
-
-```k
-    syntax EEIOp ::= "EEI.getCallValue"
- // -----------------------------------
-    rule <eeiOP>       EEI.getCallValue => .EEIOp </eeiOP>
-         <eeiResponse> _                => CVALUE </eeiResponse>
-         <callValue>   CVALUE                     </callValue>
-```
-
-#### `EEI.codeCopy : Int`
-
--   `getCodeSize` and `getExternalCodeSize` can be implemented in terms of this method.
--   This implements what is traditionally `externalCodeCopy`, but traditional `codeCopy` can be implemented in terms of this as well.
-
-Get the code of the given account `ACCT`.
-
-1.  Load and return `eei.accounts[ACCT].code`.
-
-```k
-    syntax EEIOp ::= "EEI.codeCopy" Int
- // -----------------------------------
-    rule <eeiOP>       EEI.codeCopy ACCT => .EEIOp   </eeiOP>
-         <eeiResponse> _                 => ACCTCODE </eeiResponse>
-         <accounts>
-           <acctID> ACCT </acctID>
-           <code> ACCTCODE </code>
-           ...
-         </accounts>
 ```
 
 #### `EEI.getBlockCoinbase`
@@ -353,20 +261,6 @@ Get the difficulty of the current block.
     rule <eeiOP>       EEI.getBlockDifficulty => .EEIOp </eeiOP>
          <eeiResponse> _                      => DIFF   </eeiResponse>
          <difficulty>  DIFF                             </difficulty>
-```
-
-#### `EEI.getGasLeft`
-
-Get the gas left available for this execution.
-
-1.  Load and return `eei.gas`.
-
-```k
-    syntax EEIOp ::= "EEI.getGasLeft"
- // ---------------------------------
-    rule <eeiOP>       EEI.getGasLeft => .EEIOp </eeiOP>
-         <eeiResponse> _              => GAVAIL </eeiResponse>
-         <gas>         GAVAIL                   </gas>
 ```
 
 #### `EEI.getBlockGasLimit`
@@ -411,36 +305,6 @@ Get the current block number.
          <blockNumber> BLKNUMBER                       </blockNumber>
 ```
 
-#### `EEI.getTxOrigin`
-
-Get the address which sent this transaction.
-
-1.  Load and return `eei.origin`.
-
-```k
-    syntax EEIOp ::= "EEI.getTxOrigin"
- // ----------------------------------
-    rule <eeiOP>       EEI.getTxOrigin => .EEIOp </eeiOP>
-         <eeiResponse> _               => ORG    </eeiResponse>
-         <origin>      ORG                       </origin>
-```
-
-#### `EEI.returnDataCopy`
-
--   `getReturnDataSize` can be implemented in terms of this method.
-
-Get the return data of the last call.
-
-1.  Load and return `eei.returnData`.
-
-```k
-    syntax EEIOp ::= "EEI.returnDataCopy"
- // -------------------------------------
-    rule <eeiOP>       EEI.returnDataCopy => .EEIOp  </eeiOP>
-         <eeiResponse> _                  => RETDATA </eeiResponse>
-         <returnData>  RETDATA                       </returnData>
-```
-
 #### `EEI.getBlockTimestamp`
 
 Get the timestamp of the last block.
@@ -455,49 +319,158 @@ Get the timestamp of the last block.
          <timestamp>   TSTAMP                          </timestamp>
 ```
 
+#### `EEI.getTxOrigin`
+
+Get the address which sent this transaction.
+
+1.  Load and return `eei.origin`.
+
+```k
+    syntax EEIOp ::= "EEI.getTxOrigin"
+ // ----------------------------------
+    rule <eeiOP>       EEI.getTxOrigin => .EEIOp </eeiOP>
+         <eeiResponse> _               => ORG    </eeiResponse>
+         <origin>      ORG                       </origin>
+```
+
+### Call State Getters
+
+These methods return information about the current call operation, which may change throughout a given transaction/block.
+
+#### `EEI.getAddress`
+
+Return the address of the currently executing account.
+
+1.  Load and return the value `eei.id`.
+
+```k
+    syntax EEIOp ::= "EEI.getAddress"
+ // ---------------------------------
+    rule <eeiOP>       EEI.getAddress => .EEIOp </eeiOP>
+         <eeiResponse> _              => ADDR   </eeiResponse>
+         <id>          ADDR                     </id>
+```
+
+#### `EEI.getCaller`
+
+Get the account id of the caller into the current execution.
+
+1.  Load and return `eei.caller`.
+
+```k
+    syntax EEIOp ::= "EEI.getCaller"
+ // --------------------------------
+    rule <eeiOP>       EEI.getCaller => .EEIOp </eeiOP>
+         <eeiResponse> _             => CACCT  </eeiResponse>
+         <caller>      CACCT                   </caller>
+```
+
+#### `EEI.getCallData`
+
+-   `callDataSize` can be implemented client-side in terms of this opcode.
+
+Returns the calldata associated with this call.
+
+1.  Load and return `eei.callData`.
+
+```k
+    syntax EEIOp ::= "EEI.getCallData"
+ // ----------------------------------
+    rule <eeiOP>       EEI.getCallData => .EEIOp </eeiOP>
+         <eeiResponse> _               => CDATA  </eeiResponse>
+         <callData>    CDATA                     </callData>
+```
+
+#### `EEI.getCallValue`
+
+Get the value transferred for the current call.
+
+1.  Load and return `eei.callValue`.
+
+```k
+    syntax EEIOp ::= "EEI.getCallValue"
+ // -----------------------------------
+    rule <eeiOP>       EEI.getCallValue => .EEIOp </eeiOP>
+         <eeiResponse> _                => CVALUE </eeiResponse>
+         <callValue>   CVALUE                     </callValue>
+```
+
+#### `EEI.getGasLeft`
+
+Get the gas left available for this execution.
+
+1.  Load and return `eei.gas`.
+
+```k
+    syntax EEIOp ::= "EEI.getGasLeft"
+ // ---------------------------------
+    rule <eeiOP>       EEI.getGasLeft => .EEIOp </eeiOP>
+         <eeiResponse> _              => GAVAIL </eeiResponse>
+         <gas>         GAVAIL                   </gas>
+```
+
+### Network State Getters
+
+These operators query the network/world state (eg. account balances).
+
+#### `EEI.getBalance : Int`
+
+Return the balance of the given account (`ACCT`).
+
+1.  Load and return the value `eei.accounts[ACCT].balance`.
+
+```k
+    syntax EEIOp ::= "EEI.getBalance" Int
+ // -------------------------------------
+    rule <eeiOP>       EEI.getBalance ACCT => .EEIOp </eeiOP>
+         <eeiResponse> _                   => BAL    </eeiResponse>
+         <account>
+           <acctID>  ACCT </acctID>
+           <balance> BAL  </balance>
+           ...
+         </account>
+```
+
+#### `EEI.getCode : Int`
+
+-   `getCodeSize` and `getExternalCodeSize` can be implemented in terms of this method.
+-   This implements what is traditionally `externalCodeCopy`, but traditional `codeCopy` can be implemented in terms of this as well.
+
+Get the code of the given account `ACCT`.
+
+1.  Load and return `eei.accounts[ACCT].code`.
+
+```k
+    syntax EEIOp ::= "EEI.getCode" Int
+ // ----------------------------------
+    rule <eeiOP>       EEI.getCode ACCT => .EEIOp   </eeiOP>
+         <eeiResponse> _                => ACCTCODE </eeiResponse>
+         <accounts>
+           <acctID> ACCT </acctID>
+           <code> ACCTCODE </code>
+           ...
+         </accounts>
+```
+
+#### `EEI.getReturnData`
+
+-   `getReturnDataSize` can be implemented in terms of this method.
+
+Get the return data of the last call.
+
+1.  Load and return `eei.returnData`.
+
+```k
+    syntax EEIOp ::= "EEI.getReturnData"
+ // ------------------------------------
+    rule <eeiOP>       EEI.getReturnData => .EEIOp  </eeiOP>
+         <eeiResponse> _                 => RETDATA </eeiResponse>
+         <returnData>  RETDATA                      </returnData>
+```
+
 ### EEI Interaction Methods
 
 The remaining methods have more complex interactions with the EEI, either setting/getting account information or triggering further computation.
-
-#### `EEI.selfDestruct` **TODO**
-
-#### `EEI.return` **TODO**
-
-#### `EEI.revert` **TODO**
-
-#### `EEI.useGas : Int`
-
-Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
-
-1.  Load the value `GAVAIL` from `eei.gas`.
-
-2.  If `GDEDUCT <=Int GAVAIL`:
-
-    i.  then: Set `eei.gas` to `GAVAIL -Int GDEDUCT`.
-
-    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.gas` to `0`.
-
-```k
-    syntax EEIOp ::= "EEI.useGas" Int
- // ---------------------------------
-    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp              </eeiOP>
-         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
-      requires GAVAIL >=Int GDEDUCT
-
-    rule <eeiOP>      EEI.useGas GDEDUCT => .EEIOp          </eeiOP>
-         <gas>        GAVAIL             => 0               </gas>
-         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
-      requires GAVAIL <Int GDEDUCT
-```
-
-#### `EEI.call : Int ByteString ByteString`
-
--   `EEI.call` **TODO**
--   `EEI.callCode` **TODO**
--   `EEI.callDelegate` **TODO**
--   `EEI.callStatic` **TODO**
-
-**TODO:** Implement one abstract-level `EEI.call`, akin to `#call` in KEVM, which other `CALL*` opcodes can be expressed in terms of.
 
 #### `EEI.storageStore : Int Int`
 
@@ -553,6 +526,47 @@ Returns the value at the given `INDEX` in the current executing accounts storage
          </account>
       requires notBool INDEX in_keys(STORAGE)
 ```
+
+
+#### `EEI.selfDestruct` **TODO**
+
+#### `EEI.return` **TODO**
+
+#### `EEI.revert` **TODO**
+
+#### `EEI.useGas : Int`
+
+Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
+
+1.  Load the value `GAVAIL` from `eei.gas`.
+
+2.  If `GDEDUCT <=Int GAVAIL`:
+
+    i.  then: Set `eei.gas` to `GAVAIL -Int GDEDUCT`.
+
+    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.gas` to `0`.
+
+```k
+    syntax EEIOp ::= "EEI.useGas" Int
+ // ---------------------------------
+    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp              </eeiOP>
+         <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
+      requires GAVAIL >=Int GDEDUCT
+
+    rule <eeiOP>      EEI.useGas GDEDUCT => .EEIOp          </eeiOP>
+         <gas>        GAVAIL             => 0               </gas>
+         <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
+      requires GAVAIL <Int GDEDUCT
+```
+
+#### `EEI.call : Int ByteString ByteString`
+
+-   `EEI.call` **TODO**
+-   `EEI.callCode` **TODO**
+-   `EEI.callDelegate` **TODO**
+-   `EEI.callStatic` **TODO**
+
+**TODO:** Implement one abstract-level `EEI.call`, akin to `#call` in KEVM, which other `CALL*` opcodes can be expressed in terms of.
 
 #### `EEI.create` **TODO**
 

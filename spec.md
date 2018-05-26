@@ -200,10 +200,9 @@ The special EEIOp `.EEIOp` is the "no-op" or "skip" method.
 
 In the semantics below, we'll give both a texual description of the state updates for each method, and the K rule.
 Each section header gives the name of the given EEI method, along with the arguments needed.
-Argument positions are marked with underbars (`_`), and the types of those arguments are given after the colon (`:`).
-For example, `EEI.useGas_ : Int` declares that `EEI.useGas` in an EEI method which takes a single integer as input.
+For example, `EEI.useGas : Int` declares that `EEI.useGas` in an EEI method which takes a single integer as input.
 
-#### `EEI.useGas_ : Int`
+#### `EEI.useGas : Int`
 
 Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
 
@@ -242,7 +241,7 @@ Return the address of the currently executing account.
          <id>          ADDR                     </id>
 ```
 
-#### `EEI.getBalance_ : Int`
+#### `EEI.getBalance : Int`
 
 Return the balance of the given account (`ACCT`).
 
@@ -260,7 +259,7 @@ Return the balance of the given account (`ACCT`).
          </account>
 ```
 
-#### `EEI.getBlockHash_ : Int`
+#### `EEI.getBlockHash : Int`
 
 Return the blockhash of one of the `N`th most recent complete blocks (as long as `N <Int 256`).
 
@@ -283,7 +282,7 @@ Return the blockhash of one of the `N`th most recent complete blocks (as long as
       requires N >=Int 256
 ```
 
-#### `EEI.call___ : Int ByteString ByteString`
+#### `EEI.call : Int ByteString ByteString`
 
 -   `EEI.call` **TODO**
 -   `EEI.callCode` **TODO**
@@ -308,7 +307,7 @@ Returns the calldata associated with this call.
          <callData>    CDATA                      </callData>
 ```
 
-#### `EEI.storageStore__ : Int Int`
+#### `EEI.storageStore : Int Int`
 
 At the given `INDEX` in the executing accounts storage, stores the given `VALUE`.
 
@@ -328,7 +327,7 @@ At the given `INDEX` in the executing accounts storage, stores the given `VALUE`
          </account>
 ```
 
-#### `EEI.storageLoad_ : Int`
+#### `EEI.storageLoad : Int`
 
 Returns the value at the given `INDEX` in the current executing accounts storage.
 
@@ -391,7 +390,7 @@ Get the value transferred for the current call.
          <callValue>   CVALUE                     </callValue>
 ```
 
-#### `EEI.codeCopy_ : Int`
+#### `EEI.codeCopy : Int`
 
 -   `getCodeSize` and `getExternalCodeSize` can be implemented in terms of this method.
 -   This implements what is traditionally `externalCodeCopy`, but traditional `codeCopy` can be implemented in terms of this as well.

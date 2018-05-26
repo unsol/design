@@ -36,10 +36,9 @@ Similarly, cells that contain a `List` data-type can be indexed using standard a
 
 ```k
     configuration
+      <k> $PGM:EthereumSimulation </k>
       <eei>
-        <eeiOP>       .EEIOp      </eeiOP>
-        <eeiResponse> .K          </eeiResponse>
-        <statusCode>  .StatusCode </statusCode>
+        <statusCode> .StatusCode </statusCode>
 ```
 
 The `<callState>` sub-configuration can be saved/restored when needed between calls.
@@ -103,6 +102,21 @@ For example, we would access the `statusCode` cell with `eei.statusCode`.
 Data
 ----
 
+### Ethereum Simulations
+
+Ethereum simulations will drive execution of the VMs and network updates.
+Here we will be extending the `EEIOp` sort with functionality made available by all clients.
+
+**TODO:** Rename sort `EEIOp => EEIMethod`.
+
+```k
+    syntax EthereumCommand ::= EEIOp
+ // --------------------------------
+
+    syntax EthereumSimulation ::= List{EthereumCommand, ""}
+ // -------------------------------------------------------
+```
+
 ### Abstract Programs
 
 Different VMs have different representations of programs.
@@ -110,6 +124,7 @@ Here, we make a sort `Program` which has a single constant `.Program` to use as 
 
 ```k
     syntax Program ::= ".Program"
+ // -----------------------------
 ```
 
 ### Status Codes
@@ -219,12 +234,12 @@ If there are not `N` blocks yet, return `0`.
 ```k
     syntax EEIOp ::= "EEI.getBlockHash" Int
  // ---------------------------------------
-    rule <eeiOP>       EEI.getBlockHash N => .EEIOp       </eeiOP>
+    rule <k>           EEI.getBlockHash N => .EEIOp       </k>
          <eeiResponse> _                  => BLKHASHES[N] </eeiResponse>
          <hashes>      BLKHASHES                          </hashes>
       requires N <Int 256
 
-    rule <eeiOP>       EEI.getBlockHash N => .EEIOp </eeiOP>
+    rule <k>           EEI.getBlockHash N => .EEIOp </k>
          <eeiResponse> _                  => 0      </eeiResponse>
       requires N >=Int 256
 ```
@@ -238,7 +253,7 @@ Get the coinbase of the current block.
 ```k
     syntax EEIOp ::= "EEI.getBlockCoinbase"
  // ---------------------------------------
-    rule <eeiOP>       EEI.getBlockCoinbase => .EEIOp </eeiOP>
+    rule <k>           EEI.getBlockCoinbase => .EEIOp </k>
          <eeiResponse> _                    => CBASE  </eeiResponse>
          <coinbase>    CBASE                          </coinbase>
 ```
@@ -252,7 +267,7 @@ Get the difficulty of the current block.
 ```k
     syntax EEIOp ::= "EEI.getBlockDifficulty"
  // -----------------------------------------
-    rule <eeiOP>       EEI.getBlockDifficulty => .EEIOp </eeiOP>
+    rule <k>           EEI.getBlockDifficulty => .EEIOp </k>
          <eeiResponse> _                      => DIFF   </eeiResponse>
          <difficulty>  DIFF                             </difficulty>
 ```
@@ -266,7 +281,7 @@ Get the gas limit for the current block.
 ```k
     syntax EEIOp ::= "EEI.getBlockGasLimit"
  // ---------------------------------------
-    rule <eeiOP>       EEI.getBlockGasLimit => .EEIOp </eeiOP>
+    rule <k>           EEI.getBlockGasLimit => .EEIOp </k>
          <eeiResponse> _                    => GLIMIT </eeiResponse>
          <gasLimit>    GLIMIT                         </gasLimit>
 ```
@@ -280,7 +295,7 @@ Get the current block number.
 ```k
     syntax EEIOp ::= "EEI.getBlockNumber"
  // -------------------------------------
-    rule <eeiOP>       EEI.getBlockNumber => .EEIOp    </eeiOP>
+    rule <k>           EEI.getBlockNumber => .EEIOp    </k>
          <eeiResponse> _                  => BLKNUMBER </eeiResponse>
          <number>      BLKNUMBER                       </number>
 ```
@@ -294,7 +309,7 @@ Get the timestamp of the last block.
 ```k
     syntax EEIOp ::= "EEI.getBlockTimestamp"
  // ----------------------------------------
-    rule <eeiOP>       EEI.getBlockTimestamp => .EEIOp </eeiOP>
+    rule <k>           EEI.getBlockTimestamp => .EEIOp </k>
          <eeiResponse> _                     => TSTAMP </eeiResponse>
          <timestamp>   TSTAMP                          </timestamp>
 ```
@@ -308,7 +323,7 @@ Get the gas price of the current transation.
 ```k
     syntax EEIOp ::= "EEI.getTxGasPrice"
  // ------------------------------------
-    rule <eeiOP>       EEI.getTxGasPrice => .EEIOp </eeiOP>
+    rule <k>           EEI.getTxGasPrice => .EEIOp </k>
          <eeiResponse> _                 => GPRICE </eeiResponse>
          <gasPrice>    GPRICE                      </gasPrice>
 ```
@@ -322,7 +337,7 @@ Get the address which sent this transaction.
 ```k
     syntax EEIOp ::= "EEI.getTxOrigin"
  // ----------------------------------
-    rule <eeiOP>       EEI.getTxOrigin => .EEIOp </eeiOP>
+    rule <k>           EEI.getTxOrigin => .EEIOp </k>
          <eeiResponse> _               => ORG    </eeiResponse>
          <origin>      ORG                       </origin>
 ```
@@ -340,7 +355,7 @@ Return the address of the currently executing account.
 ```k
     syntax EEIOp ::= "EEI.getAddress"
  // ---------------------------------
-    rule <eeiOP>       EEI.getAddress => .EEIOp </eeiOP>
+    rule <k>           EEI.getAddress => .EEIOp </k>
          <eeiResponse> _              => ADDR   </eeiResponse>
          <id>          ADDR                     </id>
 ```
@@ -354,7 +369,7 @@ Get the account id of the caller into the current execution.
 ```k
     syntax EEIOp ::= "EEI.getCaller"
  // --------------------------------
-    rule <eeiOP>       EEI.getCaller => .EEIOp </eeiOP>
+    rule <k>           EEI.getCaller => .EEIOp </k>
          <eeiResponse> _             => CACCT  </eeiResponse>
          <caller>      CACCT                   </caller>
 ```
@@ -370,7 +385,7 @@ Returns the calldata associated with this call.
 ```k
     syntax EEIOp ::= "EEI.getCallData"
  // ----------------------------------
-    rule <eeiOP>       EEI.getCallData => .EEIOp </eeiOP>
+    rule <k>           EEI.getCallData => .EEIOp </k>
          <eeiResponse> _               => CDATA  </eeiResponse>
          <callData>    CDATA                     </callData>
 ```
@@ -384,7 +399,7 @@ Get the value transferred for the current call.
 ```k
     syntax EEIOp ::= "EEI.getCallValue"
  // -----------------------------------
-    rule <eeiOP>       EEI.getCallValue => .EEIOp </eeiOP>
+    rule <k>           EEI.getCallValue => .EEIOp </k>
          <eeiResponse> _                => CVALUE </eeiResponse>
          <callValue>   CVALUE                     </callValue>
 ```
@@ -398,7 +413,7 @@ Get the gas left available for this execution.
 ```k
     syntax EEIOp ::= "EEI.getGasLeft"
  // ---------------------------------
-    rule <eeiOP>       EEI.getGasLeft => .EEIOp </eeiOP>
+    rule <k>           EEI.getGasLeft => .EEIOp </k>
          <eeiResponse> _              => GAVAIL </eeiResponse>
          <gas>         GAVAIL                   </gas>
 ```
@@ -414,7 +429,7 @@ Get the return data of the last call.
 ```k
     syntax EEIOp ::= "EEI.getReturnData"
  // ------------------------------------
-    rule <eeiOP>       EEI.getReturnData => .EEIOp  </eeiOP>
+    rule <k>           EEI.getReturnData => .EEIOp  </k>
          <eeiResponse> _                 => RETDATA </eeiResponse>
          <returnData>  RETDATA                      </returnData>
 ```
@@ -432,7 +447,7 @@ Return the balance of the given account (`ACCT`).
 ```k
     syntax EEIOp ::= "EEI.getBalance" Int
  // -------------------------------------
-    rule <eeiOP>       EEI.getBalance ACCT => .EEIOp </eeiOP>
+    rule <k>           EEI.getBalance ACCT => .EEIOp </k>
          <eeiResponse> _                   => BAL    </eeiResponse>
          <account>
            <acctID>  ACCT </acctID>
@@ -453,7 +468,7 @@ Get the code of the given account `ACCT`.
 ```k
     syntax EEIOp ::= "EEI.getCode" Int
  // ----------------------------------
-    rule <eeiOP>       EEI.getCode ACCT => .EEIOp   </eeiOP>
+    rule <k>           EEI.getCode ACCT => .EEIOp   </k>
          <eeiResponse> _                => ACCTCODE </eeiResponse>
          <accounts>
            <acctID> ACCT </acctID>
@@ -477,7 +492,7 @@ At the given `INDEX` in the executing accounts storage, stores the given `VALUE`
 ```k
     syntax EEIOp ::= "EEI.storageStore" Int Int
  // -------------------------------------------
-    rule <eeiOP> EEI.storageStore INDEX VALUE => .EEIOp </eeiOP>
+    rule <k>     EEI.storageStore INDEX VALUE => .EEIOp </k>
          <id>    ACCT </id>
          <account>
            <acctID> ACCT </acctID>
@@ -501,7 +516,7 @@ Returns the value at the given `INDEX` in the current executing accounts storage
 ```k
     syntax EEIOp ::= "EEI.storageLoad" Int
  // --------------------------------------
-    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
+    rule <k>           EEI.storageLoad INDEX => .EEIOp </k>
          <eeiResponse> _                     => VALUE  </eeiResponse>
          <id> ACCT </id>
          <account>
@@ -510,7 +525,7 @@ Returns the value at the given `INDEX` in the current executing accounts storage
            ...
          </account>
 
-    rule <eeiOP>       EEI.storageLoad INDEX => .EEIOp </eeiOP>
+    rule <k>           EEI.storageLoad INDEX => .EEIOp </k>
          <eeiResponse> _                     => 0      </eeiResponse>
          <id> ACCT </id>
          <account>
@@ -542,11 +557,11 @@ Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
 ```k
     syntax EEIOp ::= "EEI.useGas" Int
  // ---------------------------------
-    rule <eeiOP> EEI.useGas GDEDUCT => .EEIOp              </eeiOP>
+    rule <k>     EEI.useGas GDEDUCT => .EEIOp              </k>
          <gas>   GAVAIL             => GAVAIL -Int GDEDUCT </gas>
       requires GAVAIL >=Int GDEDUCT
 
-    rule <eeiOP>      EEI.useGas GDEDUCT => .EEIOp          </eeiOP>
+    rule <k>          EEI.useGas GDEDUCT => .EEIOp          </k>
          <gas>        GAVAIL             => 0               </gas>
          <statusCode> _                  => EVMC_OUT_OF_GAS </statusCode>
       requires GAVAIL <Int GDEDUCT

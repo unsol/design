@@ -655,7 +655,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
 
 #### `EEI.return : List`
 
-Return sets the return data to the given list of `RDATA` as well setting the status code to `EVMC_SUCCESS`.
+Set the return data to the given list of `RDATA` as well setting the status code to `EVMC_SUCCESS`.
 
 1.  Set `eei.call.returnData` to `RDATA`.
 
@@ -669,7 +669,21 @@ Return sets the return data to the given list of `RDATA` as well setting the sta
          <returnData> _ => RDATA </returnData>
 ```
 
-#### `EEI.revert` **TODO**
+#### `EEI.revert : List`
+
+Set the return data to the given list of `RDATA` as well setting the status code to `EVMC_REVERT`.
+
+1.  Set `eei.call.returnData` to `RDATA`.
+
+2.  Set `eei.statusCode` to `EVMC_REVERT`.
+
+```k
+    syntax EEIOp ::= "EEI.revert" List
+ // ----------------------------------
+    rule <k> EEI.revert RDATA => .EEIOp </k>
+         <statusCode> _ => EVMC_REVERT </statusCode>
+         <returnData> _ => RDATA </returnData>
+```
 
 #### `EEI.call : Int ByteString ByteString`
 

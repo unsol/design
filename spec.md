@@ -45,7 +45,7 @@ Similarly, cells that contain a `List` data-type can be indexed using standard a
 The `<callState>` sub-configuration can be saved/restored when needed between calls.
 
 ```k
-        <callState>
+        <call>
           <callDepth>  0     </callDepth>
           <returnData> .List </returnData>
 
@@ -60,7 +60,7 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
           <gas>         0 </gas>            // \mu_g
           <memoryUsed>  0 </memoryUsed>     // \mu_i
           <previousGas> 0 </previousGas>
-        </callState>
+        </call>
 ```
 
 The `<accounts>` sub-configuration stores information about each account on the blockchain.
@@ -80,26 +80,20 @@ The `<accounts>` sub-configuration stores information about each account on the 
 Transaction and block information:
 
 ```k
-        <gasPrice> 0 </gasPrice> // I_p
-        <origin>   0 </origin>   // I_o
+        <tx>
+          <gasPrice> 0 </gasPrice> // I_p
+          <origin>   0 </origin>   // I_o
+        </tx>
 
-        <previousHash>     0          </previousHash>     // H_p
-        <ommersHash>       0          </ommersHash>       // H_o
-        <coinbase>         0          </coinbase>         // H_c
-        <stateRoot>        0          </stateRoot>        // H_r
-        <transactionsRoot> 0          </transactionsRoot> // H_t
-        <receiptsRoot>     0          </receiptsRoot>     // H_e
-     // <logsBloom>        .WordStack </logsBloom>        // H_b
-        <difficulty>       0          </difficulty>       // H_d
-        <blockNumber>      0          </blockNumber>      // H_i
-        <gasLimit>         0          </gasLimit>         // H_l
-        <gasUsed>          0          </gasUsed>          // H_g
-        <timestamp>        0          </timestamp>        // H_s
-     // <extraData>        .WordStack </extraData>        // H_x
-        <mixHash>          0          </mixHash>          // H_m
-        <blockNonce>       0          </blockNonce>       // H_n
-     // <ommerBlockHeaders> [ .JSONList ] </ommerBlockHeaders>
-        <blockhash>         .List         </blockhash>
+        <block>
+          <hashes>           .List      </hashes>
+          <coinbase>         0          </coinbase>         // H_c
+       // <logsBloom>        .WordStack </logsBloom>        // H_b
+          <difficulty>       0          </difficulty>       // H_d
+          <number>           0          </number>           // H_i
+          <gasLimit>         0          </gasLimit>         // H_l
+          <timestamp>        0          </timestamp>        // H_s
+        </block>
       </eei>
 ```
 
@@ -214,11 +208,11 @@ If there are not `N` blocks yet, return `0`.
 
 **TODO:** Double-check this logic, esp for off-by-one errors.
 
-1.  Load `BLOCKNUM` from `eei.blockNumber`.
+1.  Load `BLOCKNUM` from `eei.block.number`.
 
 1.  If `N <Int 256` and `N <Int BLOCKNUM`:
 
-    i.  then: Load and return `eei.blockhash[N]`.
+    i.  then: Load and return `eei.block.hashes[N]`.
 
     ii. else: Return `0`.
 
@@ -227,7 +221,7 @@ If there are not `N` blocks yet, return `0`.
  // ---------------------------------------
     rule <eeiOP>       EEI.getBlockHash N => .EEIOp       </eeiOP>
          <eeiResponse> _                  => BLKHASHES[N] </eeiResponse>
-         <blockhash>   BLKHASHES                          </blockhash>
+         <hashes>      BLKHASHES                          </hashes>
       requires N <Int 256
 
     rule <eeiOP>       EEI.getBlockHash N => .EEIOp </eeiOP>
@@ -295,14 +289,14 @@ Get the gas price of the current transation.
 
 Get the current block number.
 
-1.  Load and return `eei.blockNumber`.
+1.  Load and return `eei.block.number`.
 
 ```k
     syntax EEIOp ::= "EEI.getBlockNumber"
  // -------------------------------------
     rule <eeiOP>       EEI.getBlockNumber => .EEIOp    </eeiOP>
          <eeiResponse> _                  => BLKNUMBER </eeiResponse>
-         <blockNumber> BLKNUMBER                       </blockNumber>
+         <number>      BLKNUMBER                       </number>
 ```
 
 #### `EEI.getBlockTimestamp`

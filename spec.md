@@ -10,6 +10,17 @@ To this end, multiple things are specified:
 -   The extra state that a VM needs to have around to successfully respond to calls into the EEI.
 -   The EEI (Ethereum Environment Interface), currently specified loosley [here](eth_interface.md).
 
+### Terminology
+
+**EEI**: The *Ethereum Environment Interface* refers to the layer between the Ethereum Client code and the execution engine.
+         **TODO**: Is *EEI* the right term to use?
+
+**Ethereum Client**: Code which can interact with the blockchain (read/validate and sending transactions).
+
+**execution engine**: The underlying "hardware" of the VM, implementing the basic computational functions.
+
+**VM**: The VM is the combination of an Ethereum Client and the execution engine.
+
 ### Notation
 
 We are using [K Framework] notation to specify the EEI, which makes this specification executable.

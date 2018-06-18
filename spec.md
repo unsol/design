@@ -725,3 +725,4 @@ Resources
 
 [K Framework]: <https://github.com/kframework/k>
 [EVMC]: <https://github.com/ethereum/evmc>
+[Yellow Paper]: <https://github.com/ethereum/yellowpaper>

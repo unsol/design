@@ -122,36 +122,35 @@ And finally, block stack `<block>`:
       </eei>
 ```
 
+Ethereum Simulations
+--------------------
 
-Data
-----
+An `EthereumSimulation` is a list of commands to be executed via the EEI.
+Each `EthereumCommmand` can invoke the execution engine on an input or interact with the client.
 
-### Ethereum Simulations
+```k
+    syntax EthereumSimulation ::= List{EthereumCommand, ""}
+```
 
-Ethereum simulations will drive execution of the VMs and network updates.
-Here we will be extending the `EEIMethod` sort with functionality made available by all clients.
+Sort `EEIMethod` is used to make calls into the client via the EEI.
+Sort `Program` is used to invoke the execution engine via the EEI.
 
 ```k
     syntax EthereumCommand ::= EEIMethod
- // ------------------------------------
-
-    syntax EthereumSimulation ::= List{EthereumCommand, ""}
- // -------------------------------------------------------
+                             | Program
 ```
 
-### Abstract Programs
-
-Different VMs have different representations of programs.
+Each execution engine has it's own program representation, so we make a wrapper for them.
 Here, we make a sort `Program` which has a single constant `.Program` to use as the default.
 
 ```k
     syntax Program ::= ".Program"
- // -----------------------------
 ```
 
-### Status Codes
+Status Codes
+------------
 
-The [EVMC] status codes are used to indicate to the client how VM execution ended.
+The [EVMC] status codes are used by the execution engine to indicate to the client how execution ended.
 Currently, they are broken into three subsorts, for exceptional, ending, or error statuses.
 The extra status code `.StatusCode` is used as a default status code when none has been set.
 
@@ -162,7 +161,7 @@ The extra status code `.StatusCode` is used as a default status code when none h
                         | ".StatusCode"
 ```
 
-#### Exceptional Codes
+### Exceptional Codes
 
 The following codes all indicate that the VM ended execution with an exception, but give details about how.
 
@@ -193,7 +192,7 @@ The following codes all indicate that the VM ended execution with an exception, 
                                    | "EVMC_PRECOMPILE_FAILURE"
 ```
 
-#### Ending Codes
+### Ending Codes
 
 These additional status codes indicate that execution has ended in some non-exceptional way.
 
@@ -206,9 +205,9 @@ These additional status codes indicate that execution has ended in some non-exce
                            | "EVMC_REVERT"
 ```
 
-#### Error Codes
+### Error Codes
 
-The following codes indicate other non-execution errors with the VM.
+The following codes indicate other non-execution errors with the execution engine.
 
 -   `EVMC_REJECTED` indicates malformed or wrong-version EVM bytecode.
 -   `EVMC_INTERNAL_ERROR` indicates some other error that is unrecoverable but not due to the bytecode.

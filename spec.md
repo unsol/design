@@ -471,17 +471,22 @@ Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
 ### World State Methods
 
 These operators query the world state (eg. account balances).
+We prefix those that query about the currently executing account with `getAccount` (similarly `setAccount` for setting state).
+Those that can query about other accounts are prefixed with `getExternalAccount`.
 
-#### `EEI.getBalance : Int`
+#### `EEI.getAccountBalance`
 
-Return the balance of the given account (`ACCT`).
+Return the balance of the current account (`ACCT`).
 
-1.  Load and return the value `eei.accounts[ACCT].balance`.
+1.  Load the value `ACCT` from `eei.call.id`.
+
+2.  Load and return the value `eei.accounts[ACCT].balance`.
 
 ```k
-    syntax EEIMethod ::= "EEI.getBalance" Int
- // -----------------------------------------
-    rule <k> EEI.getBalance ACCT => BAL ... </k>
+    syntax EEIMethod ::= "EEI.getAccountBalance"
+ // --------------------------------------------
+    rule <k> EEI.getAccountBalance => BAL ... </k>
+         <id> ACCT </id>
          <account>
            <acctID>  ACCT </acctID>
            <balance> BAL  </balance>
@@ -489,19 +494,19 @@ Return the balance of the given account (`ACCT`).
          </account>
 ```
 
-#### `EEI.getCode : Int`
-
--   `getCodeSize` and `getExternalCodeSize` can be implemented in terms of this method.
--   This implements what is traditionally `externalCodeCopy`, but traditional `codeCopy` can be implemented in terms of this as well.
+#### `EEI.getAccountCode`
 
 Get the code of the given account `ACCT`.
 
-1.  Load and return `eei.accounts[ACCT].code`.
+1.  Load the value `ACCT` from `eei.call.id`.
+
+2.  Load and return `eei.accounts[ACCT].code`.
 
 ```k
-    syntax EEIMethod ::= "EEI.getCode" Int
- // --------------------------------------
-    rule <k> EEI.getCode ACCT => ACCTCODE ... </k>
+    syntax EEIMethod ::= "EEI.getAccountCode"
+ // -----------------------------------------
+    rule <k> EEI.getAccountCode => ACCTCODE ... </k>
+         <id> ACCT </id>
          <accounts>
            <acctID> ACCT </acctID>
            <code> ACCTCODE </code>
@@ -509,31 +514,28 @@ Get the code of the given account `ACCT`.
          </accounts>
 ```
 
-#### `EEI.storageStore : Int Int`
+#### `EEI.getExternalAccountCode : Int`
 
-At the given `INDEX` in the executing accounts storage, stores the given `VALUE`.
+Get the code of the given account `ACCT`.
 
-1.  Load `ACCT` from `eei.id`.
-
-2.  Set `eei.accounts[ACCT].storage[INDEX]` to `VALUE`.
+1.  Load and return `eei.accounts[ACCT].code`.
 
 ```k
-    syntax EEIMethod ::= "EEI.storageStore" Int Int
- // -----------------------------------------------
-    rule <k>  EEI.storageStore INDEX VALUE => . ... </k>
-         <id> ACCT </id>
-         <account>
+    syntax EEIMethod ::= "EEI.getExternalAccountCode" Int
+ // -----------------------------------------------------
+    rule <k> EEI.getExternalAccountCode ACCT => ACCTCODE ... </k>
+         <accounts>
            <acctID> ACCT </acctID>
-           <storage> STORAGE => STORAGE [ INDEX <- VALUE ] </storage>
+           <code> ACCTCODE </code>
            ...
-         </account>
+         </accounts>
 ```
 
-#### `EEI.storageLoad : Int`
+#### `EEI.getAccountStorage : Int`
 
 Returns the value at the given `INDEX` in the current executing accounts storage.
 
-1.  Load `ACCT` from `eei.id`.
+1.  Load `ACCT` from `eei.call.id`.
 
 2.  If `eei.accounts[ACCT].storage[INDEX]` exists:
 
@@ -542,9 +544,9 @@ Returns the value at the given `INDEX` in the current executing accounts storage
     ii. else: return `0`.
 
 ```k
-    syntax EEIMethod ::= "EEI.storageLoad" Int
+    syntax EEIMethod ::= "EEI.getAccountStorage" Int
  // ------------------------------------------
-    rule <k> EEI.storageLoad INDEX => VALUE ... </k>
+    rule <k> EEI.getAccountStorage INDEX => VALUE ... </k>
          <id> ACCT </id>
          <account>
            <acctID> ACCT </acctID>
@@ -552,7 +554,7 @@ Returns the value at the given `INDEX` in the current executing accounts storage
            ...
          </account>
 
-    rule <k> EEI.storageLoad INDEX => 0 ... </k>
+    rule <k> EEI.getAccountStorage INDEX => 0 ... </k>
          <id> ACCT </id>
          <account>
            <acctID> ACCT </acctID>
@@ -560,6 +562,26 @@ Returns the value at the given `INDEX` in the current executing accounts storage
            ...
          </account>
       requires notBool INDEX in_keys(STORAGE)
+```
+
+#### `EEI.setAccountStorage : Int Int`
+
+At the given `INDEX` in the executing accounts storage, stores the given `VALUE`.
+
+1.  Load `ACCT` from `eei.call.id`.
+
+2.  Set `eei.accounts[ACCT].storage[INDEX]` to `VALUE`.
+
+```k
+    syntax EEIMethod ::= "EEI.setAccountStorage" Int Int
+ // ----------------------------------------------------
+    rule <k>  EEI.setAccountStorage INDEX VALUE => . ... </k>
+         <id> ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE => STORAGE [ INDEX <- VALUE ] </storage>
+           ...
+         </account>
 ```
 
 ### Logging

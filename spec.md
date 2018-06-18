@@ -35,15 +35,17 @@ module EEI
 Execution State
 ---------------
 
-First, we must specify the extra state that must be present for ewasm execution.
-We do that by specifying a K *configuration*.
-
-Each XML-like *cell* contains a field which is relevant to Ethereum client execution.
+Below both a K rule and a prose description of each state transition is given.
+The state is specified using a K *configuration*.
+Each XML-like *cell* contains a field which is relevant to Ethereum client execution (eg. below the first cell is the `<k>` cell).
 The default/initial values of the cells are provided along with the declaration of the configuration.
 
-The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<acctID>` as a key.
-For example, `eei.accounts[0x00001].nonce` would access the nonce of account `0x00001`.
-Similarly, cells that contain a `List` data-type can be indexed using standard array-access notation, eg `L[N]` gets the `N`th element of list `L` (starting at `0`).
+In the texual rules below, we'll refer to cells by accesing subcells with the `.` operator.
+For example, we would access contents of the `statusCode` cell with `eei.statusCode`.
+For cells that contain elements of K builtin sorts `Map`, `List`, and `Set`, we'll use standard K operators for referring to their contents.
+For example, we can access the third element of the `returnData` cell's list using `eei.call.returnData[2]`.
+
+For some cells, we have comments following the cell declarations with the name the [Yellow Paper] gives to that element of the state.
 
 ```k
     configuration
@@ -81,6 +83,8 @@ The execution `<substate>` keeps track of the self-destruct set, the log, and ac
 ```
 
 The `<accounts>` sub-configuration stores information about each account on the blockchain.
+The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<acctID>` as a key.
+For example, `eei.accounts[0x0001].nonce` would access the nonce of account `0x0001`.
 
 ```k
         <accounts>
@@ -118,8 +122,6 @@ And finally, block stack `<block>`:
       </eei>
 ```
 
-In the texual rules below, we'll refer to cells by accesing subcells with the `.` operator.
-For example, we would access the `statusCode` cell with `eei.statusCode`.
 
 Data
 ----

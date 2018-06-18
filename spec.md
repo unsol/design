@@ -220,43 +220,23 @@ The following codes indicate other non-execution errors with the execution engin
 EEI Methods
 -----------
 
-The EEI exports several methods which can be invoked by any of the VMs when appropriate.
+The EEI exports several methods which can be invoked by the VM to interact with the client.
 Here the syntax and semantics of these methods is defined.
 
-In the semantics below, we'll give both a texual description of the state updates for each method, and the K rule.
 Each section header gives the name of the given EEI method, along with the arguments needed.
 For example, `EEI.useGas : Int` declares that `EEI.useGas` in an EEI method which takes a single integer as input.
+The semantics are provided in three forms:
+
+1.  a short prose description of purpose,
+
+2.  a list of steps that must be taken, and
+
+3.  a set K rules specifying the state update that can happen.
 
 ### Block and Transaction Information Getters
 
 Many of the methods exported by the EEI simply query for some state of the current block/transaction.
 These methods are prefixed with `get`, and have largely similar and simple rules.
-
-#### `EEI.getBlockHash : Int`
-
-Return the blockhash of one of the `N`th most recent complete blocks (as long as `N <Int 256`).
-If there are not `N` blocks yet, return `0`.
-
-**TODO:** Double-check this logic, esp for off-by-one errors.
-
-1.  Load `BLOCKNUM` from `eei.block.number`.
-
-2.  If `N <Int 256` and `N <Int BLOCKNUM`:
-
-    i.  then: Load and return `eei.block.hashes[N]`.
-
-    ii. else: Return `0`.
-
-```k
-    syntax EEIMethod ::= "EEI.getBlockHash" Int
- // -------------------------------------------
-    rule <k> EEI.getBlockHash N => BLKHASHES[N] ... </k>
-         <hashes> BLKHASHES </hashes>
-      requires N <Int 256
-
-    rule <k> EEI.getBlockHash N => 0 ... </k>
-      requires N >=Int 256
-```
 
 #### `EEI.getBlockCoinbase`
 
@@ -295,6 +275,32 @@ Get the gas limit for the current block.
  // -------------------------------------------
     rule <k> EEI.getBlockGasLimit => GLIMIT ... </k>
          <gasLimit> GLIMIT </gasLimit>
+```
+
+#### `EEI.getBlockHash : Int`
+
+Return the blockhash of one of the `N`th most recent complete blocks (as long as `N <Int 256`).
+If there are not `N` blocks yet, return `0`.
+
+**TODO:** Double-check this logic, esp for off-by-one errors.
+
+1.  Load `BLOCKNUM` from `eei.block.number`.
+
+2.  If `N <Int 256` and `N <Int BLOCKNUM`:
+
+    i.  then: Load and return `eei.block.hashes[N]`.
+
+    ii. else: Return `0`.
+
+```k
+    syntax EEIMethod ::= "EEI.getBlockHash" Int
+ // -------------------------------------------
+    rule <k> EEI.getBlockHash N => BLKHASHES[N] ... </k>
+         <hashes> BLKHASHES </hashes>
+      requires N <Int 256
+
+    rule <k> EEI.getBlockHash N => 0 ... </k>
+      requires N >=Int 256
 ```
 
 #### `EEI.getBlockNumber`
@@ -435,6 +441,8 @@ Get the return data of the last call.
          <returnData> RETDATA </returnData>
 ```
 
+### Gas Consumption
+
 #### `EEI.useGas : Int`
 
 Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
@@ -554,9 +562,7 @@ Returns the value at the given `INDEX` in the current executing accounts storage
       requires notBool INDEX in_keys(STORAGE)
 ```
 
-### EEI Call (and Call-like) Methods
-
-The remaining methods have more complex interactions with the EEI, often triggering further computation.
+### Logging
 
 #### `EEI.log : List List`
 
@@ -580,6 +586,10 @@ First we define a log-item, which is an account id and two byte lists (from the 
          <id> ACCT </id>
          <log> ... (.List => ListItem({ ACCT | BS1 | BS2 })) </log>
 ```
+
+### EEI Call (and Call-like) Methods
+
+The remaining methods have more complex interactions with the EEI, often triggering further computation.
 
 #### `EEI.selfDestruct : Int`
 

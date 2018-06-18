@@ -1,5 +1,5 @@
-ewasm specification
-===================
+EEI specification
+=================
 
 Introduction
 ------------

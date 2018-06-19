@@ -61,7 +61,7 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
           <callDepth>  0     </callDepth>
           <returnData> .List </returnData>
 
-          <id>        0        </id>        // I_a
+          <acct>      0        </acct>      // I_a
           <program>   .Program </program>   // I_b
           <caller>    0        </caller>    // I_s
           <callData>  .List    </callData>  // I_d
@@ -83,13 +83,13 @@ The execution `<substate>` keeps track of the self-destruct set, the log, and ac
 ```
 
 The `<accounts>` sub-configuration stores information about each account on the blockchain.
-The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<acctID>` as a key.
+The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<id>` as a key.
 For example, `eei.accounts[0x0001].nonce` would access the nonce of account `0x0001`.
 
 ```k
         <accounts>
           <account multiplicity="*" type="Map">
-            <acctID>  0        </acctID>
+            <id>      0        </id>
             <balance> 0        </balance>
             <code>    .Program </code>
             <storage> .Map     </storage>
@@ -363,13 +363,13 @@ These methods return information about the current call operation, which may cha
 
 Return the address of the currently executing account.
 
-1.  Load and return the value `eei.callState.id`.
+1.  Load and return the value `eei.callState.acct`.
 
 ```k
     syntax EEIMethod ::= "EEI.getAddress"
  // -------------------------------------
     rule <k> EEI.getAddress => ADDR ... </k>
-         <id> ADDR </id>
+         <acct> ADDR </acct>
 ```
 
 #### `EEI.getCaller`
@@ -478,7 +478,7 @@ Those that can query about other accounts are prefixed with `getExternalAccount`
 
 Return the balance of the current account (`ACCT`).
 
-1.  Load the value `ACCT` from `eei.callState.id`.
+1.  Load the value `ACCT` from `eei.callState.acct`.
 
 2.  Load and return the value `eei.accounts[ACCT].balance`.
 
@@ -486,10 +486,10 @@ Return the balance of the current account (`ACCT`).
     syntax EEIMethod ::= "EEI.getAccountBalance"
  // --------------------------------------------
     rule <k> EEI.getAccountBalance => BAL ... </k>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <account>
-           <acctID>  ACCT </acctID>
-           <balance> BAL  </balance>
+           <id> ACCT </id>
+           <balance> BAL </balance>
            ...
          </account>
 ```
@@ -498,7 +498,7 @@ Return the balance of the current account (`ACCT`).
 
 Get the code of the given account `ACCT`.
 
-1.  Load the value `ACCT` from `eei.callState.id`.
+1.  Load the value `ACCT` from `eei.callState.acct`.
 
 2.  Load and return `eei.accounts[ACCT].code`.
 
@@ -506,9 +506,9 @@ Get the code of the given account `ACCT`.
     syntax EEIMethod ::= "EEI.getAccountCode"
  // -----------------------------------------
     rule <k> EEI.getAccountCode => ACCTCODE ... </k>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <accounts>
-           <acctID> ACCT </acctID>
+           <id> ACCT </id>
            <code> ACCTCODE </code>
            ...
          </accounts>
@@ -525,7 +525,7 @@ Get the code of the given account `ACCT`.
  // -----------------------------------------------------
     rule <k> EEI.getExternalAccountCode ACCT => ACCTCODE ... </k>
          <accounts>
-           <acctID> ACCT </acctID>
+           <id> ACCT </id>
            <code> ACCTCODE </code>
            ...
          </accounts>
@@ -535,7 +535,7 @@ Get the code of the given account `ACCT`.
 
 Returns the value at the given `INDEX` in the current executing accounts storage.
 
-1.  Load `ACCT` from `eei.callState.id`.
+1.  Load `ACCT` from `eei.callState.acct`.
 
 2.  If `eei.accounts[ACCT].storage[INDEX]` exists:
 
@@ -547,17 +547,17 @@ Returns the value at the given `INDEX` in the current executing accounts storage
     syntax EEIMethod ::= "EEI.getAccountStorage" Int
  // ------------------------------------------
     rule <k> EEI.getAccountStorage INDEX => VALUE ... </k>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <account>
-           <acctID> ACCT </acctID>
+           <id> ACCT </id>
            <storage> ... INDEX |-> VALUE ... </storage>
            ...
          </account>
 
     rule <k> EEI.getAccountStorage INDEX => 0 ... </k>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <account>
-           <acctID> ACCT </acctID>
+           <id> ACCT </id>
            <storage> STORAGE </storage>
            ...
          </account>
@@ -568,7 +568,7 @@ Returns the value at the given `INDEX` in the current executing accounts storage
 
 At the given `INDEX` in the executing accounts storage, stores the given `VALUE`.
 
-1.  Load `ACCT` from `eei.callState.id`.
+1.  Load `ACCT` from `eei.callState.acct`.
 
 2.  Set `eei.accounts[ACCT].storage[INDEX]` to `VALUE`.
 
@@ -576,9 +576,9 @@ At the given `INDEX` in the executing accounts storage, stores the given `VALUE`
     syntax EEIMethod ::= "EEI.setAccountStorage" Int Int
  // ----------------------------------------------------
     rule <k>  EEI.setAccountStorage INDEX VALUE => . ... </k>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <account>
-           <acctID> ACCT </acctID>
+           <id> ACCT </id>
            <storage> STORAGE => STORAGE [ INDEX <- VALUE ] </storage>
            ...
          </account>
@@ -597,7 +597,7 @@ First we define a log-item, which is an account id and two byte lists (from the 
  // ------------------------------------------------
 ```
 
-1.  Load the current `ACCT` from `eei.callState.id`.
+1.  Load the current `ACCT` from `eei.callState.acct`.
 
 2.  Append `{ ACCT | BS1 | BS2 }` to the `eei.substate.log`.
 
@@ -605,7 +605,7 @@ First we define a log-item, which is an account id and two byte lists (from the 
     syntax EEIMethod ::= "EEI.log" List List
  // ----------------------------------------
     rule <k> EEI.log BS1 BS2 => . ... </k>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <log> ... (.List => ListItem({ ACCT | BS1 | BS2 })) </log>
 ```
 
@@ -619,7 +619,7 @@ Selfdestructing removes the current executing account and transfers the funds of
 If the target account is the same as the executing account, the balance of the current accound is zeroed immediately.
 In any case, the status is set to `EVMC_SUCCESS`.
 
-1.  Load `ACCT` from `eei.callState.id`.
+1.  Load `ACCT` from `eei.callState.acct`.
 
 2.  Add `ACCT` to the set `eei.substate.selfDestruct`.
 
@@ -640,17 +640,17 @@ In any case, the status is set to `EVMC_SUCCESS`.
  // -------------------------------------------
     rule <k> EEI.selfDestruct ACCTTO => . ... </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <returnData> _ => .List </returnData>
          <selfDestruct> ... (.Set => SetItem(ACCT)) ... </selfDestruct>
          <accounts>
            <account>
-             <acctID> ACCT </acctID>
+             <id> ACCT </id>
              <balance> BAL => 0 </balance>
              ...
            </account>
            <account>
-             <acctID> ACCTTO </acctID>
+             <id> ACCTTO </id>
              <balance> BALTO => BALTO +Int BAL </balance>
              ...
            </account>
@@ -660,12 +660,12 @@ In any case, the status is set to `EVMC_SUCCESS`.
 
     rule <k> EEI.selfDestruct ACCT => . ... </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
-         <id> ACCT </id>
+         <acct> ACCT </acct>
          <returnData> _ => .List </returnData>
          <selfDestruct> ... (.Set => SetItem(ACCT)) ... </selfDestruct>
          <accounts>
            <account>
-             <acctID> ACCT </acctID>
+             <id> ACCT </id>
              <balance> BAL => 0 </balance>
              ...
            </account>

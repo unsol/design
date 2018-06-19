@@ -449,7 +449,7 @@ Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
 
 1.  Load the value `GAVAIL` from `eei.gas`.
 
-2.  If `GDEDUCT <=Int GAVAIL`:
+2.  If `GDEDUCT <Int GAVAIL`:
 
     i.  then: Set `eei.callState.gas` to `GAVAIL -Int GDEDUCT`.
 
@@ -460,12 +460,12 @@ Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
  // -------------------------------------
     rule <k> EEI.useGas GDEDUCT => . ... </k>
          <gas> GAVAIL => GAVAIL -Int GDEDUCT </gas>
-      requires GAVAIL >=Int GDEDUCT
+      requires GAVAIL >Int GDEDUCT
 
     rule <k> EEI.useGas GDEDUCT => . ... </k>
          <statusCode> _ => EVMC_OUT_OF_GAS </statusCode>
          <gas> GAVAIL </gas>
-      requires GAVAIL <Int GDEDUCT
+      requires GAVAIL <=Int GDEDUCT
 ```
 
 ### World State Methods

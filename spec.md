@@ -588,9 +588,9 @@ At the given `INDEX` in the executing accounts storage, stores the given `VALUE`
 
 #### `EEI.log : List List`
 
-Logging places a user-specified byte strings (`BS1` and `BS2`) on the blockchain Log for external inspection.
+Logging places a user-specified lists of integers (`BS1` and `BS2`) on the blockchain Log for external inspection.
 
-First we define a log-item, which is an account id and two byte lists (from the wordstack and the local memory).
+First we define a log-item, which is an account id and two integer lists (in EVM, these come from the wordstack and the local memory).
 
 ```k
     syntax LogItem ::= "{" Int "|" List "|" List "}"

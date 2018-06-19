@@ -8,7 +8,7 @@ This document aims to specify an ewasm VM in a way useful to contract writers an
 To this end, multiple things are specified:
 
 -   The extra state that a VM needs to have around to successfully respond to calls into the EEI.
--   The EEI (Ethereum Environment Interface), currently specified loosley [here](eth_interface.md).
+-   The EEI (Ethereum Environment Interface), currently specified loosely [here](eth_interface.md).
 
 ### Terminology
 
@@ -176,7 +176,7 @@ The following codes all indicate that the VM ended execution with an exception, 
 -   `EVMC_INVALID_MEMORY_ACCESS` indicates that a bad memory access occured.
     This can happen when accessing local memory with `CODECOPY*` or `CALLDATACOPY`, or when accessing return data with `RETURNDATACOPY`.
 -   `EVMC_STATIC_MODE_VIOLATION` indicates that a `STATICCALL` tried to change state.
--   `EVMC_PRECOMPILE_FAILURE` indicates an errors in the precompiled contracts (eg. invalid points handed to elliptic curve functions).
+-   `EVMC_PRECOMPILE_FAILURE` indicates an error in the precompiled contracts (eg. invalid points handed to elliptic curve functions).
 
 ```k
     syntax ExceptionalStatusCode ::= "EVMC_FAILURE"
@@ -496,7 +496,7 @@ Return the balance of the current account (`ACCT`).
 
 #### `EEI.getAccountCode`
 
-Get the code of the given account `ACCT`.
+Return the code of the current account (`ACCT`).
 
 1.  Load the value `ACCT` from `eei.callState.acct`.
 
@@ -516,7 +516,7 @@ Get the code of the given account `ACCT`.
 
 #### `EEI.getExternalAccountCode : Int`
 
-Get the code of the given account `ACCT`.
+Return the code of the given account `ACCT`.
 
 1.  Load and return `eei.accounts[ACCT].code`.
 
@@ -533,7 +533,7 @@ Get the code of the given account `ACCT`.
 
 #### `EEI.getAccountStorage : Int`
 
-Returns the value at the given `INDEX` in the current executing accounts storage.
+Return the value at the given `INDEX` in the current executing accout's storage.
 
 1.  Load `ACCT` from `eei.callState.acct`.
 
@@ -575,7 +575,7 @@ At the given `INDEX` in the executing accounts storage, stores the given `VALUE`
 ```k
     syntax EEIMethod ::= "EEI.setAccountStorage" Int Int
  // ----------------------------------------------------
-    rule <k>  EEI.setAccountStorage INDEX VALUE => . ... </k>
+    rule <k> EEI.setAccountStorage INDEX VALUE => . ... </k>
          <acct> ACCT </acct>
          <account>
            <id> ACCT </id>
@@ -616,7 +616,7 @@ The remaining methods have more complex interactions with the EEI, often trigger
 #### `EEI.selfDestruct : Int`
 
 Selfdestructing removes the current executing account and transfers the funds of it to the specified target account `ACCTTO`.
-If the target account is the same as the executing account, the balance of the current accound is zeroed immediately.
+If the target account is the same as the executing account, the balance of the current account is zeroed immediately.
 In any case, the status is set to `EVMC_SUCCESS`.
 
 1.  Load `ACCT` from `eei.callState.acct`.

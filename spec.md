@@ -716,7 +716,56 @@ Set the return data to the given list of `RDATA` as well setting the status code
          <returnData> _ => RDATA </returnData>
 ```
 
-#### `EEI.call : Int ByteString ByteString`
+#### `EEI.transfer : Int Int`
+
+Transfer `VALUE` funds into account `ACCTTO`.
+
+1.  Load `ACCTFROM` from `eei.callState.acct`.
+
+2.  Load `BALFROM` from `eei.accounts[ACCTFROM].balance`.
+
+3.  If `VALUE >Int BALFROM`:
+
+    i.  then: set `eei.statusCode` to `EVMC_BALANCE_UNDERFLOW`.
+
+    ii. else:
+
+        a.  Set `eei.accounts[ACCTFROM].balance` to `BAL -Int VALUE`.
+
+        b.  Load `BALTO` from `eei.accounts[ACCTTO].balance`.
+
+        c.  Set `eei.accounts[ACCTTO].balance` to `BALTO +Int VALUE`.
+
+```k
+    syntax EEIMethod ::= "EEI.transfer" Int Int
+ // -------------------------------------------
+    rule <k> EEI.transfer ACCTTO VALUE => ... </k>
+         <statusCode> _ => EVMC_BALANCE_UNDERFLOW </statusCode>
+         <acct> ACCTFROM </acct>
+         <account>
+           <id> ACCTFROM </id>
+           <balance> BALFROM </balance>
+           ...
+         </account>
+      requires VALUE >Int BALFROM
+
+    rule <k> EEI.transfer ACCTTO VALUE => ... </k>
+         <acct> ACCTFROM </acct>
+         <account>
+           <id> ACCTFROM </id>
+           <balance> BALFROM => BALFROM -Int VALUE </balance>
+           ...
+         </account>
+         <account>
+           <id> ACCTTO  </id>
+           <balance> BALTO => BALTO +Int VALUE </balance>
+           ...
+         </account>
+      requires VALUE <=Int BALFROM
+```
+
+#### `EEI.call : Int Int List`
+
 
 -   `EEI.call` **TODO**
 -   `EEI.callCode` **TODO**

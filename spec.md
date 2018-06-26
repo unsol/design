@@ -89,6 +89,8 @@ The `<accounts>` sub-configuration stores information about each account on the 
 The `multiplicity="*"` allows us to have multiple accounts simultaneously, and `type="Map"` allows us to access accounts by using the `<id>` as a key.
 For example, `eei.accounts[0x0001].nonce` would access the nonce of account `0x0001`.
 
+Similar to the `<callState>`, the an `<account>` state can be saved or restored on the `<accountStack>` cell.
+
 ```k
         <accounts>
           <account multiplicity="*" type="Map">
@@ -99,6 +101,8 @@ For example, `eei.accounts[0x0001].nonce` would access the nonce of account `0x0
             <nonce>   0        </nonce>
           </account>
         </accounts>
+
+        <accountsStack> .List </accountsStack>
 ```
 
 Transaction state `<tx>`:
@@ -623,9 +627,11 @@ First we define a log-item, which is an account id and two integer lists (in EVM
          <log> ... (.List => ListItem({ ACCT | BS1 | BS2 })) </log>
 ```
 
-### EEI Call (and Call-like) Methods
+### EEI State Saving/Restoration
 
-The remaining methods have more complex interactions with the EEI, often triggering further computation.
+These methods provide functionality for saving some state or restoring to a previous state.
+
+**TODO**: `{push,pop,drop}Accounts` should be able to take a specific list of accounts to push/pop/drop, making them more efficient.
 
 #### `EEI.pushCallState`
 
@@ -673,6 +679,57 @@ Forgets the most recently saved `<callState>` as reverting back to it will no lo
     rule <k> EEI.dropCallState => . ... </k>
          <callStack> (ListItem(_) => .List) ... </callStack>
 ```
+
+#### `EEI.pushAccounts`
+
+Saves a copy of the `<accounts>` state in the `<accountStack>` cell.
+
+1.  Load the current `ACCTDATA` from `eei.accounts`.
+
+2.  Prepend `ACCTDATA` to the `eei.accountStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.pushAccount"
+ // --------------------------------------
+    rule <k> EEI.pushAccount => . ... </k>
+         <accounts> ACCTDATA </accounts>
+         <accountsStack> (.List => ListItem(ACCTDATA)) ... </accountsStack>
+```
+
+#### `EEI.popAccounts`
+
+Restores the most recently saved `<accounts>` state.
+
+1.  Load the new `ACCTDATA` from `eei.accountsStack[0]`.
+
+2.  Remove the first element of `eei.accountsStack`.
+
+3.  Set `eei.accounts` to `ACCTDATA`.
+
+```k
+    syntax EEIMethod ::= "EEI.popAccounts"
+ // --------------------------------------
+    rule <k> EEI.popAccounts => . ... </k>
+         <accounts> _ => ACCTDATA </accounts>
+         <accountsStack> (ListItem(ACCTDATA) => .List) ... </accountsStack>
+```
+
+#### `EEI.dropAccounts`
+
+Forgets the most recently saved `<accounts>` state as reverting back to it will no longer happen.
+
+1.  Remove the first element of `eei.accountsStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.dropAccounts"
+ // ---------------------------------------
+    rule <k> EEI.dropAccounts => . ... </k>
+         <accountsStack> (ListItem(_) => .List) ... </accountsStack>
+```
+
+### EEI Call (and Call-like) Methods
+
+The remaining methods have more complex interactions with the EEI, often triggering further computation.
 
 #### `EEI.selfDestruct : Int`
 

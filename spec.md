@@ -192,6 +192,17 @@ The following codes all indicate that the VM ended execution with an exception, 
                                    | "EVMC_PRECOMPILE_FAILURE"
 ```
 
+The following are status codes used to report network state failures to the EVM from the client.
+These are not present in the [EVM-C API].
+
+-   `EVMC_ACCOUNT_ALREADY_EXISTS` indicates that a newly created account already exists.
+-   `EVMC_BALANCE_UNDERFLOW` indicates an attempt to create an account which already exists.
+
+```k
+    syntax ExceptionalStatusCode ::= "EVMC_ACCOUNT_ALREADY_EXISTS"
+                                   | "EVMC_BALANCE_UNDERFLOW"
+```
+
 ### Ending Codes
 
 These additional status codes indicate that execution has ended in some non-exceptional way.

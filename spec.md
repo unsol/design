@@ -55,6 +55,7 @@ For some cells, we have comments following the cell declarations with the name t
 ```
 
 The `<callState>` sub-configuration can be saved/restored when needed between calls.
+When stored, it's stored in the `<callStack>` cell as a list.
 
 ```k
         <callState>
@@ -70,6 +71,8 @@ The `<callState>` sub-configuration can be saved/restored when needed between ca
           <gas>        0 </gas>        // \mu_g
           <memoryUsed> 0 </memoryUsed> // \mu_i
         </callState>
+
+        <callStack> .List </callStack>
 ```
 
 The execution `<substate>` keeps track of the self-destruct set, the log, and accumulated gas refund.
@@ -623,6 +626,53 @@ First we define a log-item, which is an account id and two integer lists (in EVM
 ### EEI Call (and Call-like) Methods
 
 The remaining methods have more complex interactions with the EEI, often triggering further computation.
+
+#### `EEI.pushCallState`
+
+Saves a copy of the current call state in the `<callStack>`.
+
+1.  Load the current `CALLSTATE` from `eei.callState`.
+
+2.  Prepend `CALLSTATE` to the `eei.callStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.pushCallState"
+ // ----------------------------------------
+    rule <k> EEI.pushCallState => . ... </k>
+         <callState> CALLSTATE </callState>
+         <callStack> (.List => ListItem(CALLSTATE)) ... </callStack>
+```
+
+#### `EEI.popCallState`
+
+Restores the most recently saved `<callState>`.
+
+1.  Load the new `CALLSTATE` from `eei.callStack[0]`.
+
+2.  Remove the first element of `eei.callStack`.
+
+3.  Set `eei.callState` to `CALLSTATE`.
+
+```k
+    syntax EEIMethod ::= "EEI.popCallState"
+ // ----------------------------------------
+    rule <k> EEI.popCallState => . ... </k>
+         <callState> _ => CALLSTATE </callState>
+         <callStack> (ListItem(CALLSTATE) => .List) ... </callStack>
+```
+
+#### `EEI.dropCallState`
+
+Forgets the most recently saved `<callState>` as reverting back to it will no longer happen.
+
+1.  Remove the first element of `eei.callStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.dropCallState"
+ // ----------------------------------------
+    rule <k> EEI.dropCallState => . ... </k>
+         <callStack> (ListItem(_) => .List) ... </callStack>
+```
 
 #### `EEI.selfDestruct : Int`
 

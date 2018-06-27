@@ -868,7 +868,126 @@ Transfer `VALUE` funds into account `ACCTTO`.
       requires VALUE <=Int BALFROM
 ```
 
-#### `EEI.call : Int Int List`
+#### `EEI.callInit : Int Int Int Int Program List`
+
+Helper for setting up the execution engine to run a specific program as if called by `ACCTFROM` into `ACCTTO`, with apparent value transfer `APPVALUE`, gas allocation `GAVAIL`, program `CODE`, and arguments `ARGS`.
+
+1.  Load `CALLDEPTH` from `eei.callState.callDepth`.
+
+2.  Set `eei.callState.callDepth` to `CALLDEPTH +Int 1`.
+
+3.  Set `eei.callState.caller` to `ACCTFROM`.
+
+4.  Set `eei.callState.acct` to `ACCTTO`.
+
+5.  Set `eei.callState.callValue` to `APPVALUE`.
+
+6.  Set `eei.callState.gas` to `GAVAIL`.
+
+7.  Set `eei.callState.program` to `CODE`.
+
+8.  Set `eei.callState.callData` to `ARGS`.
+
+9.  Set `eei.returnData` to the empty `.List`.
+
+```k
+    syntax EEIMethod ::= "EEI.callInit" Int Int Int Int Program List
+ // ----------------------------------------------------------------
+    rule <k> EEI.callInit ACCTFROM ACCTTO APPVALUE GAVAIL CODE ARGS => . ... </k>
+         <callState>
+           <callDepth>  CALLDEPTH => CALLDEPTH +Int 1 </callDepth>
+           <caller>     _         => ACCTFROM         </caller>
+           <acct>       _         => ACCTTO           </acct>
+           <callValue>  _         => APPVALUE         </callValue>
+           <gas>        _         => GAVAIL           </gas>
+           <program>    _         => CODE             </program>
+           <callData>   _         => ARGS             </callData>
+         </callState>
+```
+
+#### `EEI.callFinish`
+
+Helper for tearing down call state properly after making a call.
+
+1.  Call `eei.popCallState`.
+
+2.  Load `STATUSCODE` from `eei.statusCode`.
+
+3.  If `STATUSCODE` is an `ExceptionalStatusCode`, then:
+
+    i.   Call `EEI.popAccounts`
+
+    else:
+
+    i.   Call `EEI.dropAccounts`.
+
+```k
+    syntax EEIMethod ::= "EEI.callFinish" StatusCode List
+ // -----------------------------------------------------
+    rule <k> EEI.callFinish => EEI.popCallState ~> EEI.popAccounts ... </k>
+         <statusCode> STATUSCODE </statusCode>
+      requires isExceptionalStatusCode(CALLSTATUS)
+
+    rule <k> EEI.callFinish => EEI.popCallState ~> EEI.dropAccounts ... </k>
+         <statusCode> STATUSCODE </statusCode>
+      requires notBool isExceptionalStatusCode(CALLSTATUS)
+```
+
+#### `EEI.call : Int Int Int List`
+
+**TODO**: Parameterize the `1024` max call depth.
+
+Call into account `ACCTTO`, with gas allocation `GAVAIL`, apparent value `APPVALUE`, and arguments `ARGS`.
+
+1.  Load `CALLDEPTH` from `eei.callState.callDepth`.
+
+2.  If `CALLDEPTH >=Int 1024`, then:
+
+    i.  Set `eei.statusCode` to `EVMC_CALL_DEPTH_EXCEEDED`.
+
+    else:
+
+    i.    Load `CODE` from `eei.accountss[ACCTTO].code`.
+
+    ii.   Load `ACCTFROM` from `eei.callState.acct`.
+
+    iii.  Call `EEI.pushCallState`.
+
+    iv.   Call `EEI.pushAccounts`.
+
+    vi.   Call `EEI.callInit ACCTFROM ACCTTO APPVALUE GAVAIL CODE ARGS`
+
+    vii.  Call `EEI.execute`.
+
+    viii. Call `EEI.callFinish`.
+
+    iv.   Call `EEI.execute`.
+
+```k
+    syntax EEIMethod ::= "EEI.call" Int Int Int List
+ // ------------------------------------------------
+    rule <k> EEI.call ACCTTO GAVAIL APPVALUE ARGS => . ... </k>
+         <statusCode> _ => EVMC_CALL_DEPTH_EXCEEDED </statusCode>
+         <callDepth> CALLDEPTH </callDepth>
+      requires CALLDEPTH >=Int 1024
+
+    rule <k> EEI.call ACCTTO GAVAIL APPVALUE ARGS
+          => EEI.pushCallState ~> EEI.pushAccounts
+          ~> EEI.initCallState ACCTFROM ACCTTO APPVALUE GAVAIL CODE ARGS
+          ~> EEI.execute
+          ~> EEI.callFinish
+          ~> EEI.execute
+         ...
+         </k>
+         <acct> ACCTFROM </acct>
+         <callDepth> CALLDEPTH </callDepth>
+         <account>
+           <id> ACCTTO </id>
+           <code> CODE </code>
+           ...
+         </account>
+      requires CALLDEPTH <Int 1024
+```
 
 
 -   `EEI.call` **TODO**

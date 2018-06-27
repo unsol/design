@@ -301,11 +301,13 @@ If there are not `N` blocks yet, return `0`.
 
 1.  Load `BLOCKNUM` from `eei.block.number`.
 
-2.  If `N <Int 256` and `N <Int BLOCKNUM`:
+2.  If `N <Int 256` and `N <Int BLOCKNUM`, then:
 
-    i.  then: Load and return `eei.block.hashes[N]`.
+    i.  Load and return `eei.block.hashes[N]`.
 
-    ii. else: Return `0`.
+    else:
+
+    i.  Return `0`.
 
 ```k
     syntax EEIMethod ::= "EEI.getBlockHash" Int
@@ -464,11 +466,13 @@ Deduct the specified amount of gas (`GDEDUCT`) from the available gas.
 
 1.  Load the value `GAVAIL` from `eei.gas`.
 
-2.  If `GDEDUCT <Int GAVAIL`:
+2.  If `GDEDUCT <Int GAVAIL`, then:
 
-    i.  then: Set `eei.callState.gas` to `GAVAIL -Int GDEDUCT`.
+    i.  Set `eei.callState.gas` to `GAVAIL -Int GDEDUCT`.
 
-    ii. else: Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.callState.gas` to `0`.
+    else:
+
+    i.  Set `eei.statusCode` to `EVMC_OUT_OF_GAS` and `eei.callState.gas` to `0`.
 
 ```k
     syntax EEIMethod ::= "EEI.useGas" Int
@@ -552,15 +556,17 @@ Return the value at the given `INDEX` in the current executing accout's storage.
 
 1.  Load `ACCT` from `eei.callState.acct`.
 
-2.  If `eei.accounts[ACCT].storage[INDEX]` exists:
+2.  If `eei.accounts[ACCT].storage[INDEX]` exists, then:
 
-    i.  then: return `eei.accounts[ACCT].storage[INDEX]`.
+    i.  Return `eei.accounts[ACCT].storage[INDEX]`.
 
-    ii. else: return `0`.
+    else:
+
+    i.  Return `0`.
 
 ```k
     syntax EEIMethod ::= "EEI.getAccountStorage" Int
- // ------------------------------------------
+ // ------------------------------------------------
     rule <k> EEI.getAccountStorage INDEX => VALUE ... </k>
          <acct> ACCT </acct>
          <account>
@@ -740,15 +746,15 @@ In any case, the status is set to `EVMC_SUCCESS`.
 
 3.  Set `eei.returnData` to `.List` (empty).
 
-4.  Load `BAL` from `eei.accounts[ACCT].balance`.
+4.  Load `BALFROM` from `eei.accounts[ACCT].balance`.
 
 5.  Set `eei.accounts[ACCT].balance` to `0`.
 
-6.  If `ACCT == ACCTTO`:
+6.  If `ACCT =/=Int ACCTTO`, then:
 
-    i.  then: skip.
+    i.  Load `BALTO` from `eei.acounts[ACCTTO].balance`.
 
-    ii. else: add `BAL` to `eei.accounts[ACCTTO].balance`.
+    ii. Set `eei.accounts[ACCTTO].balance` to `BALTO +Int BALFROM`.
 
 ```k
     syntax EEIMethod ::= "EEI.selfDestruct" Int
@@ -761,12 +767,12 @@ In any case, the status is set to `EVMC_SUCCESS`.
          <accounts>
            <account>
              <id> ACCT </id>
-             <balance> BAL => 0 </balance>
+             <balance> BALFROM => 0 </balance>
              ...
            </account>
            <account>
              <id> ACCTTO </id>
-             <balance> BALTO => BALTO +Int BAL </balance>
+             <balance> BALTO => BALTO +Int BALFROM </balance>
              ...
            </account>
            ...
@@ -781,7 +787,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
          <accounts>
            <account>
              <id> ACCT </id>
-             <balance> BAL => 0 </balance>
+             <balance> BALFROM => 0 </balance>
              ...
            </account>
            ...
@@ -828,17 +834,17 @@ Transfer `VALUE` funds into account `ACCTTO`.
 
 2.  Load `BALFROM` from `eei.accounts[ACCTFROM].balance`.
 
-3.  If `VALUE >Int BALFROM`:
+3.  If `VALUE >Int BALFROM`, then:
 
-    i.  then: set `eei.statusCode` to `EVMC_BALANCE_UNDERFLOW`.
+    i.  Set `eei.statusCode` to `EVMC_BALANCE_UNDERFLOW`.
 
-    ii. else:
+    else:
 
-        a.  Set `eei.accounts[ACCTFROM].balance` to `BAL -Int VALUE`.
+    i.   Set `eei.accounts[ACCTFROM].balance` to `BAL -Int VALUE`.
 
-        b.  Load `BALTO` from `eei.accounts[ACCTTO].balance`.
+    ii.  Load `BALTO` from `eei.accounts[ACCTTO].balance`.
 
-        c.  Set `eei.accounts[ACCTTO].balance` to `BALTO +Int VALUE`.
+    iii. Set `eei.accounts[ACCTTO].balance` to `BALTO +Int VALUE`.
 
 ```k
     syntax EEIMethod ::= "EEI.transfer" Int Int

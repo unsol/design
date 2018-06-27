@@ -43,7 +43,7 @@ The default/initial values of the cells are provided along with the declaration 
 In the texual rules below, we'll refer to cells by accesing subcells with the `.` operator.
 For example, we would access contents of the `statusCode` cell with `eei.statusCode`.
 For cells that contain elements of K builtin sorts `Map`, `List`, and `Set`, we'll use standard K operators for referring to their contents.
-For example, we can access the third element of the `returnData` cell's list using `eei.callState.returnData[2]`.
+For example, we can access the third element of the `returnData` cell's list using `eei.returnData[2]`.
 
 For some cells, we have comments following the cell declarations with the name the [Yellow Paper] gives to that element of the state.
 
@@ -52,6 +52,7 @@ For some cells, we have comments following the cell declarations with the name t
       <k> $PGM:EthereumSimulation </k>
       <eei>
         <statusCode> .StatusCode </statusCode>
+        <returnData> .List       </returnData>
 ```
 
 The `<callState>` sub-configuration can be saved/restored when needed between calls.
@@ -59,17 +60,13 @@ When stored, it's stored in the `<callStack>` cell as a list.
 
 ```k
         <callState>
-          <callDepth>  0     </callDepth>
-          <returnData> .List </returnData>
-
+          <callDepth> 0        </callDepth>
           <acct>      0        </acct>      // I_a
           <program>   .Program </program>   // I_b
           <caller>    0        </caller>    // I_s
           <callData>  .List    </callData>  // I_d
           <callValue> 0        </callValue> // I_v
-
-          <gas>        0 </gas>        // \mu_g
-          <memoryUsed> 0 </memoryUsed> // \mu_i
+          <gas>       0        </gas>       // \mu_g
         </callState>
 
         <callStack> .List </callStack>
@@ -450,7 +447,7 @@ Get the gas left available for this execution.
 
 Get the return data of the last call.
 
-1.  Load and return `eei.callState.returnData`.
+1.  Load and return `eei.returnData`.
 
 ```k
     syntax EEIMethod ::= "EEI.getReturnData"
@@ -741,7 +738,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
 
 2.  Add `ACCT` to the set `eei.substate.selfDestruct`.
 
-3.  Set `eei.callState.returnData` to `.List` (empty).
+3.  Set `eei.returnData` to `.List` (empty).
 
 4.  Load `BAL` from `eei.accounts[ACCT].balance`.
 
@@ -795,7 +792,7 @@ In any case, the status is set to `EVMC_SUCCESS`.
 
 Set the return data to the given list of `RDATA` as well setting the status code to `EVMC_SUCCESS`.
 
-1.  Set `eei.callState.returnData` to `RDATA`.
+1.  Set `eei.returnData` to `RDATA`.
 
 2.  Set `eei.statusCode` to `EVMC_SUCCESS`.
 
@@ -811,7 +808,7 @@ Set the return data to the given list of `RDATA` as well setting the status code
 
 Set the return data to the given list of `RDATA` as well setting the status code to `EVMC_REVERT`.
 
-1.  Set `eei.callState.returnData` to `RDATA`.
+1.  Set `eei.returnData` to `RDATA`.
 
 2.  Set `eei.statusCode` to `EVMC_REVERT`.
 

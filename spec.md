@@ -1018,6 +1018,23 @@ Call into account `ACCTTO`, with gas allocation `GAVAIL`, apparent value `APPVAL
       requires CALLDEPTH <Int 1024
 ```
 
+#### `EEI.transferCall : Int Int Int List`
+
+Call into account `ACCTTO`, transfering value `VALUE`, with gas allocation `GAVAIL`, and arguments `ARGS`.
+
+1.  Call `EEI.transfer VALUE ACCT`.
+
+2.  Call `EEI.onGoodStatus (EEI.call ACCTTO VALUE GAVAIL ARGS)`.
+
+```k
+    syntax EEIMethod ::= "EEI.transferCall" Int Int Int List
+ // --------------------------------------------------------
+    rule <k> EEI.transferCall ACCTTO VALUE GAVAIL ARGS
+          => EEI.transfer VALUE ACCTTO
+          ~> EEI.onGoodStatus (EEI.call ACCTTO VALUE GAVAIL ARGS)
+         ...
+         </k>
+```
 
 -   `EEI.call` **TODO**
 -   `EEI.callCode` **TODO**

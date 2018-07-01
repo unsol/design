@@ -349,24 +349,24 @@ Forgets the most recently saved `<accounts>` state as reverting back to it will 
          <accountsStack> (ListItem(_) => .List) ... </accountsStack>
 ```
 
-#### `EEI.onGoodStatus : EEIMethod`
+#### `EEI.onGoodStatus : EthereumSimulation`
 
-Executes the given `EEIMETHOD` if the current status code is not exceptional.
+Executes the given `ETHSIMULATION` if the current status code is not exceptional.
 
 1.  Load the `STATUSCODE` from `eei.statusCode`.
 
 2.  If `STATUSCODE` is not an `ExceptionalStatusCode`, then:
 
-    i.  Call `EEIMETHOD`.
+    i.  Call `ETHSIMULATION`.
 
 ```k
-    syntax EEIMethod ::= "EEI.onGoodStatus" EEIMethod
- // -------------------------------------------------
-    rule <k> EEI.onGoodStatus EEIMETHOD => EEIMETHOD ... </k>
+    syntax EEIMethod ::= "EEI.onGoodStatus" EthereumSimulation
+ // ----------------------------------------------------------
+    rule <k> EEI.onGoodStatus ETHSIMULATION => ETHSIMULATION ... </k>
          <statusCode> STATUSCODE </statusCode>
       requires notBool isExceptionalStatusCode(STATUSCODE)
 
-    rule <k> EEI.onGoodStatus EEIMETHOD => . ... </k>
+    rule <k> EEI.onGoodStatus ETHSIMULATION => . ... </k>
          <statusCode> STATUSCODE </statusCode>
       requires isExceptionalStatusCode(STATUSCODE)
 ```

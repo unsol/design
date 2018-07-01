@@ -349,6 +349,28 @@ Forgets the most recently saved `<accounts>` state as reverting back to it will 
          <accountsStack> (ListItem(_) => .List) ... </accountsStack>
 ```
 
+#### `EEI.onGoodStatus : EEIMethod`
+
+Executes the given `EEIMETHOD` if the current status code is not exceptional.
+
+1.  Load the `STATUSCODE` from `eei.statusCode`.
+
+2.  If `STATUSCODE` is not an `ExceptionalStatusCode`, then:
+
+    i.  Call `EEIMETHOD`.
+
+```k
+    syntax EEIMethod ::= "EEI.onGoodStatus" EEIMethod
+ // -------------------------------------------------
+    rule <k> EEI.onGoodStatus EEIMETHOD => EEIMETHOD ... </k>
+         <statusCode> STATUSCODE </statusCode>
+      requires notBool isExceptionalStatusCode(STATUSCODE)
+
+    rule <k> EEI.onGoodStatus EEIMETHOD => . ... </k>
+         <statusCode> STATUSCODE </statusCode>
+      requires isExceptionalStatusCode(STATUSCODE)
+```
+
 ### Block and Transaction Information Getters
 
 Many of the methods exported by the EEI simply query for some state of the current block/transaction.

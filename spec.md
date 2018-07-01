@@ -248,6 +248,107 @@ The semantics are provided in three forms:
 
 3.  a set K rules specifying the state update that can happen.
 
+### EEI Internal Helpers
+
+These methods are used by the other EEI methods as helpers and intermediates to perform larger more complex tasks.
+They are for the most part not intended to be exposed to the execution engine or Ethereum client for direct usage.
+
+**TODO**: `{push,pop,drop}Accounts` should be able to take a specific list of accounts to push/pop/drop, making them more efficient.
+
+#### `EEI.pushCallState`
+
+Saves a copy of the current call state in the `<callStack>`.
+
+1.  Load the current `CALLSTATE` from `eei.callState`.
+
+2.  Prepend `CALLSTATE` to the `eei.callStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.pushCallState"
+ // ----------------------------------------
+    rule <k> EEI.pushCallState => . ... </k>
+         <callState> CALLSTATE </callState>
+         <callStack> (.List => ListItem(CALLSTATE)) ... </callStack>
+```
+
+#### `EEI.popCallState`
+
+Restores the most recently saved `<callState>`.
+
+1.  Load the new `CALLSTATE` from `eei.callStack[0]`.
+
+2.  Remove the first element of `eei.callStack`.
+
+3.  Set `eei.callState` to `CALLSTATE`.
+
+```k
+    syntax EEIMethod ::= "EEI.popCallState"
+ // ----------------------------------------
+    rule <k> EEI.popCallState => . ... </k>
+         <callState> _ => CALLSTATE </callState>
+         <callStack> (ListItem(CALLSTATE) => .List) ... </callStack>
+```
+
+#### `EEI.dropCallState`
+
+Forgets the most recently saved `<callState>` as reverting back to it will no longer happen.
+
+1.  Remove the first element of `eei.callStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.dropCallState"
+ // ----------------------------------------
+    rule <k> EEI.dropCallState => . ... </k>
+         <callStack> (ListItem(_) => .List) ... </callStack>
+```
+
+#### `EEI.pushAccounts`
+
+Saves a copy of the `<accounts>` state in the `<accountStack>` cell.
+
+1.  Load the current `ACCTDATA` from `eei.accounts`.
+
+2.  Prepend `ACCTDATA` to the `eei.accountStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.pushAccount"
+ // --------------------------------------
+    rule <k> EEI.pushAccount => . ... </k>
+         <accounts> ACCTDATA </accounts>
+         <accountsStack> (.List => ListItem(ACCTDATA)) ... </accountsStack>
+```
+
+#### `EEI.popAccounts`
+
+Restores the most recently saved `<accounts>` state.
+
+1.  Load the new `ACCTDATA` from `eei.accountsStack[0]`.
+
+2.  Remove the first element of `eei.accountsStack`.
+
+3.  Set `eei.accounts` to `ACCTDATA`.
+
+```k
+    syntax EEIMethod ::= "EEI.popAccounts"
+ // --------------------------------------
+    rule <k> EEI.popAccounts => . ... </k>
+         <accounts> _ => ACCTDATA </accounts>
+         <accountsStack> (ListItem(ACCTDATA) => .List) ... </accountsStack>
+```
+
+#### `EEI.dropAccounts`
+
+Forgets the most recently saved `<accounts>` state as reverting back to it will no longer happen.
+
+1.  Remove the first element of `eei.accountsStack`.
+
+```k
+    syntax EEIMethod ::= "EEI.dropAccounts"
+ // ---------------------------------------
+    rule <k> EEI.dropAccounts => . ... </k>
+         <accountsStack> (ListItem(_) => .List) ... </accountsStack>
+```
+
 ### Block and Transaction Information Getters
 
 Many of the methods exported by the EEI simply query for some state of the current block/transaction.
@@ -628,106 +729,6 @@ First we define a log-item, which is an account id and two integer lists (in EVM
     rule <k> EEI.log BS1 BS2 => . ... </k>
          <acct> ACCT </acct>
          <log> ... (.List => ListItem({ ACCT | BS1 | BS2 })) </log>
-```
-
-### EEI State Saving/Restoration
-
-These methods provide functionality for saving some state or restoring to a previous state.
-
-**TODO**: `{push,pop,drop}Accounts` should be able to take a specific list of accounts to push/pop/drop, making them more efficient.
-
-#### `EEI.pushCallState`
-
-Saves a copy of the current call state in the `<callStack>`.
-
-1.  Load the current `CALLSTATE` from `eei.callState`.
-
-2.  Prepend `CALLSTATE` to the `eei.callStack`.
-
-```k
-    syntax EEIMethod ::= "EEI.pushCallState"
- // ----------------------------------------
-    rule <k> EEI.pushCallState => . ... </k>
-         <callState> CALLSTATE </callState>
-         <callStack> (.List => ListItem(CALLSTATE)) ... </callStack>
-```
-
-#### `EEI.popCallState`
-
-Restores the most recently saved `<callState>`.
-
-1.  Load the new `CALLSTATE` from `eei.callStack[0]`.
-
-2.  Remove the first element of `eei.callStack`.
-
-3.  Set `eei.callState` to `CALLSTATE`.
-
-```k
-    syntax EEIMethod ::= "EEI.popCallState"
- // ----------------------------------------
-    rule <k> EEI.popCallState => . ... </k>
-         <callState> _ => CALLSTATE </callState>
-         <callStack> (ListItem(CALLSTATE) => .List) ... </callStack>
-```
-
-#### `EEI.dropCallState`
-
-Forgets the most recently saved `<callState>` as reverting back to it will no longer happen.
-
-1.  Remove the first element of `eei.callStack`.
-
-```k
-    syntax EEIMethod ::= "EEI.dropCallState"
- // ----------------------------------------
-    rule <k> EEI.dropCallState => . ... </k>
-         <callStack> (ListItem(_) => .List) ... </callStack>
-```
-
-#### `EEI.pushAccounts`
-
-Saves a copy of the `<accounts>` state in the `<accountStack>` cell.
-
-1.  Load the current `ACCTDATA` from `eei.accounts`.
-
-2.  Prepend `ACCTDATA` to the `eei.accountStack`.
-
-```k
-    syntax EEIMethod ::= "EEI.pushAccount"
- // --------------------------------------
-    rule <k> EEI.pushAccount => . ... </k>
-         <accounts> ACCTDATA </accounts>
-         <accountsStack> (.List => ListItem(ACCTDATA)) ... </accountsStack>
-```
-
-#### `EEI.popAccounts`
-
-Restores the most recently saved `<accounts>` state.
-
-1.  Load the new `ACCTDATA` from `eei.accountsStack[0]`.
-
-2.  Remove the first element of `eei.accountsStack`.
-
-3.  Set `eei.accounts` to `ACCTDATA`.
-
-```k
-    syntax EEIMethod ::= "EEI.popAccounts"
- // --------------------------------------
-    rule <k> EEI.popAccounts => . ... </k>
-         <accounts> _ => ACCTDATA </accounts>
-         <accountsStack> (ListItem(ACCTDATA) => .List) ... </accountsStack>
-```
-
-#### `EEI.dropAccounts`
-
-Forgets the most recently saved `<accounts>` state as reverting back to it will no longer happen.
-
-1.  Remove the first element of `eei.accountsStack`.
-
-```k
-    syntax EEIMethod ::= "EEI.dropAccounts"
- // ---------------------------------------
-    rule <k> EEI.dropAccounts => . ... </k>
-         <accountsStack> (ListItem(_) => .List) ... </accountsStack>
 ```
 
 ### EEI Call (and Call-like) Methods

@@ -950,34 +950,6 @@ Helper for setting up the execution engine to run a specific program as if calle
          </callState>
 ```
 
-#### `EEI.callFinish`
-
-Helper for tearing down call state properly after making a call.
-
-1.  Call `eei.popCallState`.
-
-2.  Load `STATUSCODE` from `eei.statusCode`.
-
-3.  If `STATUSCODE` is an `ExceptionalStatusCode`, then:
-
-    i.   Call `EEI.popAccounts`
-
-    else:
-
-    i.   Call `EEI.dropAccounts`.
-
-```k
-    syntax EEIMethod ::= "EEI.callFinish" StatusCode List
- // -----------------------------------------------------
-    rule <k> EEI.callFinish => EEI.popCallState ~> EEI.popAccounts ... </k>
-         <statusCode> STATUSCODE </statusCode>
-      requires isExceptionalStatusCode(CALLSTATUS)
-
-    rule <k> EEI.callFinish => EEI.popCallState ~> EEI.dropAccounts ... </k>
-         <statusCode> STATUSCODE </statusCode>
-      requires notBool isExceptionalStatusCode(CALLSTATUS)
-```
-
 #### `EEI.call : Int Int Int List`
 
 **TODO**: Parameterize the `1024` max call depth.
@@ -1004,7 +976,9 @@ Call into account `ACCTTO`, with gas allocation `GAVAIL`, apparent value `APPVAL
 
     vii.  Call `EEI.execute`.
 
-    viii. Call `EEI.callFinish`.
+    viii. Call `EEI.popCallState`.
+
+    viii. Call `EEI.ifStatus EEI.dropAccounts EEI.popAccounts`.
 
     iv.   Call `EEI.execute`.
 

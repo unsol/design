@@ -31,12 +31,12 @@ Subtracts an amount to the gas counter
 
 ## getAddress
 
-Gets address of currently executing account and loads it into memory at
-the given offset.
+Gets address of currently executing account and stores it in memory at the given
+offset.
 
 **Parameters**
 
--   `resultOffset` **i32ptr** the memory offset to load the address into (`address`)
+-   `resultOffset` **i32ptr** the memory offset at which the address is to be stored (`address`)
 
 **Returns**
 

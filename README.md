@@ -76,8 +76,9 @@ eWASM:
 * [wasm-metering](https://github.com/ewasm/wasm-metering)
 * [ewasm-kernel](https://github.com/ewasm/ewasm-kernel)
 * [evm2wasm](https://github.com/ewasm/evm2wasm)
-* [c-libeth](https://github.com/ewasm/c-libeth)
-* [rust-libeth](https://github.com/ewasm/rust-libeth)
+* [ewasm-libc](https://github.com/ewasm/ewasm-libc)
+* [assemblyscript-ewasm-api](https://github.com/ewasm/assemblyscript-ewasm-api)
+* [ewasm-rust-api](https://github.com/ewasm/ewasm-rust-api)
 
 ### Design Process & Contributing
 For now, high-level design discussions should continue to be held in the design repository, via issues and pull requests. Feel free to file [issues](https://github.com/ethereum/ewasm-design/issues).

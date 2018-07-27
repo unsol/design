@@ -8,7 +8,10 @@ Every contract must be stored in the [WebAssembly Binary Encoding](https://githu
 
 ### Imports
 
-A contract can only import symbols specified in the [Ethereum Environment Interface](./eth_interface.md).
+A contract can only import symbols specified in the [Ethereum Environment Interface or EEI](./eth_interface.md).
+
+In practice, this means that all imports specified by an eWASM module must be from the `ethereum` namespace,
+and having a function signature and name directly correspondent to a function specified in the EEI.
 
 As mentioned below, there is a `debug` namespace as well, but that is disallowed in production systems.
 
@@ -38,3 +41,5 @@ The method exported as `main` will be executed by the VM.
 On successful execution, the code should return via a normal code path.
 
 If it needs to abort due to a failure, an *unreachable* instruction should be executed.
+
+Furthermore, the eWASM spec disallows the use of a "start" function in a contract, because it is executed upon module instantiation.

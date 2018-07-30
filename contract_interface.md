@@ -42,4 +42,12 @@ On successful execution, the code should return via a normal code path.
 
 If it needs to abort due to a failure, an *unreachable* instruction should be executed.
 
-Furthermore, the eWASM spec disallows the use of a "start" function in a contract, because it is executed upon module instantiation.
+### Start function
+
+The use of a [start function](https://webassembly.github.io/spec/core/syntax/modules.html#start-function) is disallowed.
+
+The reason for this is that an eWASM VM would need to have access to the memory space of a contract and that must be acquired prior to executing it.
+In the [WebAssembly Javascript API](https://webassembly.org/docs/js/) however the start function is executed right during instantiation, which
+leaves no time for the client to acquire the memory area.
+
+*Note:* This decision was made on WebAssembly version 0xb (pre version 1) and should be revisited.

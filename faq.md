@@ -29,3 +29,5 @@ Yes, the Ethereum System Interface can also be written in WASM.
 ## Can eWASM be built even if WASM is not currently complete or will we need to wait for its completion/MVP?   
 Yes, but we would lose the "Shared tooling" benefit. So It might not make sense.
 
+## Does eWASM use synchronous or asynchronous methods?
+An answer to this question as well as the reasoning for both can be [read here](./interface_questions.md).

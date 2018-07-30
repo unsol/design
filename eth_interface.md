@@ -42,7 +42,7 @@ the given offset.
 
 *nothing*
 
-## getBalance
+## getExternalBalance
 
 Gets balance of the given account and loads it into memory at the given
 offset.

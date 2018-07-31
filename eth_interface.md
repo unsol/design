@@ -390,7 +390,7 @@ account with non-empty associated code.
 
 *nothing*
 
-## return
+## finish
 
 Set the returning output data for the execution.
 

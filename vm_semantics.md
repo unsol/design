@@ -8,6 +8,6 @@ There are only 3 new rules:
 
 If the signature is present, it must be executed as an eWASM contract, otherwise it must be executed as an EVM1 contract.
 
-2. If there's no native EVM1 support in the client, it can use the *EVM Transcompiler* to translate the code.
+2. If there's no native EVM1 support in the client, it can use the [EVM Transcompiler](./evm_transcompiler.md) to translate the code.
 
 3. When deploying an eWASM contract, the bytecode must be verified and annotated by the *Sentinel Contract*.

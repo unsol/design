@@ -55,7 +55,7 @@ eWASM:
 * *Ethereum environment interface (EEI)*: a set of methods available to eWASM contracts
 * *metering*: the act of measuring execution cost in a deterministic way
 * *metering injector*: a transformation tool inserting metering code to an eWASM contract
-* *EVM transpiler*: an EVM bytecode (the current Ethereum VM) to eWASM transcompiler
+* *EVM transpiler*: an EVM bytecode (the current Ethereum VM) to eWASM transcompiler. [See this chapter](./evm_transcompiler.md).
 
 ### Resources
 

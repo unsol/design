@@ -42,7 +42,7 @@ eWASM:
 ### Goals of the eWASM project
 
 * To provide a specification of *eWASM contract* semantics and the *Ethereum interface*
-* To provide an *EVM transpiler*, preferably as an eWASM contract
+* To provide an *EVM transcompiler*, preferably as an eWASM contract
 * To provide a *metering injector*, preferably as an eWASM contract
 * To provide a VM implementation for executing eWASM contracts
 * To implement an eWASM backend in the Solidity compiler
@@ -55,7 +55,7 @@ eWASM:
 * *Ethereum environment interface (EEI)*: a set of methods available to eWASM contracts
 * *metering*: the act of measuring execution cost in a deterministic way
 * *metering injector*: a transformation tool inserting metering code to an eWASM contract
-* *EVM transpiler*: an EVM bytecode (the current Ethereum VM) to eWASM transcompiler. [See this chapter](./evm_transcompiler.md).
+* *EVM transcompiler*: an EVM bytecode (the current Ethereum VM) to eWASM transcompiler. [See this chapter](./evm_transcompiler.md).
 
 ### Resources
 

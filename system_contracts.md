@@ -30,7 +30,7 @@ Output:
 
 Address: `0x000000000000000000000000000000000000000b`
 
-Transcompiles EVM1 bytecode into eWASM bytecode.
+Transcompiles EVM1 bytecode into eWASM bytecode. See the [dedicated chapter](./evm_transcompiler.md) about it.
 
 The use of this is optional. A compatible client may implement EVM1 natively or
 may choose to use this transcompiler.

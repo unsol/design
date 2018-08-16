@@ -51,3 +51,9 @@ In the [WebAssembly Javascript API](https://webassembly.org/docs/js/) however th
 leaves no time for the client to acquire the memory area.
 
 *Note:* This decision was made on WebAssembly version 0xb (pre version 1) and should be revisited.
+
+### Traps
+
+If execution of wasm code triggers the wasm _trap_, the contract execution is
+terminated with failure and all remaining gas is consumed (OOG-like exception).
+This includes execution of `unreachable` instruction.

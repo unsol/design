@@ -42,6 +42,10 @@ offset.
 
 *nothing*
 
+**Trap conditions**
+
+- store to memory at `resultOffset` results in out of bounds access.
+
 ## getExternalBalance
 
 Gets balance of the given account and loads it into memory at the given
@@ -55,6 +59,11 @@ offset.
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- load from memory at `addressOffset` results in out of bounds access,
+- store to memory at `resultOffset` results in out of bounds access.
 
 ## getBlockHash
 
@@ -70,6 +79,10 @@ Gets the hash of one of the 256 most recent complete blocks.
 `result` **i32** Returns 0 on success and 1 on failure
 
 *Note:* in case of failure, the output memory pointed by `resultOffset` is unchanged.
+
+**Trap conditions**
+
+- store to memory at `resultOffset` results in out of bounds access (also checked on failure).
 
 ## call
 
@@ -87,6 +100,12 @@ Sends a message with arbitrary data to a given address path
 
 `result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
+**Trap conditions**
+
+- load `address` from memory at `addressOffset` results in out of bounds access,
+- load `u128` from memory at `valueOffset` results in out of bounds access,
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access.
+
 ## callDataCopy
 
 Copies the input data in current environment to memory. This pertains to
@@ -101,6 +120,11 @@ the input data passed with the message call instruction or transaction.
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- load `length` number of bytes from input data buffer at `dataOffset` results in out of bounds access,
+- store `length` number of bytes to memory at `resultOffset` results in out of bounds access.
 
 ## getCallDataSize
 
@@ -131,6 +155,12 @@ data passed with the message call instruction or transaction.
 
 `result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
+**Trap conditions**
+
+- load `address` from memory at `addressOffset` results in out of bounds access,
+- load `u128` from memory at `valueOffset` results in out of bounds access,
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access.
+
 ## callDelegate
 
 Message-call into this account with an alternative account’s code, but
@@ -146,6 +176,11 @@ persisting the current values for sender and value.
 **Returns**
 
 `result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
+
+**Trap conditions**
+
+- load `address` from memory at `addressOffset` results in out of bounds access,
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access.
 
 ## callStatic
 
@@ -164,6 +199,11 @@ value.
 
 `result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
 
+**Trap conditions**
+
+- load `address` from memory at `addressOffset` results in out of bounds access,
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access.
+
 ## storageStore
 
 Store 256-bit a value in memory to persistent storage
@@ -176,6 +216,11 @@ Store 256-bit a value in memory to persistent storage
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- load `u256` from memory at `pathOffset` results in out of bounds access,
+- load `u256` from memory at `valueOffset` results in out of bounds access.
 
 ## storageLoad
 
@@ -190,6 +235,11 @@ Loads a 256-bit a value to memory from persistent storage
 
 *nothing*
 
+**Trap conditions**
+
+- load `u256` from memory at `pathOffset` results in out of bounds access,
+- store `u256` to memory at `resultOffset` results in out of bounds access.
+
 ## getCaller
 
 Gets caller address and loads it into memory at the given offset. This is
@@ -202,6 +252,10 @@ the address of the account that is directly responsible for this execution.
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- store `address` to memory at `resultOffset` results in out of bounds access.
 
 ## getCallValue
 
@@ -216,6 +270,10 @@ this execution and loads it into memory at the given location.
 
 *nothing*
 
+**Trap conditions**
+
+- store `u128` to memory at `resultOffset` results in out of bounds access.
+
 ## codeCopy
 
 Copies the code running in current environment to memory.
@@ -229,6 +287,11 @@ Copies the code running in current environment to memory.
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- load `length` number of bytes from the current code buffer at `codeOffset` results in out of bounds access,
+- store `length` number of bytes to memory at `resultOffset` results in out of bounds access.
 
 ## getCodeSize
 
@@ -254,6 +317,10 @@ Gets the block’s beneficiary address and loads into memory.
 
 *nothing*
 
+**Trap conditions**
+
+- store `address` to memory at `resultOffset` results in out of bounds access.
+
 ## create
 
 Creates a new contract with a given value.
@@ -262,7 +329,7 @@ Creates a new contract with a given value.
 
 -   `valueOffset` **i32ptr** the memory offset to load the value from (`u128`)
 -   `dataOffset` **i32ptr** the memory offset to load the code for the new contract from (`bytes`)
--   `length` **i32** the data length
+-   `dataLength` **i32** the data length
 -   `resultOffset` **i32ptr** the memory offset to write the new contract address to (`address`)
 
 *Note*: `create` will clear the return buffer in case of success or may fill it with data coming from `revert`.
@@ -270,6 +337,12 @@ Creates a new contract with a given value.
 **Returns**
 
 `result` **i32** Returns 0 on success, 1 on failure and 2 on `revert`
+
+**Trap conditions**
+
+- load `u128` from memory at `valueOffset` results in out of bounds access,
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access.
+- store `address` to memory at `resultOffset` results in out of bounds access.
 
 ## getBlockDifficulty
 
@@ -282,6 +355,10 @@ Get the block’s difficulty.
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- store `u256` to memory at `resultOffset` results in out of bounds access.
 
 ## externalCodeCopy
 
@@ -298,6 +375,12 @@ Copies the code of an account to memory.
 
 *nothing*
 
+**Trap conditions**
+
+- load `address` from memory at `addressOffset` results in out of bounds access,
+- load `length` number of bytes from the account code buffer at `codeOffset` results in out of bounds access,
+- store `length` number of bytes to memory at `resultOffset` results in out of bounds access.
+
 ## getExternalCodeSize
 
 Get size of an account’s code.
@@ -309,6 +392,10 @@ Get size of an account’s code.
 **Returns**
 
 `extCodeSize` **i32**
+
+**Trap conditions**
+
+- load `address` from memory at `addressOffset` results in out of bounds access.
 
 ## getGasLeft
 
@@ -340,11 +427,15 @@ Gets price of gas in current environment.
 
 **Parameters**
 
--   `valueOffset` **i32ptr** the memory offset to write the value to (`u128`)
+-   `resultOffset` **i32ptr** the memory offset to write the value to (`u128`)
 
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- store `u128` to memory at `resultOffset` results in out of bounds access.
 
 ## log
 
@@ -353,7 +444,7 @@ Creates a new log in the current environment
 **Parameters**
 
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
--   `length` **i32** the data length
+-   `dataLength` **i32** the data length
 -   `numberOfTopics` **i32** the number of topics following (0 to 4)
 -   `topic1` **i32ptr** the memory offset to load topic1 from (`u256`)
 -   `topic2` **i32ptr** the memory offset to load topic2 from (`u256`)
@@ -363,6 +454,15 @@ Creates a new log in the current environment
 **Returns**
 
 *nothing*
+
+**Trap conditions**
+
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access,
+- `numberOfTopics` is greater than 4,
+- load `u256` from memory at `topic1` results in out of bounds access,
+- load `u256` from memory at `topic2` results in out of bounds access,
+- load `u256` from memory at `topic3` results in out of bounds access,
+- load `u256` from memory at `topic4` results in out of bounds access.
 
 ## getBlockNumber
 
@@ -390,6 +490,10 @@ account with non-empty associated code.
 
 *nothing*
 
+**Trap conditions**
+
+- store `address` to memory at `resultOffset` results in out of bounds access.
+
 ## finish
 
 Set the returning output data for the execution. This will cause a trap and the execution will be aborted immediately.
@@ -397,11 +501,15 @@ Set the returning output data for the execution. This will cause a trap and the 
 **Parameters**
 
 -   `dataOffset` **i32ptr** the memory offset of the output data (`bytes`)
--   `length` **i32** the length of the output data
+-   `dataLength` **i32** the length of the output data
 
 **Returns**
 
 *doesn't return*
+
+**Trap conditions**
+
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access.
 
 ## revert
 
@@ -410,11 +518,15 @@ Set the returning output data for the execution. This will cause a trap and the 
 **Parameters**
 
 -   `dataOffset` **i32ptr** the memory offset of the output data (`bytes`)
--   `length` **i32** the length of the output data
+-   `dataLength` **i32** the length of the output data
 
 **Returns**
 
 *doesn't return*
+
+**Trap conditions**
+
+- load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access.
 
 ## getReturnDataSize
 
@@ -446,6 +558,11 @@ from last executed `call`, `callCode`, `callDelegate`, `callStatic` or `create`.
 
 **Returns**
 
+**Trap conditions**
+
+- load `length` number of bytes from input data buffer at `dataOffset` results in out of bounds access,
+- store `length` number of bytes to memory at `resultOffset` results in out of bounds access.
+
 *nothing*
 
 ## selfDestruct
@@ -460,6 +577,10 @@ beneficiary address. This will cause a trap and the execution will be aborted im
 **Returns**
 
 *doesn't return*
+
+**Trap conditions**
+
+- load `address` from memory at `addressOffset` results in out of bounds access.
 
 ## getBlockTimestamp
 

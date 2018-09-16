@@ -2,6 +2,8 @@
 
 This repository contains documents describing the design and high-level overview of ewasm. Expect the contents of this repository to be in flux: everything is still under discussion.
 
+**This repository is also available through [ReadTheDocs](https://ewasm.readthedocs.io).**
+
 ## What is WebAssembly?
 
 > WebAssembly (or Wasm as a contraction) is a new, portable, size- and load-time-efficient format. WebAssembly aims to execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms. WebAssembly is currently being designed as an open standard by a W3C Community Group.

@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  codespell:
+    docker:
+    - image: circleci/python
+
+    steps:
+    - checkout
+    - run:
+        name: "Run codespell"
+        command: |
+          sudo pip install codespell
+          codespell --skip=".git"
+
+workflows:
+  version: 2
+  build_all:
+    jobs:
+      - codespell

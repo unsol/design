@@ -22,7 +22,7 @@
 * [The design of the Inferno virtual machine](http://herpolhode.com/rob/hotchips.html)
 * [Virtual Machine Showdown: Stack Versus Registers](http://static.usenix.org/events/vee05/full_papers/p153-yunhe.pdf)
 
-## Futher Reading
+## Further Reading
 * [wams's design docs](https://github.com/WebAssembly/design)
 * [chrome's binary encoding](https://docs.google.com/document/d/1-G11CnMA0My20KI9D7dBR6ZCPOBCRD0oCH6SHCPFGx0/edit?pref=2&pli=1)
 * A Tree-Based Alternative to Java Byte-Code - ftp://ftp.cis.upenn.edu/pub/cis700/public_html/papers/Kistler96.pdf

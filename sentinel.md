@@ -65,6 +65,9 @@ interface CostTable {
 
     // Returns the cost for the given kind.
     function getCost(CostKind kind) external view returns (uint64);
+
+    // Returns all the costs as an array, in order the enum is defined above.
+    function getAllCosts() external view returns (uint64[]);
 }
 
 interface Sentinel {

@@ -71,6 +71,12 @@ interface CostTable {
 }
 
 interface Sentinel {
+    // Takes a contract as an input, validates and injects metering statements and returns the updated version.
+    //
+    // Note, the Sentinel contract should also accept an incoming call with the `0x0061736D` selector and process
+    // it as if it were a non-ABI wrapped call to this function. This refers to the "raw interface" explained above.
+    function validateAndMeter(bytes) external view returns (bytes);
+
     // Returns the current CostTable contract.
     function getCostTable() external view returns (CostTable);
 

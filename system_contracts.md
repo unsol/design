@@ -20,6 +20,8 @@ important processing steps:
 - Inject metering code
 - Wrap the result in the deployer preamble (*see Appendix A*)
 
+See the [dedicated chapter](./sentinel.md) about it.
+
 Input:
 - **variable length**: *ewasm contract code*
 

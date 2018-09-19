@@ -114,3 +114,5 @@ interface SentinelGovernance {
     function applyChange() external;
 }
 ```
+
+A sample implementation of the above exists under the [sentinel-governance](https://github.com/ewasm/sentinel-governance) project.

@@ -1,3 +1,24 @@
 site_name: Ethereum WebAssembly
 docs_dir: ./docs
 site_dir: rendered
+site_description: ewasm documentation
+theme: name: readthedocs highlightjs: true hljs_languages: - yaml - rust
+
+# Site layout
+nav:
+- 'Home': 'index.md'
+- 'Design':
+    - 'Design Overview': 'README.md'
+    - 'Backwards Compatibility with the EVM': 'backwards_compatibility.md'
+    - 'WebAssembly Compared to Other VMs': 'comparison.md'
+    - 'Ethereum Contract Interface (ECI)': 'contract_interface.md'
+    - 'Determining Gas Costs in WebAssembly': 'determining_wasm_gas_costs.md'
+    - 'Ethereum Environment Interface (EEI)': 'eth_interface.md'
+    - 'EVM to WebAssembly Transcompiler (OLD)': 'evm_transcompiler.md'
+    - 'Frequently Asked Questions': 'faq.md'
+    - 'Gas Fee Schedule': 'fee_schedule.md'
+    - 'EEI Design Questions (OLD)': 'interface_questions.md'
+    - 'Metering ewasm Contracts': 'metering.md'
+    - 'Why ewasm?': 'rationale.md'
+    - 'System Contracts': 'system_contracts.md'
+    - 'Ewasm Contract Semantics': 'vm_semantics.md'

@@ -11,8 +11,8 @@ theme:
 
 # Site layout
 nav:
-- 'Home': 'index.md'
-- 'Design':
+- Home: 'index.md'
+- Design:
     - 'Design Overview': 'README.md'
     - 'Backwards Compatibility with the EVM': 'backwards_compatibility.md'
     - 'WebAssembly Compared to Other VMs': 'comparison.md'

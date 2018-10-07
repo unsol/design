@@ -6,7 +6,7 @@ The Ethereum Environment Interface exposes the core Ethereum API to the ewasm en
 
 We define the following Ethereum data types:
 - `bytes`: an array of bytes with unrestricted length
-- `address`: a 160 bit number, represented as a 20 bytes long little endian unsigned integer in memory
+- `address`: an array of 20 bytes
 - `u128`: a 128 bit number, represented as a 16 bytes long little endian unsigned integer in memory
 - `u256`: a 256 bit number, represented as a 32 bytes long little endian unsigned integer in memory
 

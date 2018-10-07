@@ -6,6 +6,7 @@ The Ethereum Environment Interface exposes the core Ethereum API to the ewasm en
 
 We define the following Ethereum data types:
 - `bytes`: an array of bytes with unrestricted length
+- `bytes32`: an array of 32 bytes
 - `address`: an array of 20 bytes
 - `u128`: a 128 bit number, represented as a 16 bytes long little endian unsigned integer in memory
 - `u256`: a 256 bit number, represented as a 32 bytes long little endian unsigned integer in memory
@@ -72,7 +73,7 @@ Gets the hash of one of the 256 most recent complete blocks.
 **Parameters**
 
 -   `number` **i64** which block to load
--   `resultOffset` **i32ptr** the memory offset to load the hash into (`u256`)
+-   `resultOffset` **i32ptr** the memory offset to load the hash into (`bytes32`)
 
 **Returns**
 
@@ -210,8 +211,8 @@ Store 256-bit a value in memory to persistent storage
 
 **Parameters**
 
--   `pathOffset` **i32ptr** the memory offset to load the path from (`u256`)
--   `valueOffset` **i32ptr** the memory offset to load the value from (`u256`)
+-   `pathOffset` **i32ptr** the memory offset to load the path from (`bytes32`)
+-   `valueOffset` **i32ptr** the memory offset to load the value from (`bytes32`)
 
 **Returns**
 
@@ -219,8 +220,8 @@ Store 256-bit a value in memory to persistent storage
 
 **Trap conditions**
 
-- load `u256` from memory at `pathOffset` results in out of bounds access,
-- load `u256` from memory at `valueOffset` results in out of bounds access.
+- load `bytes32` from memory at `pathOffset` results in out of bounds access,
+- load `bytes32` from memory at `valueOffset` results in out of bounds access.
 
 ## storageLoad
 
@@ -228,8 +229,8 @@ Loads a 256-bit a value to memory from persistent storage
 
 **Parameters**
 
--   `pathOffset` **i32ptr** the memory offset to load the path from (`u256`)
--   `resultOffset` **i32ptr** the memory offset to store the result at (`u256`)
+-   `pathOffset` **i32ptr** the memory offset to load the path from (`bytes32`)
+-   `resultOffset` **i32ptr** the memory offset to store the result at (`bytes32`)
 
 **Returns**
 
@@ -237,8 +238,8 @@ Loads a 256-bit a value to memory from persistent storage
 
 **Trap conditions**
 
-- load `u256` from memory at `pathOffset` results in out of bounds access,
-- store `u256` to memory at `resultOffset` results in out of bounds access.
+- load `bytes32` from memory at `pathOffset` results in out of bounds access,
+- store `bytes32` to memory at `resultOffset` results in out of bounds access.
 
 ## getCaller
 
@@ -446,10 +447,10 @@ Creates a new log in the current environment
 -   `dataOffset` **i32ptr** the memory offset to load data from (`bytes`)
 -   `dataLength` **i32** the data length
 -   `numberOfTopics` **i32** the number of topics following (0 to 4)
--   `topic1` **i32ptr** the memory offset to load topic1 from (`u256`)
--   `topic2` **i32ptr** the memory offset to load topic2 from (`u256`)
--   `topic3` **i32ptr** the memory offset to load topic3 from (`u256`)
--   `topic4` **i32ptr** the memory offset to load topic4 from (`u256`)
+-   `topic1` **i32ptr** the memory offset to load topic1 from (`bytes32`)
+-   `topic2` **i32ptr** the memory offset to load topic2 from (`bytes32`)
+-   `topic3` **i32ptr** the memory offset to load topic3 from (`bytes32`)
+-   `topic4` **i32ptr** the memory offset to load topic4 from (`bytes32`)
 
 **Returns**
 
@@ -459,10 +460,10 @@ Creates a new log in the current environment
 
 - load `dataLength` number of bytes from memory at `dataOffset` results in out of bounds access,
 - `numberOfTopics` is greater than 4,
-- load `u256` from memory at `topic1` results in out of bounds access,
-- load `u256` from memory at `topic2` results in out of bounds access,
-- load `u256` from memory at `topic3` results in out of bounds access,
-- load `u256` from memory at `topic4` results in out of bounds access.
+- load `bytes32` from memory at `topic1` results in out of bounds access,
+- load `bytes32` from memory at `topic2` results in out of bounds access,
+- load `bytes32` from memory at `topic3` results in out of bounds access,
+- load `bytes32` from memory at `topic4` results in out of bounds access.
 
 ## getBlockNumber
 

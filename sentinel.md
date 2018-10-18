@@ -13,6 +13,9 @@ The Sentinel contract has two interfaces:
 - raw interface
 - ABI encoded interface
 
+The raw interface is used by the node for contract validation during deployment, while the ABI encoded interface is a more
+friendly way to interact with the contract otherwise.
+
 ## Error handling
 
 In both modes, the contract will use an invalid instruction (e.g. regular failure) when an unexpected issue occurs,

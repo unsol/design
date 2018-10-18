@@ -43,6 +43,8 @@ The Sentinel contract is split into two parts:
 - metering injection ("Sentinel")
 - gas cost dataset ("CostTable")
 
+There is also a governance contract ("SentinelGovernance") controlling the update process.
+
 The `CostTable` is queried by the Sentinel during injection. This makes it possible to update either of them with a lower risk.
 
 As a first step, we only propose to have the on-chain ability to update the `CostTable`.

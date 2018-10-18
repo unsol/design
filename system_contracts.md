@@ -22,12 +22,6 @@ important processing steps:
 
 See the [dedicated chapter](./sentinel.md) about it.
 
-Input:
-- **variable length**: *ewasm contract code*
-
-Output:
-- **variable length**: *ewasm contract code*
-
 ## EVM Transcompiler
 
 Address: `0x000000000000000000000000000000000000000b`
